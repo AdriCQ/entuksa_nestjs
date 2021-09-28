@@ -34,6 +34,7 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "compression": "^1.7.4",
+    "csurf": "^1.11.0",
     "helmet": "^4.6.0",
     "passport": "^0.5.0",
     "passport-jwt": "^4.0.0",
