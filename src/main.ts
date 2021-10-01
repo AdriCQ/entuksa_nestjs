@@ -11,7 +11,7 @@ async function bootstrap() {
   // Protection
   app.use(compression());
   app.use(helmet());
-  app.use(csurf());
+  // app.use(csurf());
 
   await app.listen(3000);
 }

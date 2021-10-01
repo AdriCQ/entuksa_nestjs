@@ -1,0 +1,25 @@
+###
+# SignUp
+###
+POST /api/users/auth/signup
+Host: {{ host }}
+Authorization: {{ token }}
+
+{
+  "name": "Adrian",
+  "lastName": "Capote",
+  "email": "email@email.com",
+  "mobilePhone": "53375180",
+  "password": "password"
+}
+
+###
+# Signin
+###
+POST /api/users/auth/signin
+Host: {{ host }}
+
+{
+  "email": "email@email.com",
+  "password": "password"
+}
