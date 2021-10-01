@@ -1,0 +1,29 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "rest-client.defaultHeaders": {
+    "Accept-Language": "es",
+    "Content-Type": "application/json",
+    "User-Agent": "vscode-restclient"
+  },
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "version": "v1",
+      "prodToken": "Bearer 10|ruAge3xIz13NdRN3hIN4shP36OoHV9hPYw5BLLHWPYLt0KE7UnV106oReFAujZBbB2MLzQ9ZgbPObhDK",
+      "nonProdToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMxYTljMWRjLTQ2MmYtNGJlYS1iZjE5LTdjNWNjOWJiOTAxYSIsImlhdCI6MTYzMjY3Njg2NX0.YK-TOEswo8whl1VbG2Bvu1n1aK4MOppfG-4RNeDi18o"
+    },
+    "local": {
+      "version": "v2",
+      "host": "localhost:3000",
+      "token": "{{$shared nonProdToken}}",
+      "secretKey": "devSecret"
+    },
+    "production": {
+      "host": "palrey.nat.cu",
+      "token": "{{$shared prodToken}}",
+      "secretKey": "prodSecret"
+    }
+  }
+}
