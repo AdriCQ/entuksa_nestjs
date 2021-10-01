@@ -9,7 +9,18 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
+    "paths": {
+      "@configs/*": [
+        "configs/*"
+      ],
+      "@database/*": [
+        "database/*"
+      ],
+      "@modules/*": [
+        "modules/*"
+      ]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
