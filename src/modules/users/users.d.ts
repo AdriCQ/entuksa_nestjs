@@ -10,8 +10,15 @@ export namespace IUser {
     user: User;
     token: string;
   }
-
+  /**
+   * Jwt payload
+   */
   interface JwtPayload {
     id: number;
   }
+  /**
+   * Role
+   */
+  type Role = 'DEVELOPER' | 'ADMIN' | 'MODERATOR' | 'VENDOR' | 'DELIVER' | 'CLIENT';
+
 }

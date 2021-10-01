@@ -10,6 +10,7 @@ import { AppService } from './app.service';
 // App Modules
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/users/auth/auth.module';
+import { CaslModule } from './modules/users/casl/casl.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { AuthModule } from './modules/users/auth/auth.module';
     DatabaseModuleConfig,
     // App Modules
     UsersModule,
-    AuthModule
+    AuthModule,
+    CaslModule
   ],
   controllers: [AppController],
   providers: [AppService],

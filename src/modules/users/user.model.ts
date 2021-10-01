@@ -1,7 +1,8 @@
 import * as argon from "argon2";
-import { IsEmail, IsString } from "class-validator";
+import { IsArray, IsEmail, IsString } from "class-validator";
 import { BeforeInsert, Column, Entity } from "typeorm";
 import { BaseModel } from "../BaseModel";
+import { IUser } from "./users";
 import { UserAuthSignupDto } from "./users.dto";
 
 @Entity('users')
@@ -16,7 +17,8 @@ export class User extends BaseModel {
       this.email = _user.email;
       this.name = _user.name;
       this.lastName = _user.lastName;
-      this.password = _user.password
+      this.password = _user.password;
+      this.roles = ['CLIENT'];
     }
   }
   /**
@@ -44,6 +46,12 @@ export class User extends BaseModel {
   @IsString()
   password: string;
   /**
+   * Roles  of user
+   */
+  @Column({ type: 'json', default: `["CLIENT"]` })
+  @IsArray()
+  roles: IUser.Role[]
+  /**
    * -----------------------------------------
    *	Before Enter Data
    * -----------------------------------------
@@ -53,6 +61,42 @@ export class User extends BaseModel {
     this.password = await argon.hash(this.password);
   }
   /**
+   * -----------------------------------------
+   *	Getters & Setters
+   * -----------------------------------------
+   */
+  /**
+   * Assigns role
+   * @param _role 
+   * @returns role 
+   */
+  assignRole(_role: IUser.Role): IUser.Role[] {
+    if (!this.roles.includes(_role))
+      this.roles.push(_role);
+    return this.roles;
+  }
+  /**
+   * Determines whether any role has
+   * @param _roles 
+   * @returns true if any role 
+   */
+  hasAnyRole(_roles: IUser.Role[]): boolean {
+    let has = false;
+    _roles.forEach(_r => {
+      if (this.hasRole(_r))
+        has = true;
+    })
+    return has;
+  }
+  /**
+   * Determines whether role has
+   * @param _role 
+   * @returns true if role 
+   */
+  hasRole(_role: IUser.Role): boolean {
+    return this.roles.includes(_role);
+  }
+  /**
    * Validates password
    * @param password 
    * @returns password 
@@ -60,5 +104,4 @@ export class User extends BaseModel {
   async validatePassword(password: string): Promise<boolean> {
     return await argon.verify(this.password, password);
   }
-
 }
