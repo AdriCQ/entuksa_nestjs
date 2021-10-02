@@ -12,6 +12,7 @@ import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/users/auth/auth.module';
 import { CaslModule } from '@modules/users/casl/casl.module';
 import { ShopStoreModule } from '@modules/shop/store/store.module';
+import { PositionModule } from '@modules/map/position.module';
 
 @Module({
   imports: [
@@ -27,7 +28,9 @@ import { ShopStoreModule } from '@modules/shop/store/store.module';
     AuthModule,
     CaslModule,
     // Shop Modules
-    ShopStoreModule
+    ShopStoreModule,
+    // Map Modules
+    PositionModule
   ],
   controllers: [AppController],
   providers: [AppService],
