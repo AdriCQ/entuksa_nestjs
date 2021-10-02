@@ -5,7 +5,10 @@ import { StoreCreateDto } from './store.dto';
 import { ShopStore } from './store.model';
 import { ShopStoreService } from './store.service';
 import { PositionsService } from '@modules/map/positions.service';
-import { MapPosition } from '../../map/position.model';
+import { MapPosition } from '@modules/map/position.model';
+import { CheckPermission } from '@modules/users/casl/casl.decorator';
+import { AppPermission, Permission, PermissionFactory } from '@modules/users/casl/casl.factory';
+import { PermissionsGuard } from '@modules/users/casl/casl.guard';
 /**
  * Shop store controller
  */
@@ -15,7 +18,7 @@ export class ShopStoreController {
    * Creates an instance of shop store controller.
    * @param service
    */
-  constructor(private readonly service: ShopStoreService, private readonly positionService: PositionsService) { }
+  constructor(private readonly service: ShopStoreService, private readonly positionService: PositionsService, private readonly permission: PermissionFactory) { }
   /**
    * id
    * @param id
@@ -31,7 +34,8 @@ export class ShopStoreController {
    * @param user
    * @returns create
    */
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @CheckPermission((ability: AppPermission) => ability.can(Permission.CREATE, ShopStore))
   @Post()
   async create(@Body() body: StoreCreateDto, @Req() req): Promise<ShopStore> {
     const user: User = req.user;

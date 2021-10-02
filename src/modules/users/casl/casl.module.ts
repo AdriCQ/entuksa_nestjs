@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { CaslAbilityFactory } from './casl.factory';
+import { PermissionFactory } from './casl.factory';
 
 @Module({
-  providers: [CaslAbilityFactory],
-  exports: [CaslAbilityFactory],
+  providers: [PermissionFactory],
+  exports: [PermissionFactory],
 })
-export class CaslModule {}
+export class CaslModule { }
