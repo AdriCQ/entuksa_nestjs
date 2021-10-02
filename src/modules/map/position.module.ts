@@ -9,7 +9,7 @@ import { PositionsService } from './positions.service';
 @Module({
   controllers: [],
   imports: [TypeOrmModule.forFeature([MapPosition])],
-  exports: [PositionsService],
+  exports: [TypeOrmModule, PositionsService],
   providers: [PositionsService],
 })
-export class PositionModule {}
+export class PositionModule { }

@@ -1,6 +1,26 @@
 ###
-# SignUp
+# Get
 ###
 GET /api/shop/stores/1
 Host: {{ host }}
 Authorization: {{ token }}
+
+
+###
+# Create
+###
+POST /api/shop/stores
+Host: {{ host }}
+Authorization: {{ token }}
+
+{
+  "title": "Store Title",
+  "description": "Description",
+  "position": {
+    "address": "Calle Silencio #32",
+    "coordinate": {
+      "lat": 20,
+      "lng": 20
+    }
+  }
+}

@@ -20,6 +20,7 @@ export class ShopStore extends BaseModel {
       this.title = store.title;
       this.description = store.description;
       this.vendor = store.vendor;
+      this.position = store.position;
       this.rating = 0;
     }
   }
@@ -45,12 +46,14 @@ export class ShopStore extends BaseModel {
    * -----------------------------------------
    *	Relationships
    * -----------------------------------------
+  /**
+   * One to one of shop store
    */
-  @OneToOne(() => MapPosition)
+  @OneToOne(() => MapPosition, { eager: true })
   @JoinColumn()
   position: MapPosition;
   /**
-   * Vendor id of shop store
+   * Vendor of shop store
    */
   @ManyToOne(() => User, (user) => user.stores)
   vendor: User;

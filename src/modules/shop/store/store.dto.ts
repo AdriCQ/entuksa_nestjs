@@ -22,5 +22,5 @@ export class StoreCreateDto {
 
   @ValidateNested()
   @Type(() => MapPosition)
-  positon: MapPosition;
+  position: MapPosition;
 }
