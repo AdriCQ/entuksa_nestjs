@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsArray, IsIn, IsNumber, IsString, ValidateNested } from "class-validator";
 import { IShopOffer } from "./offers";
@@ -26,8 +27,10 @@ export class OfferAttributeDto implements IShopOffer.Attribute {
  */
 export class OfferConfigurable implements IShopOffer.Configurable {
   @IsString()
+  @ApiProperty()
   name: string;
   @IsArray()
+  @ApiProperty({ isArray: true })
   values: string[];
 }
 /**
@@ -35,18 +38,23 @@ export class OfferConfigurable implements IShopOffer.Configurable {
  */
 export class OfferConfigurableWithPrice implements IShopOffer.ConfigurableWithPrice {
   @IsString()
+  @ApiProperty()
   name: string;
+
   @ValidateNested()
   @Type(() => OfferAttributeDto)
-  values: IShopOffer.Attribute[];
+  @ApiProperty({ type: () => OfferAttributeDto })
+  values: OfferAttributeDto[];
 }
 /**
  * Offer stock dto
  */
 export class OfferStockDto implements IShopOffer.Stock {
   @IsIn(['INFINITY', 'SOLD_OUT', 'LIMITED'])
+  @ApiProperty({ example: "['INFINITY', 'SOLD_OUT', 'LIMITED']" })
   status: IShopOffer.StockStatus;
   @IsNumber()
+  @ApiProperty()
   qty: number;
 
 }

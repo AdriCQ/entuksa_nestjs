@@ -9,9 +9,12 @@ import { MapPosition } from '@modules/map/position.model';
 import { CheckPermission } from '@modules/users/casl/casl.decorator';
 import { AppPermission, Permission, PermissionFactory } from '@modules/users/casl/casl.factory';
 import { PermissionsGuard } from '@modules/users/casl/casl.guard';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 /**
  * Shop store controller
  */
+@ApiTags('Shop Store')
+@ApiBearerAuth()
 @Controller('api/shop/stores')
 export class ShopStoreController {
   /**
@@ -25,7 +28,8 @@ export class ShopStoreController {
    */
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async byId(@Param('id') id: number) {
+  @ApiResponse({ status: 200, type: () => ShopStore })
+  async byId(@Param('id') id: number): Promise<ShopStore> {
     return await this.service.findById(id);
   }
   /**
@@ -37,6 +41,7 @@ export class ShopStoreController {
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @CheckPermission((ability: AppPermission) => ability.can(Permission.CREATE, ShopStore))
   @Post()
+  @ApiResponse({ status: 201, type: () => ShopStore })
   async create(@Body() body: StoreCreateDto, @Req() req): Promise<ShopStore> {
     const user: User = req.user;
     body.vendor = user;

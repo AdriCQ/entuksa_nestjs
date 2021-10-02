@@ -12,8 +12,8 @@ import { AuthService } from './auth.service';
 import { UserAuthSigninDto, UserAuthSignupDto, } from '../users.dto';
 import { UsersService } from '../users.service';
 import { JwtAuthGuard } from './auth.guard';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { UsersAuthResponseDto } from '../user.model';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { UsersAuthResponseDto, User } from '../user.model';
 
 @ApiTags('User Auth')
 @Controller('api/users/auth')
@@ -70,7 +70,9 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  proofile(@Request() req) {
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: () => User })
+  profile(@Request() req) {
     return req.user;
   }
 }

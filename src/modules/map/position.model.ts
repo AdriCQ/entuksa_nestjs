@@ -1,4 +1,5 @@
 import { BaseModel } from '@modules/BaseModel';
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDate, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Column, Entity } from 'typeorm';
@@ -14,6 +15,7 @@ export class MapPosition extends BaseModel {
    */
   @Column()
   @IsString()
+  @ApiProperty()
   address: string;
   /**
    * Coordinate  of map position
@@ -21,6 +23,7 @@ export class MapPosition extends BaseModel {
   @Column({ type: 'json', default: `{"lat":0, "lng":0}` })
   @ValidateNested()
   @Type(() => MapCoordinate)
+  @ApiProperty({ type: () => MapCoordinate })
   coordinate: MapCoordinate;
   /**
    * Validated at of map position
@@ -28,5 +31,6 @@ export class MapPosition extends BaseModel {
   @Column({ type: 'timestamp', nullable: true })
   @IsOptional()
   @IsDate()
+  @ApiProperty()
   validatedAt: Date;
 }

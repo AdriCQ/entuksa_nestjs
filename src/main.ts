@@ -23,6 +23,7 @@ async function bootstrap() {
     .setDescription('Palrey API Rest')
     .setVersion('2.0')
     .addBearerAuth()
+    .addTag('API')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);

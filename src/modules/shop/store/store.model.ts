@@ -6,6 +6,7 @@ import { User } from '@modules/users/user.model';
 import { MapPosition } from '@modules/map/position.model';
 import { ShopOffer } from '../offers/offer.model';
 import { Image } from '@modules/images/images.model';
+import { ApiProperty } from '@nestjs/swagger';
 
 /**
  * Shop store
@@ -31,18 +32,21 @@ export class ShopStore extends BaseModel {
    */
   @Column()
   @IsString()
+  @ApiProperty()
   title: string;
   /**
    * Description  of shop store
    */
   @Column()
   @IsString()
+  @ApiProperty()
   description: string;
   /**
    * Rating  of shop store
    */
   @Column({ type: 'smallint', default: 0 })
   @IsNumber()
+  @ApiProperty()
   rating: number;
   /**
    * -----------------------------------------
@@ -52,23 +56,28 @@ export class ShopStore extends BaseModel {
   /**
    * Image  of shop store
    */
-  @OneToOne(() => Image)
+  @OneToOne(() => Image, { eager: true })
   @JoinColumn()
+  @ApiProperty({ type: () => Image })
   image: Image;
   /**
+   * -
    * Offers  of shop store
    */
   @OneToMany(() => ShopOffer, offer => offer.store)
+  @ApiProperty({ nullable: true, isArray: true, type: () => ShopOffer })
   offers: ShopOffer[];
   /**
    * One to one of shop store
    */
   @OneToOne(() => MapPosition, { eager: true })
   @JoinColumn()
+  @ApiProperty({ type: () => MapPosition })
   position: MapPosition;
   /**
    * Vendor of shop store
    */
   @ManyToOne(() => User, (user) => user.stores)
+  @ApiProperty({ nullable: true, type: () => User })
   vendor: User;
 }

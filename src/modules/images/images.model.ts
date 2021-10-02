@@ -3,6 +3,7 @@ import { Column, Entity } from 'typeorm';
 import { ImagePathsDto } from './images.dto';
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 /**
  * Image
  */
@@ -13,12 +14,14 @@ export class Image extends BaseModel {
    */
   @Column()
   @IsString()
+  @ApiProperty()
   title: string;
   /**
    * Tags  of image
    */
   @Column({ type: 'json', nullable: true })
   @IsArray()
+  @ApiProperty({ isArray: true })
   tags: string[];
   /**
    * Paths  of image
@@ -26,5 +29,6 @@ export class Image extends BaseModel {
   @Column({ type: 'json' })
   @ValidateNested()
   @Type(() => ImagePathsDto)
+  @ApiProperty()
   paths: ImagePathsDto;
 }
