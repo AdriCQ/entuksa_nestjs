@@ -12,7 +12,6 @@ import { AuthService } from './auth.service';
 import { UserAuthSigninDto, UserAuthSignupDto } from '../users.dto';
 import { IUser } from '../users';
 import { UsersService } from '../users.service';
-import { User } from '../user.model';
 import { JwtAuthGuard } from './auth.guard';
 
 @Controller('api/users/auth')
@@ -25,7 +24,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
-  ) {}
+  ) { }
 
   /**
    * Signins auth controller

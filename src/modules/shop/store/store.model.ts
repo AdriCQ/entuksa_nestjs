@@ -46,12 +46,12 @@ export class ShopStore extends BaseModel {
    *	Relationships
    * -----------------------------------------
    */
-  @OneToOne((type) => MapPosition)
+  @OneToOne(() => MapPosition)
   @JoinColumn()
   position: MapPosition;
   /**
    * Vendor id of shop store
    */
-  @ManyToOne((type) => User, (user) => user.stores)
+  @ManyToOne(() => User, (user) => user.stores)
   vendor: User;
 }

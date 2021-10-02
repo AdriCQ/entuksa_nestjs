@@ -73,7 +73,7 @@ export class User extends BaseModel {
   /**
    * Stores  of user
    */
-  @OneToMany((type) => ShopStore, (store) => store.vendor)
+  @OneToMany(() => ShopStore, (store) => store.vendor)
   stores: ShopStore[];
   /**
    * -----------------------------------------

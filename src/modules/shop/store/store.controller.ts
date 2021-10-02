@@ -1,11 +1,9 @@
 import { JwtAuthGuard } from '@modules/users/auth/auth.guard';
 import { User } from '@modules/users/user.model';
 import { Body, Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { StoreCreateDto } from './store.dto';
 import { ShopStore } from './store.model';
 import { ShopStoreService } from './store.service';
-import { JwtStrategy } from '../../users/auth/jwt.strategy';
 /**
  * Shop store controller
  */
@@ -15,7 +13,7 @@ export class ShopStoreController {
    * Creates an instance of shop store controller.
    * @param service
    */
-  constructor(private readonly service: ShopStoreService) {}
+  constructor(private readonly service: ShopStoreService) { }
   /**
    * id
    * @param id
