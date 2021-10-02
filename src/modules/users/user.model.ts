@@ -1,6 +1,7 @@
+import { ShopStore } from "@modules/shop/store/store.model";
 import * as argon from "argon2";
-import { IsArray, IsEmail, IsString } from "class-validator";
-import { BeforeInsert, Column, Entity } from "typeorm";
+import { IsArray, IsEmail, IsNumberString, IsOptional, IsString } from "class-validator";
+import { BeforeInsert, Column, Entity, OneToMany } from "typeorm";
 import { BaseModel } from "../BaseModel";
 import { IUser } from "./users";
 import { UserAuthSignupDto } from "./users.dto";
@@ -40,6 +41,13 @@ export class User extends BaseModel {
   @IsEmail()
   email: string;
   /**
+   * Mobile phone of user
+   */
+  @Column({ type: 'varchar', length: 12, unique: true, nullable: true })
+  @IsOptional()
+  @IsNumberString()
+  mobilePhone: string;
+  /**
    * Password  of user
    */
   @Column()
@@ -51,6 +59,16 @@ export class User extends BaseModel {
   @Column({ type: 'json', default: `["CLIENT"]` })
   @IsArray()
   roles: IUser.Role[]
+  /**
+   * -----------------------------------------
+   *	Relations
+   * -----------------------------------------
+   */
+  /**
+   * Stores  of user
+   */
+  @OneToMany(type => ShopStore, store => store.vendor)
+  stores: ShopStore[];
   /**
    * -----------------------------------------
    *	Before Enter Data

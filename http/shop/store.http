@@ -1,0 +1,6 @@
+###
+# SignUp
+###
+GET /api/shop/stores/1
+Host: {{ host }}
+Authorization: {{ token }}
