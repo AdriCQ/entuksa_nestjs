@@ -13,6 +13,7 @@ import { AuthModule } from '@modules/users/auth/auth.module';
 import { CaslModule } from '@modules/users/casl/casl.module';
 import { ShopStoreModule } from '@modules/shop/store/store.module';
 import { PositionModule } from '@modules/map/position.module';
+import { ImagesModule } from '@modules/images/images.module';
 
 @Module({
   imports: [
@@ -27,6 +28,8 @@ import { PositionModule } from '@modules/map/position.module';
     UsersModule,
     AuthModule,
     CaslModule,
+    // Image
+    ImagesModule,
     // Shop Modules
     ShopStoreModule,
     // Map Modules
