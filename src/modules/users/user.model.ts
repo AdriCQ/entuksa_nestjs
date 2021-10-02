@@ -6,12 +6,14 @@ import {
   IsNumberString,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
 import { BaseModel } from '../BaseModel';
 import { IUser } from './users';
 import { UserAuthSignupDto } from './users.dto';
-
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 @Entity('users')
 export class User extends BaseModel {
   /**
@@ -33,18 +35,21 @@ export class User extends BaseModel {
    */
   @Column()
   @IsString()
+  @ApiProperty()
   name: string;
   /**
    * Last name of user
    */
   @Column()
   @IsString()
+  @ApiProperty()
   lastName: string;
   /**
    * Email  of user
    */
   @Column({ unique: true })
   @IsEmail()
+  @ApiProperty({ uniqueItems: true, example: 'myemail@email.com' })
   email: string;
   /**
    * Mobile phone of user
@@ -52,18 +57,21 @@ export class User extends BaseModel {
   @Column({ type: 'varchar', length: 12, unique: true, nullable: true })
   @IsOptional()
   @IsNumberString()
+  @ApiProperty({ example: '55555555' })
   mobilePhone: string;
   /**
    * Password  of user
    */
   @Column()
   @IsString()
+  @ApiProperty()
   password: string;
   /**
    * Roles  of user
    */
   @Column({ type: 'json', default: `["CLIENT"]` })
   @IsArray()
+  @ApiProperty({ isArray: true, example: '["DEVELOPER", "ADMIN", "VENDOR", "MODERATOR", "DELIVER", "CLIENT"]' })
   roles: IUser.Role[];
   /**
    * -----------------------------------------
@@ -126,4 +134,16 @@ export class User extends BaseModel {
   async validatePassword(password: string): Promise<boolean> {
     return await argon.verify(this.password, password);
   }
+}
+/**
+ * Users auth response dto
+ */
+export class UsersAuthResponseDto {
+  @ValidateNested()
+  @Type(() => User)
+  @ApiProperty()
+  user: User;
+  @IsString()
+  @ApiProperty({ description: 'User auth token' })
+  token: string;
 }

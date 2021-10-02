@@ -9,11 +9,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserAuthSigninDto, UserAuthSignupDto } from '../users.dto';
-import { IUser } from '../users';
+import { UserAuthSigninDto, UserAuthSignupDto, } from '../users.dto';
 import { UsersService } from '../users.service';
 import { JwtAuthGuard } from './auth.guard';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { UsersAuthResponseDto } from '../user.model';
 
+@ApiTags('User Auth')
 @Controller('api/users/auth')
 export class AuthController {
   /**
@@ -33,7 +35,8 @@ export class AuthController {
    */
   @Post('signin')
   @HttpCode(200)
-  async signin(@Body() _body: UserAuthSigninDto): Promise<IUser.ResponseAuth> {
+  @ApiResponse({ status: 200, description: 'Login User', type: UsersAuthResponseDto })
+  async signin(@Body() _body: UserAuthSigninDto): Promise<UsersAuthResponseDto> {
     // validate
     const user = await this.authService.validate(
       {
@@ -55,7 +58,8 @@ export class AuthController {
    * @returns signup
    */
   @Post('signup')
-  async signup(@Body() _body: UserAuthSignupDto): Promise<IUser.ResponseAuth> {
+  @ApiResponse({ status: 200, description: 'Register User', type: UsersAuthResponseDto })
+  async signup(@Body() _body: UserAuthSignupDto): Promise<UsersAuthResponseDto> {
     const exists = await this.usersService.exists({ email: _body.email });
     if (exists)
       throw new ConflictException(`El email ${_body.email} ya está registrado`);

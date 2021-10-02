@@ -4,6 +4,7 @@ import * as compression from 'compression';
 import * as helmet from 'helmet';
 // import * as csurf from 'csurf';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 /**
  *
  */
@@ -16,6 +17,15 @@ async function bootstrap() {
   app.use(compression());
   app.use(helmet());
   // app.use(csurf());
+  // Swagger
+  const config = new DocumentBuilder()
+    .setTitle('Palrey API')
+    .setDescription('Palrey API Rest')
+    .setVersion('2.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(3000);
 }
