@@ -1,9 +1,10 @@
-import { Body, ConflictException, Controller, HttpCode, Post } from "@nestjs/common";
+import { Body, ConflictException, Controller, Get, HttpCode, Post, Request, UseGuards } from "@nestjs/common";
 import { AuthService } from './auth.service';
 import { UserAuthSigninDto, UserAuthSignupDto } from '../users.dto';
 import { IUser } from "../users";
 import { UsersService } from '../users.service';
 import { User } from "../user.model";
+import { JwtAuthGuard } from './auth.guard';
 
 @Controller('api/users/auth')
 export class AuthController {
@@ -47,5 +48,11 @@ export class AuthController {
     const user = await this.usersService.create(_body);
     const token = await this.authService.generateAccessToken(user);
     return { user, token }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  proofile(@Request() req) {
+    return req.user;
   }
 }

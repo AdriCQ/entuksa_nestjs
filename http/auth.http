@@ -23,3 +23,10 @@ Host: {{ host }}
   "email": "email@email.com",
   "password": "password"
 }
+
+###
+# Profile
+###
+GEt /api/users/auth/profile
+Host: {{ host }}
+Authorization: {{ token }}
