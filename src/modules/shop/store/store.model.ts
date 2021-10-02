@@ -1,9 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { BaseModel } from '@modules/BaseModel';
 import { IsNumber, IsString } from 'class-validator';
 import { StoreCreateDto } from './store.dto';
 import { User } from '@modules/users/user.model';
 import { MapPosition } from '@modules/map/position.model';
+import { ShopOffer } from '../offers/offer.model';
+import { Image } from '@modules/images/images.model';
 
 /**
  * Shop store
@@ -46,6 +48,18 @@ export class ShopStore extends BaseModel {
    * -----------------------------------------
    *	Relationships
    * -----------------------------------------
+   */
+  /**
+   * Image  of shop store
+   */
+  @OneToOne(() => Image)
+  @JoinColumn()
+  image: Image;
+  /**
+   * Offers  of shop store
+   */
+  @OneToMany(() => ShopOffer, offer => offer.store)
+  offers: ShopOffer[];
   /**
    * One to one of shop store
    */

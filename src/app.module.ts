@@ -14,6 +14,7 @@ import { CaslModule } from '@modules/users/casl/casl.module';
 import { ShopStoreModule } from '@modules/shop/store/store.module';
 import { PositionModule } from '@modules/map/position.module';
 import { ImagesModule } from '@modules/images/images.module';
+import { ShopOffersModule } from '@modules/shop/offers/offers.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ImagesModule } from '@modules/images/images.module';
     ImagesModule,
     // Shop Modules
     ShopStoreModule,
+    ShopOffersModule,
     // Map Modules
     PositionModule,
   ],
