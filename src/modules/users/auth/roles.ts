@@ -1,5 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable, SetMetadata } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  SetMetadata,
+} from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 /**
  * Role
  */
@@ -9,7 +14,7 @@ export enum Role {
   MODERATOR = 'MODERATOR',
   VENDOR = 'VENDOR',
   DELIVER = 'DELIVER',
-  CLIENT = 'CLIENT'
+  CLIENT = 'CLIENT',
 }
 /**
  * Decorator
@@ -23,7 +28,7 @@ export const WithRoles = (...roles: Role[]) => SetMetadata(ROLES_KEY, roles);
  */
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) { }
+  constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [

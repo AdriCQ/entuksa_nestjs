@@ -1,5 +1,6 @@
-import { IsObject, IsString } from "class-validator";
+import { IsObject, IsString, ValidateNested } from 'class-validator';
 import { User } from '@modules/users/user.model';
+import { Type } from 'class-transformer';
 /**
  * Store create dto
  */
@@ -14,6 +15,7 @@ export class StoreCreateDto {
   /**
    * Vendor id of shop store
    */
-  @IsObject()
+  @ValidateNested()
+  @Type(() => User)
   vendor: User;
 }

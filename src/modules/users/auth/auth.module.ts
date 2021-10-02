@@ -16,11 +16,11 @@ import { JwtStrategy } from './jwt.strategy';
         secret: configService.get<string>('app.key'),
         signOptions: { expiresIn: '60s' },
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

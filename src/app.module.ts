@@ -30,7 +30,7 @@ import { PositionModule } from '@modules/map/position.module';
     // Shop Modules
     ShopStoreModule,
     // Map Modules
-    PositionModule
+    PositionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

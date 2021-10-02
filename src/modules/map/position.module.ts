@@ -1,6 +1,6 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MapPosition } from "./position.model";
+import { MapPosition } from './position.model';
 import { PositionsService } from './positions.service';
 
 /**
@@ -10,6 +10,6 @@ import { PositionsService } from './positions.service';
   controllers: [],
   imports: [TypeOrmModule.forFeature([MapPosition])],
   exports: [PositionsService],
-  providers: [PositionsService]
+  providers: [PositionsService],
 })
-export class PositionModule { }
+export class PositionModule {}

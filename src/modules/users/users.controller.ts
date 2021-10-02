@@ -8,9 +8,9 @@ import { UsersService } from './users.service';
 export class UsersController {
   /**
    * Creates an instance of users controller.
-   * @param usersService 
+   * @param usersService
    */
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Get()
   all() {

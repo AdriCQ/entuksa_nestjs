@@ -1,8 +1,9 @@
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { BaseModel } from '@modules/BaseModel';
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString } from 'class-validator';
 import { StoreCreateDto } from './store.dto';
-import { User } from '../../users/user.model';
+import { User } from '@modules/users/user.model';
+import { MapPosition } from '@modules/map/position.model';
 
 /**
  * Shop store
@@ -11,7 +12,7 @@ import { User } from '../../users/user.model';
 export class ShopStore extends BaseModel {
   /**
    * Creates an instance of shop store.
-   * @param [store] 
+   * @param [store]
    */
   constructor(store?: StoreCreateDto) {
     super();
@@ -35,14 +36,22 @@ export class ShopStore extends BaseModel {
   @IsString()
   description: string;
   /**
-   * Vendor id of shop store
-   */
-  @ManyToOne((type) => User, user => user.stores)
-  vendor: User;
-  /**
    * Rating  of shop store
    */
   @Column({ type: 'smallint', default: 0 })
   @IsNumber()
   rating: number;
+  /**
+   * -----------------------------------------
+   *	Relationships
+   * -----------------------------------------
+   */
+  @OneToOne((type) => MapPosition)
+  @JoinColumn()
+  position: MapPosition;
+  /**
+   * Vendor id of shop store
+   */
+  @ManyToOne((type) => User, (user) => user.stores)
+  vendor: User;
 }

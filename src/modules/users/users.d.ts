@@ -1,7 +1,6 @@
-import { User as UserModel } from "./user.model";
+import { User as UserModel } from './user.model';
 
 export namespace IUser {
-
   type User = UserModel;
   /**
    * Auth response
@@ -19,6 +18,11 @@ export namespace IUser {
   /**
    * Role
    */
-  type Role = 'DEVELOPER' | 'ADMIN' | 'MODERATOR' | 'VENDOR' | 'DELIVER' | 'CLIENT';
-
+  type Role =
+    | 'DEVELOPER'
+    | 'ADMIN'
+    | 'MODERATOR'
+    | 'VENDOR'
+    | 'DELIVER'
+    | 'CLIENT';
 }

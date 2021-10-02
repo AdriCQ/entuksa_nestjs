@@ -8,15 +8,18 @@ import { UsersService } from '../users.service';
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
-  ) { }
+    private jwtService: JwtService,
+  ) {}
   /**
    * Validates auth service
-   * @param _user 
-   * @param _password 
-   * @returns validate 
+   * @param _user
+   * @param _password
+   * @returns validate
    */
-  async validate(_user: { email?: string, mobilePhone?: string }, _password: string): Promise<User | null> {
+  async validate(
+    _user: { email?: string; mobilePhone?: string },
+    _password: string,
+  ): Promise<User | null> {
     let user: User;
     if (_user.email)
       user = await this.usersService.find({ email: _user.email });
@@ -25,15 +28,13 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('No se encontró el usuario');
     }
-    if (await user.validatePassword(_password))
-      return user;
+    if (await user.validatePassword(_password)) return user;
     return null;
-
   }
   /**
    * Generates access token
-   * @param name 
-   * @returns  
+   * @param name
+   * @returns
    */
   async generateAccessToken(_user: User) {
     const user = await this.usersService.find({ email: _user.email });

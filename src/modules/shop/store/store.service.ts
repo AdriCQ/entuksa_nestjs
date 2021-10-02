@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { StoreCreateDto } from "./store.dto";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { StoreCreateDto } from './store.dto';
 import { ShopStore } from './store.model';
 /**
  * Shop store service
@@ -10,13 +10,16 @@ import { ShopStore } from './store.model';
 export class ShopStoreService {
   /**
    * Creates an instance of shop store service.
-   * @param storeRepo 
+   * @param storeRepo
    */
-  constructor(@InjectRepository(ShopStore) private readonly storeRepo: Repository<ShopStore>) { }
+  constructor(
+    @InjectRepository(ShopStore)
+    private readonly storeRepo: Repository<ShopStore>,
+  ) {}
   /**
    * Creates shop store service
-   * @param _params 
-   * @returns create 
+   * @param _params
+   * @returns create
    */
   async create(_params: StoreCreateDto): Promise<ShopStore> {
     const store = new ShopStore(_params);
@@ -24,10 +27,10 @@ export class ShopStoreService {
   }
   /**
    * Finds by id
-   * @param _id 
-   * @returns by id 
+   * @param _id
+   * @returns by id
    */
   async findById(_id: number): Promise<ShopStore> {
-    return await this.storeRepo.findOne(_id)
+    return await this.storeRepo.findOne(_id);
   }
 }

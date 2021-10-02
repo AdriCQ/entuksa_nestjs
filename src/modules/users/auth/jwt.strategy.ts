@@ -9,7 +9,7 @@ import { UsersService } from '../users.service';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   /**
    * Creates an instance of jwt strategy.
-   * @param usersService 
+   * @param usersService
    */
   constructor(private usersService: UsersService) {
     super({
@@ -20,12 +20,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
   /**
    * Validates jwt strategy
-   * @param payload 
-   * @returns validate 
+   * @param payload
+   * @returns validate
    */
   async validate(payload: IUser.JwtPayload): Promise<User> {
-    if (typeof payload.id !== 'number')
-      throw new UnauthorizedException();
+    if (typeof payload.id !== 'number') throw new UnauthorizedException();
     const user = await this.usersService.find({ id: payload.id });
     if (!user) {
       throw new UnauthorizedException();

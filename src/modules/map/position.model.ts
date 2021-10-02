@@ -1,8 +1,8 @@
-import { BaseModel } from "@modules/BaseModel";
-import { Type } from "class-transformer";
-import { IsDate, IsOptional, IsString, ValidateNested } from "class-validator";
-import { Column, Entity } from "typeorm";
-import { MapCoordinate } from "./position.dto";
+import { BaseModel } from '@modules/BaseModel';
+import { Type } from 'class-transformer';
+import { IsDate, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Column, Entity } from 'typeorm';
+import { MapCoordinate } from './position.dto';
 
 /**
  * Map position

@@ -13,12 +13,12 @@ import { JwtStrategy } from '../../users/auth/jwt.strategy';
 export class ShopStoreController {
   /**
    * Creates an instance of shop store controller.
-   * @param service 
+   * @param service
    */
-  constructor(private readonly service: ShopStoreService) { }
+  constructor(private readonly service: ShopStoreService) {}
   /**
    * id
-   * @param id 
+   * @param id
    */
   @UseGuards(JwtAuthGuard)
   @Get(':id')
@@ -27,9 +27,9 @@ export class ShopStoreController {
   }
   /**
    * Creates shop store controller
-   * @param body 
-   * @param user 
-   * @returns create 
+   * @param body
+   * @param user
+   * @returns create
    */
   @UseGuards(JwtAuthGuard)
   async create(@Body() body: StoreCreateDto, @Req() req): Promise<ShopStore> {
