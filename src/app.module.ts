@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
+import { MulterModule } from '@nestjs/platform-express';
 // Configuration
 import { ConfigModule } from '@nestjs/config';
 import appConfig from './configs/app.config';
+import pathConfig from './configs/path.config';
 import typeormConfig from './configs/typeorm.config';
 // Typeorm Database
 import { DatabaseModuleConfig } from './database';
@@ -18,9 +20,13 @@ import { ShopOffersModule } from '@modules/shop/offers/offers.module';
 
 @Module({
   imports: [
+    // Load Multer
+    MulterModule.register({
+      dest: './storage'
+    }),
     // Config Module
     ConfigModule.forRoot({
-      load: [appConfig, typeormConfig],
+      load: [appConfig, pathConfig, typeormConfig],
       isGlobal: true,
     }),
     // Load Typeorm
