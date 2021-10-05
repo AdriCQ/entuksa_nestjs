@@ -14,6 +14,7 @@ import { IUser } from './users';
 import { UserAuthSignupDto } from './users.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { ShopOrder } from '../shop/order/order.model';
 @Entity('users')
 export class User extends BaseModel {
   /**
@@ -78,6 +79,8 @@ export class User extends BaseModel {
    *	Relations
    * -----------------------------------------
    */
+  @OneToMany(() => ShopOrder, order => order.client)
+  orders: ShopOrder[];
   /**
    * Stores  of user
    */

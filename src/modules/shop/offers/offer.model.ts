@@ -1,12 +1,13 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { BaseModel } from '@modules/BaseModel';
 import { IShopOffer } from './offers';
 import { Image } from '@modules/images/images.model';
 import { ShopStore } from '../store/store.model';
-import { IsIn, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsDate, IsIn, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { OfferAttributeDto, OfferPricesDto, OfferStockDto, OfferConfigurable, OfferConfigurableWithPrice } from './offers.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { ShopOrderOffer } from '../order/order_offer.model';
 /**
  * Shop offer
  */
@@ -45,7 +46,7 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
   /**
    * Type  of shop offer
    */
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', comment: "'PRODUCT', 'SERVICE'" })
   @IsIn(['PRODUCT', 'SERVICE'])
   @ApiProperty({ example: "PRODUCT | SERVICE" })
   type: IShopOffer.Type;
@@ -81,6 +82,22 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
   @ApiProperty()
   rating: number;
   /**
+   * Onsale  of shop offer
+   */
+  @Column({ default: false })
+  @IsBoolean()
+  @ApiProperty()
+  onsale: boolean;
+  /**
+   * Validated at of shop offer
+   */
+  @Column({ type: 'timestamp', nullable: true })
+  @IsOptional()
+  @IsDate()
+  @ApiProperty()
+  validatedAt: Date;
+
+  /**
    * -----------------------------------------
    *	Relationship
    * -----------------------------------------
@@ -98,4 +115,10 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
   @ManyToOne(() => ShopStore, store => store.offers, { cascade: ['remove'] })
   @ApiProperty({ type: () => ShopStore, nullable: true })
   store: ShopStore;
+  /**
+   * One to many of shop offer
+   */
+  @OneToMany(() => ShopOrderOffer, of => of.offer)
+  @ApiProperty({ type: () => ShopOrderOffer, isArray: true, nullable: true })
+  orderOffers: ShopOrderOffer[]
 }

@@ -17,6 +17,7 @@ import { ShopStoreModule } from '@modules/shop/store/store.module';
 import { PositionModule } from '@modules/map/position.module';
 import { ImagesModule } from '@modules/images/images.module';
 import { ShopOffersModule } from '@modules/shop/offers/offers.module';
+import { ShopOrderModule } from '@modules/shop/order/order.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ShopOffersModule } from '@modules/shop/offers/offers.module';
     // Shop Modules
     ShopStoreModule,
     ShopOffersModule,
+    ShopOrderModule,
     // Map Modules
     PositionModule,
   ],

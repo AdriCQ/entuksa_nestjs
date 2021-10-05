@@ -36,6 +36,8 @@ export namespace IShopOffer {
     configurable: Configurable[];
     configurableWithPrice: ConfigurableWithPrice[];
     rating: number;
+    onsale: boolean;
+    validatedAt?: Date;
   }
   /**
    * Offer prices
