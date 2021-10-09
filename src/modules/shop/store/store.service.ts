@@ -15,7 +15,7 @@ export class ShopStoreService {
   constructor(
     @InjectRepository(ShopStore)
     private readonly storeRepo: Repository<ShopStore>,
-  ) {}
+  ) { }
   /**
    * Creates shop store service
    * @param _params

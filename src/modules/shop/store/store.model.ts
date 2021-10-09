@@ -1,12 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { BaseModel } from '@modules/BaseModel';
-import { IsNumber, IsString } from 'class-validator';
-import { StoreCreateDto } from './store.dto';
+import { IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { StoreCreateDto, StoreTimingDto } from './store.dto';
 import { User } from '@modules/users/user.model';
 import { MapPosition } from '@modules/map/position.model';
 import { ShopOffer } from '../offers/offer.model';
 import { Image } from '@modules/images/images.model';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 /**
  * Shop store
@@ -22,9 +23,9 @@ export class ShopStore extends BaseModel {
     if (store) {
       this.title = store.title;
       this.description = store.description;
-      this.vendor = store.vendor;
       this.position = store.position;
       this.rating = 0;
+      this.image.id = 1;
     }
   }
   /**
@@ -48,6 +49,15 @@ export class ShopStore extends BaseModel {
   @IsNumber()
   @ApiProperty()
   rating: number;
+  /**
+   * Timing  of shop store
+   */
+  @Column({ type: 'json', nullable: true })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => StoreTimingDto)
+  @ApiProperty({ type: () => StoreTimingDto, nullable: true })
+  timing: StoreTimingDto;
   /**
    * -----------------------------------------
    *	Relationships

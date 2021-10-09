@@ -22,16 +22,7 @@ export class ShopStoreController {
    * @param service
    */
   constructor(private readonly service: ShopStoreService, private readonly positionService: PositionsService, private readonly permission: PermissionFactory) { }
-  /**
-   * id
-   * @param id
-   */
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  @ApiResponse({ status: 200, type: () => ShopStore })
-  async byId(@Param('id') id: number): Promise<ShopStore> {
-    return await this.service.findById(id);
-  }
+
   /**
    * Creates shop store controller
    * @param body
@@ -39,7 +30,7 @@ export class ShopStoreController {
    * @returns create
    */
   @UseGuards(JwtAuthGuard, PermissionsGuard)
-  @CheckPermission((ability: AppPermission) => ability.can(Permission.CREATE, ShopStore))
+  // @CheckPermission((ability: AppPermission) => ability.can(Permission.CREATE, ShopStore))
   @Post()
   @ApiResponse({ status: 201, type: () => ShopStore })
   async create(@Body() body: StoreCreateDto, @Req() req): Promise<ShopStore> {
@@ -58,5 +49,15 @@ export class ShopStoreController {
     }
     body.position = position;
     return await this.service.create(body);
+  }
+  /**
+   * id
+   * @param id
+   */
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  @ApiResponse({ status: 200, type: () => ShopStore })
+  async byId(@Param('id') id: number): Promise<ShopStore> {
+    return await this.service.findById(id);
   }
 }

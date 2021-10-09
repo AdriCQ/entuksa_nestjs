@@ -1,4 +1,4 @@
-import { IsString, ValidateNested } from 'class-validator';
+import { IsString, ValidateNested, IsBoolean } from 'class-validator';
 import { User } from '@modules/users/user.model';
 import { Type } from 'class-transformer';
 import { MapPosition } from '@modules/map/position.model';
@@ -28,4 +28,18 @@ export class StoreCreateDto {
   @Type(() => MapPosition)
   @ApiProperty({ type: () => MapPosition })
   position: MapPosition;
+}
+/**
+ * Store timing dto
+ */
+export class StoreTimingDto {
+  @IsString()
+  @ApiProperty({ example: '0900' })
+  open: string;
+  @IsString()
+  @ApiProperty({ example: '0900' })
+  close: string;
+  @IsBoolean()
+  @ApiProperty()
+  auto: boolean;
 }
