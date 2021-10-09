@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ImagesController } from "./images.controller";
 import { Image } from "./images.model";
-import { ImageServices } from "./images.service";
+import { ImageServices } from './images.service';
 import { ImagesHelper } from './images.helper';
 
 @Module({
