@@ -16,6 +16,7 @@ async function bootstrap() {
   // Protection
   app.use(compression());
   app.use(helmet());
+  app.enableCors();
   // app.use(csurf());
   // Swagger
   const config = new DocumentBuilder()
