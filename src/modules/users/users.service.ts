@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.model';
@@ -20,8 +20,10 @@ export class UsersService {
    * @param _user
    * @returns create
    */
-  async create(_user: UserAuthSignupDto): Promise<User | null> {
-    return await this.userRepo.save(new User(_user));
+  async create(_user: UserAuthSignupDto): Promise<User> {
+    if (!await this.exists(_user))
+      return await this.userRepo.save(new User(_user));
+    else throw new HttpException('Ya existe el usuario', 409);
   }
   /**
    * Exists users service

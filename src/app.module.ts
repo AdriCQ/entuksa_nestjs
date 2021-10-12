@@ -18,6 +18,7 @@ import { PositionModule } from '@modules/map/position.module';
 import { ImagesModule } from '@modules/images/images.module';
 import { ShopOffersModule } from '@modules/shop/offers/offers.module';
 import { ShopOrderModule } from '@modules/shop/order/order.module';
+import { DbSeederModule } from '@modules/seeders/seeders.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ShopOrderModule } from '@modules/shop/order/order.module';
     }),
     // Load Typeorm
     DatabaseModuleConfig,
+    DbSeederModule,
     // User Modules
     UsersModule,
     AuthModule,
