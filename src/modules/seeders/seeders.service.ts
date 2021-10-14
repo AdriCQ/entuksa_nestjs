@@ -2,6 +2,7 @@ import { ImageServices } from '@modules/images/images.service';
 import { UsersService } from '@modules/users/users.service';
 import { Injectable } from '@nestjs/common';
 import { CategoriesService } from '../shop/categories/categories.service';
+import { LocalityService } from '../map/localities/locality.service';
 /**
  * Db seeder service
  */
@@ -11,7 +12,7 @@ export class DbSeederService {
    * Creates an instance of db seeder service.
    * @param usersService 
    */
-  constructor(private readonly usersService: UsersService, private readonly imageServices: ImageServices, private readonly categoriesService: CategoriesService) { }
+  constructor(private readonly usersService: UsersService, private readonly imageServices: ImageServices, private readonly categoriesService: CategoriesService, private readonly localityService: LocalityService) { }
   /**
    * Seed users
    */
@@ -25,6 +26,7 @@ export class DbSeederService {
       password: 'password'
     });
     await this.categoriesService.seed();
+    await this.localityService.seed()
   }
   /**
    * Fakes seed

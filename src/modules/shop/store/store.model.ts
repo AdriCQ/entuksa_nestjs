@@ -8,6 +8,7 @@ import { ShopOffer } from '../offers/offer.model';
 import { Image } from '@modules/images/images.model';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { Locality } from '../../map/localities/locality.model';
 
 /**
  * Shop store
@@ -70,6 +71,12 @@ export class ShopStore extends BaseModel {
   @JoinColumn()
   @ApiProperty({ type: () => Image })
   image: Image;
+  /**
+   * Locality  of shop store
+   */
+  @ManyToOne(() => Locality, l => l.shopStores, { onDelete: 'CASCADE', eager: true })
+  @ApiProperty({ type: () => Locality })
+  locality: Locality;
   /**
    * -
    * Offers  of shop store

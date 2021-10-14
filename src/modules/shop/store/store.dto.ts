@@ -3,6 +3,7 @@ import { User } from '@modules/users/user.model';
 import { Type } from 'class-transformer';
 import { MapPosition } from '@modules/map/positions/position.model';
 import { ApiProperty } from '@nestjs/swagger';
+import { Locality } from '@modules/map/localities/locality.model';
 /**
  * Store create dto
  */
@@ -28,6 +29,13 @@ export class StoreCreateDto {
   @Type(() => MapPosition)
   @ApiProperty({ type: () => MapPosition })
   position: MapPosition;
+  /**
+   * Locality  of store create dto
+   */
+  @ValidateNested()
+  @Type(() => Locality)
+  @ApiProperty({ type: () => Locality })
+  locality: Locality;
 }
 /**
  * Store timing dto
