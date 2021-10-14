@@ -1,7 +1,7 @@
 import { IsString, ValidateNested, IsBoolean } from 'class-validator';
 import { User } from '@modules/users/user.model';
 import { Type } from 'class-transformer';
-import { MapPosition } from '@modules/map/position.model';
+import { MapPosition } from '@modules/map/positions/position.model';
 import { ApiProperty } from '@nestjs/swagger';
 /**
  * Store create dto

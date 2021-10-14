@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ShopStore } from './store.model';
 import { ShopStoreController } from './store.controller';
 import { ShopStoreService } from './store.service';
-import { PositionModule } from '@modules/map/position.module';
-import { PositionsService } from '@modules/map/positions.service';
+import { PositionModule } from '@modules/map/positions/position.module';
+import { PositionsService } from '@modules/map/positions/positions.service';
 import { CaslModule } from '@modules/users/casl/casl.module';
 import { PermissionFactory } from '@modules/users/casl/casl.factory';
 

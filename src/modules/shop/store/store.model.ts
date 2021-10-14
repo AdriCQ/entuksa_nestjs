@@ -3,7 +3,7 @@ import { BaseModel } from '@modules/BaseModel';
 import { IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { StoreCreateDto, StoreTimingDto } from './store.dto';
 import { User } from '@modules/users/user.model';
-import { MapPosition } from '@modules/map/position.model';
+import { MapPosition } from '@modules/map/positions/position.model';
 import { ShopOffer } from '../offers/offer.model';
 import { Image } from '@modules/images/images.model';
 import { ApiProperty } from '@nestjs/swagger';

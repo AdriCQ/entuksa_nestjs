@@ -4,10 +4,10 @@ import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/comm
 import { StoreCreateDto } from './store.dto';
 import { ShopStore } from './store.model';
 import { ShopStoreService } from './store.service';
-import { PositionsService } from '@modules/map/positions.service';
-import { MapPosition } from '@modules/map/position.model';
-import { CheckPermission } from '@modules/users/casl/casl.decorator';
-import { AppPermission, Permission, PermissionFactory } from '@modules/users/casl/casl.factory';
+import { PositionsService } from '@modules/map/positions/positions.service';
+import { MapPosition } from '@modules/map/positions/position.model';
+// import { CheckPermission } from '@modules/users/casl/casl.decorator';
+import { PermissionFactory } from '@modules/users/casl/casl.factory';
 import { PermissionsGuard } from '@modules/users/casl/casl.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 /**
