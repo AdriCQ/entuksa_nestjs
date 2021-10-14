@@ -19,6 +19,7 @@ import { ImagesModule } from '@modules/images/images.module';
 import { ShopOffersModule } from '@modules/shop/offers/offers.module';
 import { ShopOrderModule } from '@modules/shop/order/order.module';
 import { DbSeederModule } from '@modules/seeders/seeders.module';
+import { CategoriesModule } from './modules/shop/categories/categories.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { DbSeederModule } from '@modules/seeders/seeders.module';
     // Image
     ImagesModule,
     // Shop Modules
+    CategoriesModule,
     ShopStoreModule,
     ShopOffersModule,
     ShopOrderModule,
