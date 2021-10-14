@@ -9,7 +9,7 @@ import { ImagesHelper } from './images.helper';
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([Image])],
   providers: [ImageServices, ConfigService],
-  exports: [ImageServices],
+  exports: [ImageServices, TypeOrmModule],
   controllers: [ImagesController]
 })
 export class ImagesModule {

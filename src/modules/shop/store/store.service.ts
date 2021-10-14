@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ShopOffer } from '../offers/offer.model';
 import { StoreCreateDto } from './store.dto';
 import { ShopStore } from './store.model';
 /**
@@ -32,5 +33,17 @@ export class ShopStoreService {
    */
   async findById(_id: number): Promise<ShopStore> {
     return await this.storeRepo.findOne(_id);
+  }
+  /**
+   * Offers shop store service
+   * @param _id 
+   * @returns offers 
+   */
+  async offers(_id: number): Promise<ShopOffer[]> {
+    const store = await this.findById(_id);
+    if (store) {
+      return store.offers;
+    }
+    throw new HttpException('No se encontró la tienda', 400);
   }
 }
