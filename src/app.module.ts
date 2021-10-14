@@ -20,6 +20,7 @@ import { ShopOffersModule } from '@modules/shop/offers/offers.module';
 import { ShopOrderModule } from '@modules/shop/order/order.module';
 import { DbSeederModule } from '@modules/seeders/seeders.module';
 import { CategoriesModule } from './modules/shop/categories/categories.module';
+import { LocalityModule } from '@modules/map/localities/localities.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { CategoriesModule } from './modules/shop/categories/categories.module';
     ShopOrderModule,
     // Map Modules
     PositionModule,
+    LocalityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
