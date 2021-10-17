@@ -6,13 +6,14 @@
   "rest-client.defaultHeaders": {
     "Accept-Language": "es",
     "Content-Type": "application/json",
-    "User-Agent": "vscode-restclient"
+    "User-Agent": "vscode-restclient",
+    "X-App-Token": "1|$argon2i$v=19$m=4096,t=3,p=1$zYra4V7AFx9DvmIX5e+hJA$EBRylKO5nbETDnerfoSNL5t2vQNnOoqKzLkazSlOfik"
   },
   "rest-client.environmentVariables": {
     "$shared": {
       "version": "v1",
       "prodToken": "Bearer 10|ruAge3xIz13NdRN3hIN4shP36OoHV9hPYw5BLLHWPYLt0KE7UnV106oReFAujZBbB2MLzQ9ZgbPObhDK",
-      "nonProdToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjMzNDU4MDQyfQ.cbePebLmHgCCwnRLgknHhhe60DoW9LZR91yATyRTVLI"
+      "nonProdToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjM0MzEwMjc3fQ.LyNzDDtjK3SUg8q9RSJhM_zNCqdKfe1Jyjcc3n8YKzI"
     },
     "local": {
       "version": "v2",

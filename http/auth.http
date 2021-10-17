@@ -27,6 +27,6 @@ Host: {{ host }}
 ###
 # Profile
 ###
-GEt /api/users/auth/profile
+GET /api/users/auth/profile
 Host: {{ host }}
 Authorization: {{ token }}

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 // Configuration
 import { ConfigModule } from '@nestjs/config';
@@ -21,6 +21,8 @@ import { ShopOrderModule } from '@modules/shop/order/order.module';
 import { DbSeederModule } from '@modules/seeders/seeders.module';
 import { CategoriesModule } from './modules/shop/categories/categories.module';
 import { LocalityModule } from '@modules/map/localities/localities.module';
+import { ApplicationModule } from './modules/applications/application.module';
+import { ApplicationMiddleware } from '@modules/applications/application.middleware';
 
 @Module({
   imports: [
@@ -36,6 +38,7 @@ import { LocalityModule } from '@modules/map/localities/localities.module';
     // Load Typeorm
     DatabaseModuleConfig,
     DbSeederModule,
+    ApplicationModule,
     // User Modules
     UsersModule,
     AuthModule,
@@ -54,6 +57,8 @@ import { LocalityModule } from '@modules/map/localities/localities.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  // App
+export class AppModule implements NestModule {
+  configure(consummer: MiddlewareConsumer) {
+    consummer.apply(ApplicationMiddleware).forRoutes({ path: '/api/**', method: RequestMethod.ALL });
+  }
 }
