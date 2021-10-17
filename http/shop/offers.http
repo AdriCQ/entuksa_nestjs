@@ -1,0 +1,10 @@
+###
+# Get
+###
+GET /api/shop/offers/filter
+Host: {{ host }}
+Authorization: {{ token }}
+
+{
+  "title": "title"
+}

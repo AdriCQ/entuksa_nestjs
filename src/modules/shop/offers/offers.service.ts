@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from "typeorm";
+import { FindConditions, Repository } from "typeorm";
 import { ShopOffer } from "./offer.model";
 import { OfferFilterRequest } from "./offers.dto";
 
@@ -24,11 +24,14 @@ export class OfferServices {
    * @returns filter 
    */
   async filter(_p: OfferFilterRequest): Promise<ShopOffer[]> {
-    // TODO: Add more filter parameters
-    return await this.repo.find({
-      where: [
-        { title: _p.title },
-      ]
-    })
+    // Where Condition
+    const whereOptions: Array<FindConditions<ShopOffer> | string> = [];
+    if (_p.store)
+      whereOptions.push({ store: _p.store })
+    if (_p.title)
+      whereOptions.push(`user.title like '%${_p.title}%'`);
+    if (_p.rating)
+      whereOptions.push({ rating: _p.rating });
+    return await this.repo.createQueryBuilder('user').where(whereOptions).getMany()
   }
 }

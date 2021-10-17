@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsArray, IsIn, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ShopStore } from '../store/store.model';
 import { IShopOffer } from "./offers";
 /**
  * Offer prices dto
@@ -53,22 +54,28 @@ export class OfferFilterRequest {
   @IsOptional()
   @IsString()
   @ApiProperty()
-  title: string;
+  title?: string;
 
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  minPrice: number;
+  minPrice?: number;
 
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  maxPrice: number;
+  maxPrice?: number;
 
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  rating: number;
+  rating?: number;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ShopStore)
+  @ApiProperty({ type: () => ShopStore })
+  store?: ShopStore;
 }
 /**
  * Offer stock dto
