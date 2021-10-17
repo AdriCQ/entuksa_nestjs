@@ -2,6 +2,7 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.model';
+import { IUser } from './users';
 import { UserAuthSignupDto } from './users.dto';
 /**
  * Users service
@@ -15,6 +16,13 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) { }
+  async assignRole(_user: User, _role: IUser.Role) {
+    const user = await this.userRepo.findOne(_user.id);
+    if (!user)
+      throw new HttpException('No se encontró el usuario', 400);
+    user.assignRole(_role);
+    this.userRepo.save(user);
+  }
   /**
    * Creates users service
    * @param _user

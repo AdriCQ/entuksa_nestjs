@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ShopOffer } from '../offers/offer.model';
 import { StoreCreateDto } from './store.dto';
 import { ShopStore } from './store.model';
+import { ImageServices } from '../../images/images.service';
 /**
  * Shop store service
  */
@@ -16,6 +17,7 @@ export class ShopStoreService {
   constructor(
     @InjectRepository(ShopStore)
     private readonly storeRepo: Repository<ShopStore>,
+    private readonly imageServices: ImageServices
   ) { }
   /**
    * Creates shop store service
@@ -23,6 +25,8 @@ export class ShopStoreService {
    * @returns create
    */
   async create(_params: StoreCreateDto): Promise<ShopStore> {
+    const image = await this.imageServices.first();
+    _params.image = image;
     const store = new ShopStore(_params);
     return await this.storeRepo.save(store);
   }

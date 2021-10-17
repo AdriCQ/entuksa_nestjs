@@ -22,6 +22,13 @@ export class ImageServices {
     return new Image();
   }
   /**
+   * Firsts image services
+   * @returns  
+   */
+  async first() {
+    return await this.repo.findOne(1);
+  }
+  /**
    * Seed image services
    * @returns  
    */

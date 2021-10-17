@@ -3,6 +3,8 @@ import { UsersService } from '@modules/users/users.service';
 import { Injectable } from '@nestjs/common';
 import { CategoriesService } from '../shop/categories/categories.service';
 import { LocalityService } from '../map/localities/locality.service';
+import { ShopStoreService } from '../shop/store/store.service';
+import { PositionsService } from '../map/positions/positions.service';
 /**
  * Db seeder service
  */
@@ -11,8 +13,20 @@ export class DbSeederService {
   /**
    * Creates an instance of db seeder service.
    * @param usersService 
+   * @param imageServices 
+   * @param categoriesService 
+   * @param localityService 
+   * @param positionsService 
+   * @param storeService 
    */
-  constructor(private readonly usersService: UsersService, private readonly imageServices: ImageServices, private readonly categoriesService: CategoriesService, private readonly localityService: LocalityService) { }
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly imageServices: ImageServices,
+    private readonly categoriesService: CategoriesService,
+    private readonly localityService: LocalityService,
+    private readonly positionsService: PositionsService,
+    private readonly storeService: ShopStoreService
+  ) { }
   /**
    * Seed users
    */
@@ -30,9 +44,36 @@ export class DbSeederService {
   }
   /**
    * Fakes seed
+   * @returns  
    */
   async fakeSeed() {
     await this.realSeed();
-    // Seed Shop
+    // Get locality
+    const locality = await this.localityService.find({ id: 1 });
+    const position = await this.positionsService.byId(1);
+    // Check user
+    let user = await this.usersService.find({ email: 'test@email.email' })
+    if (!user) {
+      user = await this.usersService.create({
+        email: 'test@email.email',
+        lastName: 'LastName',
+        mobilePhone: '55555555',
+        name: 'FirstName',
+        password: 'password'
+      });
+    }
+    // Asign Vendor role
+    user.assignRole('VENDOR');
+    // Create user shop store
+    const store = await this.storeService.create({
+      description: 'Store Description',
+      locality,
+      position,
+      title: 'Store Title',
+      vendor: user
+    });
+    return {
+      locality, position, user, store
+    }
   }
 }

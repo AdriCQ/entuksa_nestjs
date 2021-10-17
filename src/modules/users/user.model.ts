@@ -29,6 +29,7 @@ export class User extends BaseModel {
       this.lastName = _user.lastName;
       this.password = _user.password;
       this.roles = ['CLIENT'];
+      this.mobilePhone = _user.mobilePhone;
     }
   }
   /**
@@ -59,7 +60,7 @@ export class User extends BaseModel {
   @IsOptional()
   @IsNumberString()
   @ApiProperty({ example: '55555555' })
-  mobilePhone: string;
+  mobilePhone?: string;
   /**
    * Password  of user
    */

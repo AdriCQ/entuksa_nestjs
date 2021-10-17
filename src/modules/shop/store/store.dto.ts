@@ -1,9 +1,10 @@
-import { IsString, ValidateNested, IsBoolean } from 'class-validator';
+import { IsString, ValidateNested, IsBoolean, IsOptional } from 'class-validator';
 import { User } from '@modules/users/user.model';
 import { Type } from 'class-transformer';
 import { MapPosition } from '@modules/map/positions/position.model';
 import { ApiProperty } from '@nestjs/swagger';
 import { Locality } from '@modules/map/localities/locality.model';
+import { Image } from '@modules/images/images.model';
 /**
  * Store create dto
  */
@@ -36,6 +37,14 @@ export class StoreCreateDto {
   @Type(() => Locality)
   @ApiProperty({ type: () => Locality })
   locality: Locality;
+  /**
+   * Image  of store create dto
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => Image)
+  @ApiProperty({ type: () => Image, nullable: true })
+  image?: Image;
 }
 /**
  * Store timing dto

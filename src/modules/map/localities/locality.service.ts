@@ -34,4 +34,12 @@ export class LocalityService {
     // Save on DB
     return await this.repo.save(localities);
   }
+  /**
+   * Finds locality service
+   * @param id 
+   * @returns  
+   */
+  async find(_p: { id: number }) {
+    return await this.repo.findOne(_p.id);
+  }
 }

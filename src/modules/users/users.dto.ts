@@ -19,7 +19,7 @@ export class UserAuthSignupDto {
   @IsOptional()
   @IsNumberString()
   @ApiProperty({ example: '55555555' })
-  mobilePhone: string;
+  mobilePhone?: string;
 
   @IsString()
   @ApiProperty()

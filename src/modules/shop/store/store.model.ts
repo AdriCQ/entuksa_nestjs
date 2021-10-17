@@ -8,7 +8,7 @@ import { ShopOffer } from '../offers/offer.model';
 import { Image } from '@modules/images/images.model';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { Locality } from '../../map/localities/locality.model';
+import { Locality } from '@modules/map/localities/locality.model';
 
 /**
  * Shop store
@@ -26,7 +26,7 @@ export class ShopStore extends BaseModel {
       this.description = store.description;
       this.position = store.position;
       this.rating = 0;
-      this.image.id = 1;
+      this.image = store.image;
     }
   }
   /**
