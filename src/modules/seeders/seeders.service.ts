@@ -5,6 +5,7 @@ import { CategoriesService } from '../shop/categories/categories.service';
 import { LocalityService } from '../map/localities/locality.service';
 import { ShopStoreService } from '../shop/store/store.service';
 import { PositionsService } from '../map/positions/positions.service';
+import { ApplicationService } from '@modules/applications/application.service';
 /**
  * Db seeder service
  */
@@ -18,6 +19,7 @@ export class DbSeederService {
    * @param localityService 
    * @param positionsService 
    * @param storeService 
+   * @param appService
    */
   constructor(
     private readonly usersService: UsersService,
@@ -25,7 +27,8 @@ export class DbSeederService {
     private readonly categoriesService: CategoriesService,
     private readonly localityService: LocalityService,
     private readonly positionsService: PositionsService,
-    private readonly storeService: ShopStoreService
+    private readonly storeService: ShopStoreService,
+    private readonly appService: ApplicationService
   ) { }
   /**
    * Seed users
@@ -39,8 +42,9 @@ export class DbSeederService {
       name: 'Adrian',
       password: 'password'
     });
+    await this.appService.seed();
     await this.categoriesService.seed();
-    await this.localityService.seed()
+    await this.localityService.seed();
   }
   /**
    * Fakes seed

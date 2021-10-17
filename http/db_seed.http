@@ -1,9 +1,0 @@
-
-GET /db/seed
-Host: {{ host }}
-
-###
-# Fake Seed
-###
-GET /db/seed/fake
-Host: {{ host }}

@@ -13,9 +13,11 @@ import { DbSeederService } from './seeders.service';
 import { ShopStoreService } from '../shop/store/store.service';
 import { PositionModule } from '@modules/map/positions/position.module';
 import { PositionsService } from '@modules/map/positions/positions.service';
+import { ApplicationModule } from '@modules/applications/application.module';
+import { ApplicationService } from '@modules/applications/application.service';
 @Module({
-  imports: [UsersModule, ImagesModule, CategoriesModule, LocalityModule, PositionModule, ShopStoreModule],
+  imports: [UsersModule, ImagesModule, CategoriesModule, LocalityModule, PositionModule, ShopStoreModule, ApplicationModule],
   controllers: [DbSeederController],
-  providers: [DbSeederService, UsersService, ImageServices, CategoriesService, LocalityService, PositionsService, ShopStoreService]
+  providers: [DbSeederService, UsersService, ImageServices, CategoriesService, LocalityService, PositionsService, ShopStoreService, ApplicationService]
 })
 export class DbSeederModule { }
