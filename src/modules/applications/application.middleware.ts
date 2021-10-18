@@ -37,7 +37,7 @@ export class ApplicationMiddleware implements NestMiddleware {
           next(new HttpException('Aplicación no autorizada', 401));
         }
         // Inject app
-        req.body['application'] = app;
+        req['application'] = app;
         next();
       } else
         next(new HttpException('No se encontró el identificador de aplicación', 400));

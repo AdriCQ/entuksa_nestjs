@@ -1,10 +1,14 @@
-import { } from "@nestjs/swagger";
-import { Controller, Get, Param } from '@nestjs/common'
+import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { ApplicationService } from "./application.service";
+import { SetupClientResponse, SetupClientResquest } from './application.dto';
+import { JwtAuthGuard } from '../users/auth/auth.guard';
+import { PermissionsGuard } from '../users/casl/casl.guard';
 /**
  * Application controller
  */
 @Controller('/application')
+@ApiTags('Application')
 export class ApplicationController {
   /**
    * Creates an instance of application controller.
@@ -19,5 +23,18 @@ export class ApplicationController {
   @Get('/token/:id')
   async getToken(@Param('id') appId: number): Promise<string> {
     return await this.service.getToken(appId);
+  }
+  /**
+   * Setups client
+   * @param body 
+   * @returns client 
+   */
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Get('/setup/:token')
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: () => SetupClientResponse })
+  async setupClient(@Body() body: SetupClientResquest, @Req() req): Promise<SetupClientResponse> {
+    body.user = req.user;
+    return await this.service.setupClient(body);
   }
 }

@@ -16,8 +16,24 @@ import { PositionsService } from '@modules/map/positions/positions.service';
 import { ApplicationModule } from '@modules/applications/application.module';
 import { ApplicationService } from '@modules/applications/application.service';
 @Module({
-  imports: [UsersModule, ImagesModule, CategoriesModule, LocalityModule, PositionModule, ShopStoreModule, ApplicationModule],
+  imports: [
+    UsersModule,
+    ImagesModule,
+    CategoriesModule,
+    LocalityModule,
+    PositionModule,
+    ShopStoreModule,
+    ApplicationModule],
   controllers: [DbSeederController],
-  providers: [DbSeederService, UsersService, ImageServices, CategoriesService, LocalityService, PositionsService, ShopStoreService, ApplicationService]
+  providers: [
+    DbSeederService,
+    UsersService,
+    ImageServices,
+    CategoriesService,
+    LocalityService,
+    PositionsService,
+    ShopStoreService,
+    ApplicationService
+  ]
 })
 export class DbSeederModule { }

@@ -2,7 +2,8 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from './application.model';
 import { Repository } from 'typeorm';
-import { CreateApplicationDto } from './application.dto';
+import { CreateApplicationDto, SetupClientResponse, SetupClientResquest } from './application.dto';
+import { LocalityService } from '@modules/map/localities/locality.service';
 /**
  * Application service
  */
@@ -11,8 +12,16 @@ export class ApplicationService {
   /**
    * Creates an instance of application service.
    * @param repo 
+   * @param usersService 
+   * @param storeService 
+   * @param categoriesService 
+   * @param offersService 
+   * @param localityService
    */
-  constructor(@InjectRepository(Application) private readonly repo: Repository<Application>) { }
+  constructor(
+    @InjectRepository(Application) private readonly repo: Repository<Application>,
+    private readonly localityService: LocalityService,
+  ) { }
   /**
    * Gets token
    * @param _appId 
@@ -42,5 +51,19 @@ export class ApplicationService {
       }
     });
     return await this.repo.save(applications);
+  }
+  /**
+   * Setups client
+   * @returns client 
+   */
+  async setupClient(_p: SetupClientResquest): Promise<SetupClientResponse> {
+    // get Current Locality
+    const locality = await this.localityService.getByCoordinates(_p.coordinates);
+    const stores = locality.shopStores;
+    return {
+      user: _p.user,
+      locality,
+      stores
+    }
   }
 }

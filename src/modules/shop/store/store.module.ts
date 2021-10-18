@@ -14,6 +14,6 @@ import { ImageServices } from '@modules/images/images.service';
   imports: [TypeOrmModule.forFeature([ShopStore]), PositionModule, CaslModule, ImagesModule],
   controllers: [ShopStoreController],
   providers: [ShopStoreService, PositionsService, PermissionFactory, ImageServices],
-  exports: [TypeOrmModule, ShopStoreService],
+  exports: [TypeOrmModule, ShopStoreService, ImageServices, PositionsService, PermissionFactory],
 })
 export class ShopStoreModule { }

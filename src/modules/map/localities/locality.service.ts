@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { MapCoordinate } from '../positions/position.dto';
 import { PositionsService } from '../positions/positions.service';
 import { CreateMapLocalityDto } from './locality.dto';
 import { Locality } from './locality.model';
@@ -14,6 +15,16 @@ export class LocalityService {
    * @param repo 
    */
   constructor(@InjectRepository(Locality) private readonly repo: Repository<Locality>, private readonly mapPositionService: PositionsService) { }
+  /**
+   * Gets by coordinates
+   * @param _p 
+   * @returns by coordinates 
+   */
+  async getByCoordinates(_p: MapCoordinate): Promise<Locality> {
+    // TODO: Locality service
+    console.log({ coordinates: _p });
+    return await this.repo.findOne()
+  }
   /**
    * Seed locality service
    */
