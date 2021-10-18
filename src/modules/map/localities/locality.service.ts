@@ -18,6 +18,8 @@ export class LocalityService {
    * Seed locality service
    */
   async seed() {
+    if (await this.repo.findOne())
+      return;
     const localities: CreateMapLocalityDto[] = [];
     const position = await this.mapPositionService.create({
       address: 'Palmira',

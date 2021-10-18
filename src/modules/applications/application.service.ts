@@ -30,6 +30,9 @@ export class ApplicationService {
    * @returns  
    */
   async seed() {
+    // Check applications
+    if (await this.repo.findOne(1))
+      return;
     const applications: CreateApplicationDto[] = [];
     applications.push({
       title: 'Palrey-Client',

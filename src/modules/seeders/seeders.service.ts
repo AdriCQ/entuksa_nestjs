@@ -35,6 +35,8 @@ export class DbSeederService {
    */
   async realSeed() {
     await this.imageServices.seed();
+    if (await this.usersService.exists({ email: 'acq95@nauta.cu' }))
+      return;
     await this.usersService.create({
       email: 'acq95@nauta.cu',
       lastName: 'Capote',
