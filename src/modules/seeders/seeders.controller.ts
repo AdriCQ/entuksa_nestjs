@@ -5,7 +5,7 @@ import { ApiTags, ApiResponse } from "@nestjs/swagger";
  * Db seeder controller
  */
 @Controller('db/seed')
-@ApiTags('Database', 'Seed')
+@ApiTags('Database Seed')
 export class DbSeederController {
   /**
    * Creates an instance of db seeder controller.

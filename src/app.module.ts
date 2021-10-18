@@ -23,6 +23,7 @@ import { CategoriesModule } from './modules/shop/categories/categories.module';
 import { LocalityModule } from '@modules/map/localities/localities.module';
 import { ApplicationModule } from './modules/applications/application.module';
 import { ApplicationMiddleware } from '@modules/applications/application.middleware';
+import { LogModule } from '@modules/appLogs/logs.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ApplicationMiddleware } from '@modules/applications/application.middlew
     }),
     // Load Typeorm
     DatabaseModuleConfig,
+    LogModule,
     DbSeederModule,
     ApplicationModule,
     // User Modules

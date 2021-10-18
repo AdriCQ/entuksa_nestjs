@@ -7,7 +7,7 @@ import { ShopOffer } from './offer.model';
  * Shop offers controller
  */
 @Controller('api/shop/offers')
-@ApiTags('Shop', 'Offers')
+@ApiTags('Shop Offers')
 export class ShopOffersController {
   /**
    * Creates an instance of shop offers controller.
