@@ -2,7 +2,7 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from './application.model';
 import { Repository } from 'typeorm';
-import { CreateApplicationDto, SetupClientResponse, SetupClientResquest } from './application.dto';
+import { CreateApplicationDto, SetupClientResponseDto, SetupClientResquestDto } from './application.dto';
 import { LocalityService } from '@modules/map/localities/locality.service';
 /**
  * Application service
@@ -56,7 +56,7 @@ export class ApplicationService {
    * Setups client
    * @returns client 
    */
-  async setupClient(_p: SetupClientResquest): Promise<SetupClientResponse> {
+  async setupClient(_p: SetupClientResquestDto): Promise<SetupClientResponseDto> {
     // get Current Locality
     const locality = await this.localityService.getByCoordinates(_p.coordinates);
     const stores = locality.shopStores;

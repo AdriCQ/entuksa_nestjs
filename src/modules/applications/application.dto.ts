@@ -1,10 +1,12 @@
 import { Locality } from '@modules/map/localities/locality.model';
 import { MapCoordinate } from '@modules/map/positions/position.dto';
+import { ShopOffer } from '@modules/shop/offers/offer.model';
 import { ShopStore } from '@modules/shop/store/store.model';
 import { User } from '@modules/users/user.model';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Application } from './application.model';
 /**
  * Application settings dto
  */
@@ -37,7 +39,7 @@ export class CreateApplicationDto {
 /**
  * Setup client resquest
  */
-export class SetupClientResquest {
+export class SetupClientResquestDto {
   /**
    * User  of setup client response
    */
@@ -53,11 +55,18 @@ export class SetupClientResquest {
   @Type(() => MapCoordinate)
   @ApiProperty({ type: () => MapCoordinate })
   coordinates: MapCoordinate;
+  /**
+   * App  of setup client resquest dto
+   */
+  @ValidateNested()
+  @Type(() => Application)
+  @ApiProperty({ type: () => Application })
+  app: Application;
 }
 /**
  * Setup client response
  */
-export class SetupClientResponse {
+export class SetupClientResponseDto {
   /**
    * User  of setup client response
    */
@@ -70,7 +79,7 @@ export class SetupClientResponse {
    * Stores  of setup client response
    */
   @IsArray()
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => ShopStore)
   @ApiProperty({ type: () => ShopStore, isArray: true })
   stores: ShopStore[];
@@ -81,4 +90,31 @@ export class SetupClientResponse {
   @Type(() => Locality)
   @ApiProperty({ type: () => Locality })
   locality: Locality;
+}
+/**
+ * Client app blocks dto
+ */
+export class ClientAppBlocksDto {
+  /**
+   * Title  of client app blocks dto
+   */
+  @IsString()
+  @ApiProperty()
+  title: string;
+  /**
+   * Config  of client app blocks dto
+   */
+  @ValidateNested()
+  @Type(() => ClientAppBlockConfigDto)
+  @ApiProperty({ type: () => ClientAppBlockConfigDto })
+  config: ClientAppBlockConfigDto;
+}
+/**
+ * Client app block config dto
+ */
+export class ClientAppBlockConfigDto {
+  /**
+   * Data  of client app block config dto
+   */
+  data: ShopOffer | ShopOffer[] | ShopStore | ShopStore[];
 }

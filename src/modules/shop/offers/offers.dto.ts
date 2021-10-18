@@ -42,7 +42,7 @@ export class OfferConfigurableWithPrice implements IShopOffer.ConfigurableWithPr
   @ApiProperty()
   name: string;
 
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => OfferAttributeDto)
   @ApiProperty({ type: () => OfferAttributeDto })
   values: OfferAttributeDto[];

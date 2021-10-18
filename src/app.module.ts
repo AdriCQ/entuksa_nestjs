@@ -61,6 +61,9 @@ import { LogModule } from '@modules/appLogs/logs.module';
 })
 export class AppModule implements NestModule {
   configure(consummer: MiddlewareConsumer) {
-    consummer.apply(ApplicationMiddleware).forRoutes({ path: '/api/**', method: RequestMethod.ALL });
+    consummer.apply(ApplicationMiddleware).forRoutes(
+      { path: '/application/setup/**', method: RequestMethod.GET },
+      { path: '/api/**', method: RequestMethod.ALL }
+    );
   }
 }

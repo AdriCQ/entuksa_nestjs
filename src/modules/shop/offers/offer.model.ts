@@ -54,7 +54,7 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
    * Attributes  of shop offer
    */
   @Column({ type: 'json' })
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => OfferAttributeDto)
   @ApiProperty({ isArray: true, type: () => OfferAttributeDto })
   attributes: OfferAttributeDto[];
@@ -62,7 +62,7 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
    * Configurable  of shop offer
    */
   @Column({ type: 'json' })
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => OfferConfigurable)
   @ApiProperty({ isArray: true, type: () => OfferConfigurable })
   configurable: OfferConfigurable[];
@@ -70,7 +70,7 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
    * Configurable with price of shop offer
    */
   @Column({ type: 'json' })
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => OfferConfigurableWithPrice)
   @ApiProperty({ isArray: true, type: () => OfferConfigurableWithPrice })
   configurableWithPrice: OfferConfigurableWithPrice[];
