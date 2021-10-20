@@ -2,7 +2,7 @@ import { NestMiddleware, Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { NextFunction, Request, Response } from 'express';
 import { Seeder } from './seeder.model';
-import { transaction01, transaction02 } from './transactions'
+import { transaction01, transaction02, transaction03 } from './transactions'
 /**
  * Seeder middleware
  */
@@ -37,6 +37,12 @@ export class SeederMiddleware implements NestMiddleware {
         await this.entityManager.transaction(async transaction => {
           // Initial Seeding
           await transaction02(transaction, 'shop-seeding', 'Seed Shop Categories, Map Positions and Map Localities');
+        });
+      }
+      if (!await this.entityManager.findOne(Seeder, { id: 'palrey-seeding' })) {
+        await this.entityManager.transaction(async transaction => {
+          // Initial Seeding
+          await transaction03(transaction, 'palrey-seeding', 'Seed Palrey Shop Store and Offers');
         });
       }
       return true;

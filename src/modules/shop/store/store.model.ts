@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { BaseModel } from '@modules/BaseModel';
-import { IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { StoreCreateDto, StoreTimingDto } from './store.dto';
 import { User } from '@modules/users/user.model';
 import { MapPosition } from '@modules/map/positions/position.model';
@@ -44,6 +44,13 @@ export class ShopStore extends BaseModel {
   @ApiProperty()
   description: string;
   /**
+   * Open  of shop store
+   */
+  @Column({ default: false })
+  @IsBoolean()
+  @ApiProperty()
+  open: boolean;
+  /**
    * Rating  of shop store
    */
   @Column({ type: 'smallint', default: 0 })
@@ -59,6 +66,14 @@ export class ShopStore extends BaseModel {
   @Type(() => StoreTimingDto)
   @ApiProperty({ type: () => StoreTimingDto, nullable: true })
   timing: StoreTimingDto;
+  /**
+   * Validated at of shop store
+   */
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsDate()
+  @ApiProperty({ type: Date, nullable: true })
+  validatedAt: Date | null;
   /**
    * -----------------------------------------
    *	Relationships
