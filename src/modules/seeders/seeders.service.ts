@@ -6,6 +6,7 @@ import { LocalityService } from '../map/localities/locality.service';
 import { ShopStoreService } from '../shop/store/store.service';
 import { PositionsService } from '../map/positions/positions.service';
 import { ApplicationService } from '@modules/applications/application.service';
+import { OfferServices } from '@modules/shop/offers/offers.service';
 /**
  * Db seeder service
  */
@@ -19,7 +20,8 @@ export class DbSeederService {
    * @param localityService 
    * @param positionsService 
    * @param storeService 
-   * @param appService
+   * @param offerService 
+   * @param appService 
    */
   constructor(
     private readonly usersService: UsersService,
@@ -28,6 +30,7 @@ export class DbSeederService {
     private readonly localityService: LocalityService,
     private readonly positionsService: PositionsService,
     private readonly storeService: ShopStoreService,
+    private readonly offerService: OfferServices,
     private readonly appService: ApplicationService
   ) { }
   /**
@@ -53,7 +56,8 @@ export class DbSeederService {
    * @returns  
    */
   async fakeSeed() {
-    await this.realSeed();
+    if (!await this.usersService.find({ id: 1 }))
+      await this.realSeed();
     // Get locality
     const locality = await this.localityService.find({ id: 1 });
     const position = await this.positionsService.byId(1);
@@ -78,6 +82,7 @@ export class DbSeederService {
       title: 'Store Title',
       vendor: user
     });
+
     return {
       locality, position, user, store
     }
