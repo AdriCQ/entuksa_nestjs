@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Application } from './application.model';
 import { ApplicationMiddleware } from './application.middleware';
@@ -26,4 +26,11 @@ import { LocalityModule } from "@modules/map/localities/localities.module";
   ],
   exports: [TypeOrmModule, ApplicationMiddleware, ApplicationService]
 })
-export class ApplicationModule { }
+export class ApplicationModule implements NestModule {
+  configure(consummer: MiddlewareConsumer) {
+    consummer.apply(ApplicationMiddleware).forRoutes(
+      { path: '/application/setup/**', method: RequestMethod.GET },
+      { path: '/api/**', method: RequestMethod.ALL }
+    );
+  }
+}

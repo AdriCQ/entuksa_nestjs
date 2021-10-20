@@ -1,21 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
+import { ShopOffer } from '@modules/shop/offers/offer.model';
 /**
  * Category
  */
 @Entity('shop_categories')
 export class Category {
-  @PrimaryGeneratedColumn()
-  @ApiProperty()
-  id: number;
   /**
    * Tag  of category
    */
-  @Column({ type: 'varchar', unique: true })
+  @PrimaryColumn()
   @IsString()
   @ApiProperty()
-  tag: string;
+  id: string;
   /**
    * Title  of category
    */
@@ -44,7 +42,13 @@ export class Category {
   /**
    * Parent  of category
    */
-  @ManyToOne(() => Category, cat => cat.children)
+  @ManyToOne(() => Category, cat => cat.children, { onDelete: 'CASCADE' })
   @ApiProperty({ type: () => Category })
   parent: Category;
+  /**
+   * Offers  of category
+   */
+  @OneToMany(() => ShopOffer, offer => offer.category)
+  @ApiPropertyOptional({ type: ShopOffer, isArray: true })
+  offers: ShopOffer[]
 }

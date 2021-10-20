@@ -9,6 +9,6 @@ export class DbSeederModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(SeederMiddleware)
-      .forRoutes('*')
+      .forRoutes('/**')
   }
 }
