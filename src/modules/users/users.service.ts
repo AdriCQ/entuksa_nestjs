@@ -29,7 +29,10 @@ export class UsersService {
    * @returns create
    */
   async create(_user: UserAuthSignupDto): Promise<User> {
-    if (!await this.exists(_user))
+    if (!await this.exists({
+      email: _user.email,
+      mobilePhone: _user.mobilePhone
+    }))
       return await this.userRepo.save(new User(_user));
     else throw new HttpException('Ya existe el usuario', 409);
   }
@@ -38,8 +41,8 @@ export class UsersService {
    * @param _p
    * @returns exists
    */
-  async exists(_p: { email: string }): Promise<boolean> {
-    const user = await this.userRepo.findOne({ where: { email: _p.email } });
+  async exists(_p: { email: string, mobilePhone: string }): Promise<boolean> {
+    const user = await this.userRepo.createQueryBuilder('user').where('user.email = :email', { email: _p.email }).orWhere('user.mobile_phone = :mobilePhone', { mobilePhone: _p.mobilePhone }).getOne();
     if (user && user.id) return true;
     return false;
   }

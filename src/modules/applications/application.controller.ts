@@ -36,6 +36,6 @@ export class ApplicationController {
   async setupClient(@Body() body: SetupClientResquestDto, @Req() req): Promise<SetupClientResponseDto> {
     body.user = req.user;
     body.app = req.application;
-    return await this.service.setupClient(body);
+    return await this.service.setup(body);
   }
 }

@@ -4,3 +4,10 @@
 GET /application/token/1
 Host: {{ host }}
 
+###
+# Setup
+###
+GET /application/setup
+Host: {{ host }}
+Authorization: {{ token }}
+

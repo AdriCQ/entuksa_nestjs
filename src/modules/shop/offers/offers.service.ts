@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindConditions, Repository } from "typeorm";
+import { FindConditions, Repository, IsNull, Not } from "typeorm";
 import { ShopOffer } from "./offer.model";
 import { OfferFilterRequest } from "./offers.dto";
 
@@ -10,6 +10,18 @@ export class OfferServices {
    * Creates an instance of offer services.
    */
   constructor(@InjectRepository(ShopOffer) private readonly repo: Repository<ShopOffer>) { }
+  /**
+   * Finds available
+   * @returns available 
+   */
+  async available(): Promise<ShopOffer[]> {
+    return await this.repo.find({
+      where: {
+        onsale: true,
+        validatedAt: Not(IsNull())
+      }
+    })
+  }
   /**
    * Finds offer services
    * @param id 

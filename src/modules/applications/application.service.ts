@@ -2,8 +2,9 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from './application.model';
 import { Repository } from 'typeorm';
-import { CreateApplicationDto, SetupClientResponseDto, SetupClientResquestDto } from './application.dto';
+import { SetupClientResponseDto, SetupClientResquestDto, ClientAppBlocksDto } from './application.dto';
 import { LocalityService } from '@modules/map/localities/locality.service';
+import { ShopStoreService } from '../shop/store/store.service';
 /**
  * Application service
  */
@@ -12,15 +13,13 @@ export class ApplicationService {
   /**
    * Creates an instance of application service.
    * @param repo 
-   * @param usersService 
-   * @param storeService 
-   * @param categoriesService 
-   * @param offersService 
-   * @param localityService
+   * @param localityService 
+   * @param shopStoreService 
    */
   constructor(
     @InjectRepository(Application) private readonly repo: Repository<Application>,
     private readonly localityService: LocalityService,
+    private readonly shopStoreService: ShopStoreService
   ) { }
   /**
    * Gets token
@@ -35,32 +34,16 @@ export class ApplicationService {
     return `${app.id}|${token}`
   }
   /**
-   * Seed application service
-   * @returns  
-   */
-  async seed() {
-    // Check applications
-    if (await this.repo.findOne(1))
-      return;
-    const applications: CreateApplicationDto[] = [];
-    applications.push({
-      title: 'Palrey-Client',
-      description: 'Palrey Client',
-      settings: {
-        open: true
-      }
-    });
-    return await this.repo.save(applications);
-  }
-  /**
    * Setups client
    * @returns client 
    */
-  async setupClient(_p: SetupClientResquestDto): Promise<SetupClientResponseDto> {
-    // get Current Locality
+  async setup(_p: SetupClientResquestDto): Promise<SetupClientResponseDto> {
+    // TODO: get Current Locality
     const locality = await this.localityService.getByCoordinates(_p.coordinates);
-    const stores = locality.shopStores;
+    const stores = await this.shopStoreService.getByLocality({ locality, filter: { verified: true, open: true }, withOffers: true });
+    const blocks: ClientAppBlocksDto[] = [];
     return {
+      blocks,
       user: _p.user,
       locality,
       stores

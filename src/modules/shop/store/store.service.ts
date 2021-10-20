@@ -5,6 +5,7 @@ import { ShopOffer } from '../offers/offer.model';
 import { StoreCreateDto } from './store.dto';
 import { ShopStore } from './store.model';
 import { ImageServices } from '../../images/images.service';
+import { Locality } from '@modules/map/localities/locality.model';
 /**
  * Shop store service
  */
@@ -37,6 +38,23 @@ export class ShopStoreService {
    */
   async findById(_id: number): Promise<ShopStore> {
     return await this.storeRepo.findOne(_id);
+  }
+  /**
+   * Gets by locality
+   * @param _p 
+   * @returns by locality 
+   */
+  async getByLocality(_p: { locality: Locality, filter?: { open?: boolean, verified?: boolean }, withOffers?: boolean }): Promise<ShopStore[]> {
+    let qry = this.storeRepo.createQueryBuilder('store')
+      .where('store.locality_id = :localityId', { localityId: _p.locality.id });
+    if (_p.withOffers)
+      qry = qry.leftJoinAndSelect('store.offers', 'offers');
+    if (_p.filter.verified)
+      qry = qry.andWhere('store.validated_at is NOT NULL');
+    if (_p.filter.open)
+      qry = qry.andWhere('store.open = :storeOpen', { storeOpen: _p.filter.open });
+
+    return await qry.getMany();
   }
   /**
    * Offers shop store service

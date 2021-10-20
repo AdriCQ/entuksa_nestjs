@@ -22,7 +22,7 @@ export class ApplicationMiddleware implements NestMiddleware {
   async use(req: Request, res: any, next: NextFunction) {
     try {
       const header = JSON.parse(JSON.stringify(req.headers));
-      console.log(header['x-app-token']);
+      // console.log(header['x-app-token']);
       if (header['x-app-token']) {
         const appTokenHeader: string = header['x-app-token'];
         const appId = Number(appTokenHeader.split('|')[0]);

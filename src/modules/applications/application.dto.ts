@@ -16,6 +16,33 @@ export class ApplicationSettingsDto {
   open: boolean;
 }
 /**
+ * Client app block config dto
+ */
+export class ClientAppBlockConfigDto {
+  /**
+   * Data  of client app block config dto
+   */
+  data: ShopOffer | ShopOffer[] | ShopStore | ShopStore[];
+}
+/**
+ * Client app blocks dto
+ */
+export class ClientAppBlocksDto {
+  /**
+   * Title  of client app blocks dto
+   */
+  @IsString()
+  @ApiProperty()
+  title: string;
+  /**
+   * Config  of client app blocks dto
+   */
+  @ValidateNested()
+  @Type(() => ClientAppBlockConfigDto)
+  @ApiProperty({ type: () => ClientAppBlockConfigDto })
+  config: ClientAppBlockConfigDto;
+}
+/**
  * Create application dto
  */
 export class CreateApplicationDto {
@@ -84,37 +111,18 @@ export class SetupClientResponseDto {
   @ApiProperty({ type: () => ShopStore, isArray: true })
   stores: ShopStore[];
   /**
+   * Blocks  of setup client response dto
+   */
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ClientAppBlocksDto)
+  @ApiProperty({ type: () => ClientAppBlocksDto, isArray: true })
+  blocks: ClientAppBlocksDto[];
+  /**
    * Locality  of setup client response
    */
   @ValidateNested()
   @Type(() => Locality)
   @ApiProperty({ type: () => Locality })
   locality: Locality;
-}
-/**
- * Client app blocks dto
- */
-export class ClientAppBlocksDto {
-  /**
-   * Title  of client app blocks dto
-   */
-  @IsString()
-  @ApiProperty()
-  title: string;
-  /**
-   * Config  of client app blocks dto
-   */
-  @ValidateNested()
-  @Type(() => ClientAppBlockConfigDto)
-  @ApiProperty({ type: () => ClientAppBlockConfigDto })
-  config: ClientAppBlockConfigDto;
-}
-/**
- * Client app block config dto
- */
-export class ClientAppBlockConfigDto {
-  /**
-   * Data  of client app block config dto
-   */
-  data: ShopOffer | ShopOffer[] | ShopStore | ShopStore[];
 }

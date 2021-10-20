@@ -60,9 +60,9 @@ export class AuthController {
   @Post('signup')
   @ApiResponse({ status: 200, description: 'Register User', type: UsersAuthResponseDto })
   async signup(@Body() _body: UserAuthSignupDto): Promise<UsersAuthResponseDto> {
-    const exists = await this.usersService.exists({ email: _body.email });
+    const exists = await this.usersService.exists({ email: _body.email, mobilePhone: _body.mobilePhone });
     if (exists)
-      throw new ConflictException(`El email ${_body.email} ya está registrado`);
+      throw new ConflictException(`El email ${_body.email} o el teléfono ${_body.mobilePhone} ya están registrado`);
     const user = await this.usersService.create(_body);
     const token = await this.authService.generateAccessToken(user);
     return { user, token };
