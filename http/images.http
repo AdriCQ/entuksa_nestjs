@@ -1,6 +1,5 @@
-
 ###
-# Profile
+# UPLOAD
 ###
 POST /api/images/upload
 Host: {{ host }}
@@ -13,3 +12,11 @@ Content-Type: image/png
 
 < ./1.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+# GET by id
+###
+GET /api/images/sm/2
+Host: {{ host }}
+
+

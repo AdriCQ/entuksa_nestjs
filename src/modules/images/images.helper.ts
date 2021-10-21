@@ -6,7 +6,6 @@ export class ImagesHelper {
   static createDir() {
     if (!fs.existsSync(this._dir)) {
       fs.mkdirSync(this._dir, { recursive: true });
-      console.log('Created Image Directory', __dirname + this._dir)
     }
   }
   /**
@@ -18,7 +17,7 @@ export class ImagesHelper {
   static editFileName(req, file, callback) {
     const name = file.originalname.split('.')[0];
     const fileExtName = extname(file.originalname);
-    const randomName = Array(4)
+    const randomName = Array(8)
       .fill(null)
       .map(() => Math.round(Math.random() * 16).toString(16))
       .join('');

@@ -19,7 +19,16 @@ export class ImageServices {
    * @returns create 
    */
   async create(_params: CreateImageDto): Promise<Image> {
-    return new Image();
+    const img = new Image();
+    img.paths = {
+      lg: _params.image.path,
+      md: _params.image.path,
+      sm: _params.image.path,
+    }
+    img.title = _params.title;
+    img.tags = [_params.type];
+    img.owner = _params.owner;
+    return await this.repo.save(img);
   }
   /**
    * Firsts image services
@@ -29,20 +38,11 @@ export class ImageServices {
     return await this.repo.findOne(1);
   }
   /**
-   * Seed image services
-   * @returns  
+   * Gets by id
+   * @param _imgID 
+   * @returns by id 
    */
-  async seed() {
-    if (await this.repo.findOne())
-      return;
-    const img = new Image();
-    img.paths = {
-      lg: '',
-      md: '',
-      sm: ''
-    };
-    img.tags = [];
-    img.title = 'Default Image';
-    return await this.repo.save(img)
+  async getById(_imgID: number): Promise<Image> {
+    return await this.repo.findOne(_imgID);
   }
 }

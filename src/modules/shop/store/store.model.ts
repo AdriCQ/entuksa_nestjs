@@ -30,6 +30,11 @@ export class ShopStore extends BaseModel {
     }
   }
   /**
+   * Image id of shop store
+   */
+  @Column()
+  imageId: number;
+  /**
    * Title  of shop store
    */
   @Column()
@@ -82,7 +87,7 @@ export class ShopStore extends BaseModel {
   /**
    * Image  of shop store
    */
-  @OneToOne(() => Image, { eager: true })
+  @OneToOne(() => Image)
   @JoinColumn()
   @ApiProperty({ type: () => Image })
   image: Image;

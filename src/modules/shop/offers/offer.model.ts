@@ -114,10 +114,14 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
   /**
   * Image  of shop offer
   */
-  @OneToOne(() => Image, { eager: true })
+  @Column()
+  imageId: number;
+
+  @OneToOne(() => Image)
   @JoinColumn()
   @ApiProperty({ type: () => Image })
   image: Image;
+
   /**
    * Store  of shop offer
    */
