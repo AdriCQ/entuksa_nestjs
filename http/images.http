@@ -16,7 +16,7 @@ Content-Type: image/png
 ###
 # GET by id
 ###
-GET /api/images/sm/2
+GET /api/images/sm/1
 Host: {{ host }}
 
 

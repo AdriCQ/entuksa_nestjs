@@ -13,7 +13,7 @@ export async function transaction01(transaction: EntityManager, seederId: string
   await transaction.save(Image, [{
     tags: ['default'],
     title: 'Default-Image',
-    paths: { lg: '', md: '', sm: '' },
+    paths: { lg: 'storage/app/images/default.jpg', md: 'storage/app/images/default.jpg', sm: 'storage/app/images/default.jpg' },
   }]);
   // Seed Users
   await transaction.save(User, [
