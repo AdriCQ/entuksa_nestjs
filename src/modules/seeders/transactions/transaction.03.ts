@@ -28,7 +28,7 @@ export async function transaction03(transaction: EntityManager, seederId: string
     position: { id: 1 },
     title: 'Palrey',
     rating: 0,
-    vendor: vendor[0],
+    vendorId: (await vendor).id,
     validatedAt: new Date()
   }])
 

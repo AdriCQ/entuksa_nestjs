@@ -1,10 +1,7 @@
-import { IsString, ValidateNested, IsBoolean, IsOptional } from 'class-validator';
-import { User } from '@modules/users/user.model';
+import { IsString, ValidateNested, IsBoolean, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
-import { MapPosition } from '@modules/map/positions/position.model';
 import { ApiProperty } from '@nestjs/swagger';
-import { Locality } from '@modules/map/localities/locality.model';
-import { Image } from '@modules/images/images.model';
+import { OnlyIdDto } from '@modules/base.dto';
 /**
  * Store create dto
  */
@@ -22,29 +19,31 @@ export class StoreCreateDto {
    * Vendor id of shop store
    */
   @ValidateNested()
-  @Type(() => User)
-  @ApiProperty({ type: () => User })
-  vendor: User;
+  @Type(() => OnlyIdDto)
+  @ApiProperty({ type: () => OnlyIdDto })
+  vendor: OnlyIdDto;
 
   @ValidateNested()
-  @Type(() => MapPosition)
-  @ApiProperty({ type: () => MapPosition })
-  position: MapPosition;
+  @Type(() => OnlyIdDto)
+  @IsNotEmpty()
+  @ApiProperty({ type: () => OnlyIdDto })
+  position: OnlyIdDto;
   /**
    * Locality  of store create dto
    */
   @ValidateNested()
-  @Type(() => Locality)
-  @ApiProperty({ type: () => Locality })
-  locality: Locality;
+  @Type(() => OnlyIdDto)
+  @IsNotEmpty({ message: 'Localidad no puede estar vacío' })
+  @ApiProperty({ type: () => OnlyIdDto })
+  locality: OnlyIdDto;
   /**
    * Image  of store create dto
    */
-  @IsOptional()
   @ValidateNested()
-  @Type(() => Image)
-  @ApiProperty({ type: () => Image, nullable: true })
-  image?: Image;
+  @Type(() => OnlyIdDto)
+  @IsNotEmpty({ message: 'Imagen no puede estar vacío' })
+  @ApiProperty({ type: () => OnlyIdDto })
+  image: OnlyIdDto;
 }
 /**
  * Store timing dto

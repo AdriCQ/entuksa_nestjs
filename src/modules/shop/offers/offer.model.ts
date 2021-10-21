@@ -95,7 +95,7 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
   /**
    * Validated at of shop offer
    */
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp', nullable: true, default: null })
   @IsOptional()
   @IsDate()
   @ApiProperty({ type: Date, nullable: true })

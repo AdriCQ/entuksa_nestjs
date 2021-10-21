@@ -23,6 +23,7 @@ import { CategoriesModule } from './modules/shop/categories/categories.module';
 import { LocalityModule } from '@modules/map/localities/localities.module';
 import { ApplicationModule } from './modules/applications/application.module';
 import { LogModule } from '@modules/appLogs/logs.module';
+import { UserVendorModule } from '@modules/users/vendor/vendor.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { LogModule } from '@modules/appLogs/logs.module';
     UsersModule,
     AuthModule,
     CaslModule,
+    UserVendorModule,
     // Image
     ImagesModule,
     // Shop Modules

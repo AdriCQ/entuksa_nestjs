@@ -1,0 +1,27 @@
+###
+# LIST STORES
+###
+GET /api/users/vendors/shop/stores
+Host: {{ host }}
+Authorization: {{ token }}
+
+###
+# CREATE STORE
+###
+POST /api/users/vendors/shop/stores
+Host: {{ host }}
+Authorization: {{ token }}
+
+{
+  "title": "Store Title",
+  "description": "Description",
+  "locality": {
+    "id": 1
+  },
+  "image": {
+    "id":1
+  },
+  "position": {
+    "id": 1
+  }
+}

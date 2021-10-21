@@ -1,10 +1,11 @@
 import { BaseModel } from '@modules/BaseModel';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { ImagePathsDto } from './images.dto';
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { User } from '@modules/users/user.model';
+import { ShopStore } from '@modules/shop/store/store.model';
 /**
  * Image
  */
@@ -38,4 +39,11 @@ export class Image extends BaseModel {
   @ManyToOne(() => User, user => user.images, { cascade: true, nullable: true })
   @ApiPropertyOptional({ type: () => User })
   owner?: User;
+  /**
+   * -----------------------------------------
+   *	Relationship
+   * -----------------------------------------
+   */
+  @OneToMany(() => ShopStore, sh => sh.image)
+  shopStores: ShopStore[];
 }

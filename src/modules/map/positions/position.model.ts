@@ -28,9 +28,9 @@ export class MapPosition extends BaseModel {
   /**
    * Validated at of map position
    */
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp', nullable: true, default: null })
   @IsOptional()
   @IsDate()
   @ApiProperty()
-  validatedAt: Date;
+  validatedAt: Date | null;
 }

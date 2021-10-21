@@ -1,7 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BaseModel } from '@modules/BaseModel';
 import { IsBoolean, IsDate, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { StoreCreateDto, StoreTimingDto } from './store.dto';
+import { StoreTimingDto } from './store.dto';
 import { User } from '@modules/users/user.model';
 import { MapPosition } from '@modules/map/positions/position.model';
 import { ShopOffer } from '../offers/offer.model';
@@ -15,25 +15,6 @@ import { Locality } from '@modules/map/localities/locality.model';
  */
 @Entity('shop_stores')
 export class ShopStore extends BaseModel {
-  /**
-   * Creates an instance of shop store.
-   * @param [store]
-   */
-  constructor(store?: StoreCreateDto) {
-    super();
-    if (store) {
-      this.title = store.title;
-      this.description = store.description;
-      this.position = store.position;
-      this.rating = 0;
-      this.image = store.image;
-    }
-  }
-  /**
-   * Image id of shop store
-   */
-  @Column()
-  imageId: number;
   /**
    * Title  of shop store
    */
@@ -74,7 +55,7 @@ export class ShopStore extends BaseModel {
   /**
    * Validated at of shop store
    */
-  @Column({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true, default: null })
   @IsOptional()
   @IsDate()
   @ApiProperty({ type: Date, nullable: true })
@@ -87,8 +68,7 @@ export class ShopStore extends BaseModel {
   /**
    * Image  of shop store
    */
-  @OneToOne(() => Image)
-  @JoinColumn()
+  @ManyToOne(() => Image)
   @ApiProperty({ type: () => Image })
   image: Image;
   /**
@@ -107,8 +87,7 @@ export class ShopStore extends BaseModel {
   /**
    * One to one of shop store
    */
-  @OneToOne(() => MapPosition, { eager: true })
-  @JoinColumn()
+  @ManyToOne(() => MapPosition, { eager: true })
   @ApiProperty({ type: () => MapPosition })
   position: MapPosition;
   /**

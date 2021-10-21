@@ -2,10 +2,11 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ShopOffer } from '../offers/offer.model';
-import { StoreCreateDto } from './store.dto';
 import { ShopStore } from './store.model';
-import { ImageServices } from '../../images/images.service';
+import { ImageServices } from '@modules/images/images.service';
 import { Locality } from '@modules/map/localities/locality.model';
+import { User } from '@modules/users/user.model';
+import { StoreCreateDto } from './store.dto';
 /**
  * Shop store service
  */
@@ -21,22 +22,41 @@ export class ShopStoreService {
     private readonly imageServices: ImageServices
   ) { }
   /**
-   * Creates shop store service
-   * @param _params
-   * @returns create
+   * Creates empty
+   * @param _p 
+   * @returns empty 
    */
-  async create(_params: StoreCreateDto): Promise<ShopStore> {
-    const image = await this.imageServices.first();
-    _params.image = image;
-    const store = new ShopStore(_params);
-    return await this.storeRepo.save(store);
+  async create(_p: StoreCreateDto): Promise<ShopStore> {
+    return await this.storeRepo.save({
+      image: { id: _p.image.id },
+      locality: { id: _p.locality.id },
+      description: _p.description,
+      position: { id: _p.position.id },
+      title: _p.title,
+      vendor: { id: _p.vendor.id }
+    });
+  }
+  /**
+   * Creates empty
+   * @param _p 
+   * @returns empty 
+   */
+  async createEmpty(_p: User): Promise<ShopStore> {
+    return await this.storeRepo.save({
+      image: { id: 1 },
+      locality: { id: 1 },
+      description: '',
+      position: { id: 1 },
+      title: '',
+      vendor: { id: _p.id }
+    });
   }
   /**
    * Finds by id
    * @param _id
    * @returns by id
    */
-  async findById(_id: number): Promise<ShopStore> {
+  async getById(_id: number): Promise<ShopStore> {
     return await this.storeRepo.findOne(_id);
   }
   /**
@@ -57,12 +77,24 @@ export class ShopStoreService {
     return await qry.getMany();
   }
   /**
+   * Gets by vendor
+   * @param _vendor 
+   * @returns by vendor 
+   */
+  async getByVendor(_vendor: User): Promise<ShopStore[]> {
+    return this.storeRepo.createQueryBuilder('store')
+      .leftJoinAndSelect('store.locality', 'locality')
+      .leftJoin('store.image', 'image')
+      .leftJoinAndSelect('store.position', 'position')
+      .where('store.vendor_id = :vendorId', { vendorId: _vendor.id }).getMany()
+  }
+  /**
    * Offers shop store service
    * @param _id 
    * @returns offers 
    */
   async offers(_id: number): Promise<ShopOffer[]> {
-    const store = await this.findById(_id);
+    const store = await this.getById(_id);
     if (store) {
       return store.offers;
     }
