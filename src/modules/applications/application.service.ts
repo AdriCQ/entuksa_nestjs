@@ -38,15 +38,38 @@ export class ApplicationService {
    * @returns client 
    */
   async setup(_p: SetupClientResquestDto): Promise<SetupClientResponseDto> {
-    // TODO: get Current Locality
     const locality = await this.localityService.getByCoordinates(_p.coordinates);
-    const stores = await this.shopStoreService.getByLocality({ locality, filter: { verified: true, open: true }, withOffers: true });
-    const blocks: ClientAppBlocksDto[] = [];
-    return {
-      blocks,
-      user: _p.user,
-      locality,
-      stores
+    // Select application
+    switch (_p.app.id) {
+      //? PalRey Client
+      case 1:
+        // TODO: get Current Locality
+        const stores = await this.shopStoreService.getByLocality({ locality, filter: { verified: true, open: true }, withOffers: true });
+        const blocks: ClientAppBlocksDto[] = [];
+        return {
+          blocks,
+          user: _p.user,
+          locality,
+          stores
+        }
+      //? Palrey Vendor
+      case 2:
+        if (!_p.user || isNaN(_p.user.id))
+          throw new HttpException('Usuario no encontrado', 400);
+        const ownerStoresWithOffers = await this.shopStoreService.filter({
+          owner: { id: _p.user.id }
+        }, {
+          offers: true
+        });
+        return {
+          blocks: [],
+          user: _p.user,
+          stores: ownerStoresWithOffers,
+          locality
+        }
+      default:
+        throw new HttpException('No existe la aplicación', 400);
     }
+
   }
 }

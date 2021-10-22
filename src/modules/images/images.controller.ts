@@ -1,14 +1,7 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors, HttpException, UseGuards, Req } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { Controller, Get, Param, Res, HttpException, } from '@nestjs/common';
+import { ApiTags, } from '@nestjs/swagger';
 import { ImageServices } from './images.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { ImagesHelper } from './images.helper';
-import { IImage } from "./images";
 import { Response } from "express";
-import { JwtAuthGuard } from '@modules/users/auth/auth.guard';
-import { PermissionsGuard } from '@modules/users/casl/casl.guard';
-import { User } from '@modules/users/user.model';
 /**
  * Images controller
  */
@@ -24,27 +17,30 @@ export class ImagesController {
   /**
    * Uploads image
    */
-  @Post('upload')
-  @UseGuards(JwtAuthGuard, PermissionsGuard)
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './storage/app/images/',
-        filename: ImagesHelper.editFileName,
-      }),
-      fileFilter: ImagesHelper.onlyImagesFilter
-    }),
-  )
-  @ApiResponse({ status: 200 })
-  async uploadImage(@UploadedFile() image: IImage.Uploaded, @Req() req) {
-    const user: User = req.user;
-    return await this.service.create({
-      image,
-      type: 'OFFER',
-      title: image.filename,
-      owner: user
-    });
-  }
+  // @Post('upload')
+  // @UseGuards(JwtAuthGuard, PermissionsGuard)
+  // @UseInterceptors(
+  //   FileInterceptor('image', {
+  //     storage: diskStorage({
+  //       destination: './storage/app/images/',
+  //       filename: ImagesHelper.editFileName,
+  //     }),
+  //     fileFilter: ImagesHelper.onlyImagesFilter
+  //   }),
+  // )
+  // @ApiResponse({ status: 200 })
+  // async uploadImage(@UploadedFile() image: IImage.Uploaded, @Req() req) {
+  //   const user: User = req.user;
+  //   return await this.service.create({
+  //     image,
+  //     type: {
+  //       type: 'OFFER',
+  //       id: 1
+  //     },
+  //     title: image.filename,
+  //     owner: user
+  //   });
+  // }
   /**
    * Gets image
    * @param id 

@@ -1,8 +1,23 @@
-import { IsIn, IsObject, IsString, ValidateNested } from "class-validator";
+import { IsIn, IsNotEmpty, IsNumber, IsObject, IsString, ValidateNested } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
 import { IImage } from "./images";
 import { Type } from "class-transformer";
-import { User } from '@modules/users/user.model';
+import { OnlyIdDto } from "@modules/base.dto";
+/**
+ * Image type dto
+ */
+export class ImageTypeDto {
+  /**
+   * Type  of image type dto
+   */
+  @IsIn(['STORE', 'OFFER', 'PROFILE', 'OTHER'])
+  type: 'STORE' | 'OFFER' | 'PROFILE' | 'OTHER';
+  /**
+   * Type id of image type dto
+   */
+  @IsNumber()
+  id: number;
+}
 /**
  * Create image dto
  */
@@ -16,9 +31,11 @@ export class CreateImageDto {
   /**
    * Type  of create image dto
    */
-  @IsIn(['OFFER', 'STORE', 'USER'])
-  @ApiProperty({ example: "'OFFER' | 'STORE' | 'USER'" })
-  type: IImage.Type;
+  @ValidateNested()
+  @Type(() => ImageTypeDto)
+  @IsNotEmpty({ message: 'Tipo requerido' })
+  @ApiProperty({ type: () => ImageTypeDto })
+  type: ImageTypeDto;
   /**
    * Image  of create image dto
    */
@@ -29,9 +46,11 @@ export class CreateImageDto {
    * Owner  of create image dto
    */
   @ValidateNested()
-  @Type(() => User)
-  @ApiProperty({ type: () => User })
-  owner: User;
+  @Type(() => OnlyIdDto)
+  @IsNotEmpty()
+  @ApiProperty({ type: () => OnlyIdDto })
+  owner: OnlyIdDto;
+
 }
 /**
  * Image paths dto

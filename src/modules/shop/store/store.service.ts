@@ -6,7 +6,7 @@ import { ShopStore } from './store.model';
 import { ImageServices } from '@modules/images/images.service';
 import { Locality } from '@modules/map/localities/locality.model';
 import { User } from '@modules/users/user.model';
-import { StoreCreateDto } from './store.dto';
+import { FilterShopStoreDto, StoreCreateDto } from './store.dto';
 /**
  * Shop store service
  */
@@ -50,6 +50,19 @@ export class ShopStoreService {
       title: '',
       vendor: { id: _p.id }
     });
+  }
+  /**
+   * Filters shop store service
+   * @param _p 
+   * @returns filter 
+   */
+  async filter(_p: FilterShopStoreDto, _rel: { offers: boolean }): Promise<ShopStore[]> {
+    let qry = this.storeRepo.createQueryBuilder('store').leftJoinAndSelect('store.image', 'image');
+    if (_rel.offers)
+      qry = qry.leftJoinAndSelect('store.offers', 'offer');
+    if (_p.owner && !isNaN(_p.owner.id))
+      qry = qry.where('store.owner_id = :ownerId', { ownerId: _p.owner.id });
+    return await qry.getMany();
   }
   /**
    * Finds by id

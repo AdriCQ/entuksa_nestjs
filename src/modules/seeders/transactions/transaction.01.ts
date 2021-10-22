@@ -29,7 +29,14 @@ export async function transaction01(transaction: EntityManager, seederId: string
   // Seed Application
   await transaction.save(Application, [{
     title: 'Palrey-Client',
-    description: 'Palrey Client',
+    description: 'Clientes de Palrey',
+    settings: {
+      open: true
+    }
+  }]);
+  await transaction.save(Application, [{
+    title: 'Palrey-Shop',
+    description: 'Administracion de tiendas, ofertas y pedidos',
     settings: {
       open: true
     }
