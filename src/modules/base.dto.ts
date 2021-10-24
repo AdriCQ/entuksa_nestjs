@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 /**
  * Only id dto
  */
@@ -8,4 +8,13 @@ export class OnlyIdDto {
   @IsNotEmpty()
   @ApiProperty()
   id: number;
+}
+/**
+ * Only id string dto
+ */
+export class OnlyIdStringDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  id: string;
 }

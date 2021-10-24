@@ -1,6 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { OnlyIdDto, OnlyIdStringDto } from "@modules/base.dto";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsArray, IsIn, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { ShopStore } from '../store/store.model';
 import { IShopOffer } from "./offers";
 /**
@@ -87,5 +88,135 @@ export class OfferStockDto implements IShopOffer.Stock {
   @IsNumber()
   @ApiProperty()
   qty: number;
-
+}
+/**
+ * Create shop offer dto
+ */
+export class CreateShopOfferDto {
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => OnlyIdDto)
+  @ApiProperty({ type: () => OnlyIdDto })
+  store: OnlyIdDto;
+  /**
+   * Title  of shop offer
+   */
+  @IsString()
+  @ApiProperty()
+  title: string;
+  /**
+   * Description  of shop offer
+   */
+  @IsString()
+  @ApiProperty()
+  description: string;
+  /**
+   * Prices  of shop offer
+   */
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => OfferPricesDto)
+  @ApiProperty({ type: () => OfferPricesDto })
+  prices: OfferPricesDto;
+  /**
+   * Stock  of shop offer
+   */
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => OfferStockDto)
+  @ApiProperty({ type: () => OfferStockDto })
+  stock: OfferStockDto;
+  /**
+   * Type  of shop offer
+   */
+  @IsIn(['PRODUCT', 'SERVICE'])
+  @ApiProperty({ example: "PRODUCT | SERVICE" })
+  type: IShopOffer.Type;
+  /**
+   * Attributes  of shop offer
+   */
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => OfferAttributeDto)
+  @ApiProperty({ isArray: true, type: () => OfferAttributeDto })
+  attributes: OfferAttributeDto[] | null;
+  /**
+   * Category  of create shop offer dto
+   */
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => OnlyIdDto)
+  @ApiProperty({ type: () => OnlyIdDto })
+  category: OnlyIdStringDto;
+  /**
+   * Image  of create shop offer dto
+   */
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => OnlyIdDto)
+  @ApiProperty({ type: () => OnlyIdDto })
+  image: OnlyIdDto;
+}
+export class UpdateShopOfferDto {
+  /**
+   * Title  of shop offer
+   */
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  title: string;
+  /**
+   * Description  of shop offer
+   */
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  description: string;
+  /**
+   * Prices  of shop offer
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => OfferPricesDto)
+  @ApiPropertyOptional({ type: () => OfferPricesDto })
+  prices: OfferPricesDto;
+  /**
+   * Stock  of shop offer
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => OfferStockDto)
+  @ApiPropertyOptional({ type: () => OfferStockDto })
+  stock: OfferStockDto;
+  /**
+   * Type  of shop offer
+   */
+  @IsOptional()
+  @IsIn(['PRODUCT', 'SERVICE'])
+  @ApiPropertyOptional({ example: "PRODUCT | SERVICE" })
+  type: IShopOffer.Type;
+  /**
+   * Attributes  of shop offer
+   */
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => OfferAttributeDto)
+  @ApiPropertyOptional({ isArray: true, type: () => OfferAttributeDto })
+  attributes: OfferAttributeDto[] | null;
+  /**
+   * Category  of create shop offer dto
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => OnlyIdDto)
+  @ApiPropertyOptional({ type: () => OnlyIdDto })
+  category: OnlyIdStringDto;
+  /**
+   * Image  of create shop offer dto
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => OnlyIdDto)
+  @ApiPropertyOptional({ type: () => OnlyIdDto })
+  image: OnlyIdDto;
 }

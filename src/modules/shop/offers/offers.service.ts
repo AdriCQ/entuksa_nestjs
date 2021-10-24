@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindConditions, Repository, IsNull, Not } from "typeorm";
 import { ShopOffer } from "./offer.model";
-import { OfferFilterRequest } from "./offers.dto";
+import { CreateShopOfferDto, OfferFilterRequest, UpdateShopOfferDto } from "./offers.dto";
 
 @Injectable()
 export class OfferServices {
@@ -21,6 +21,24 @@ export class OfferServices {
         validatedAt: Not(IsNull())
       }
     })
+  }
+  /**
+   * Creates offer services
+   * @returns create 
+   */
+  async create(_p: CreateShopOfferDto): Promise<ShopOffer> {
+    return await this.repo.save({
+      attributes: _p.attributes,
+      category: { id: _p.category.id },
+      description: _p.description,
+      image: { id: _p.image.id },
+      prices: _p.prices,
+      stock: _p.stock,
+      store: { id: _p.store.id },
+      title: _p.title,
+      type: _p.type,
+
+    });
   }
   /**
    * Finds offer services
@@ -45,5 +63,21 @@ export class OfferServices {
     if (_p.rating)
       whereOptions.push({ rating: _p.rating });
     return await this.repo.createQueryBuilder('user').where(whereOptions).getMany()
+  }
+  /**
+   * Removes offer services
+   * @param _offerId 
+   * @returns  
+   */
+  async remove(_offerId: number) {
+    return await this.repo.delete({ id: _offerId });
+  }
+  /**
+   * Updates offer services
+   * @param _offerId 
+   * @param _update 
+   */
+  async update(_offerId: number, _update: UpdateShopOfferDto) {
+    return await this.repo.update({ id: _offerId }, _update);
   }
 }
