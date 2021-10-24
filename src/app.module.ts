@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 // Configuration
 import { ConfigModule } from '@nestjs/config';
-import appConfig from './configs/app.config';
-import pathConfig from './configs/path.config';
-import typeormConfig from './configs/typeorm.config';
+import appConfig from '@configs/app.config';
+import mailConfig from '@configs/mail.config';
+import pathConfig from '@configs/path.config';
+import typeormConfig from '@configs/typeorm.config';
 // Typeorm Database
 import { DatabaseModuleConfig } from './database';
 import { AppController } from './app.controller';
@@ -23,6 +24,8 @@ import { CategoriesModule } from './modules/shop/categories/categories.module';
 import { LocalityModule } from '@modules/map/localities/localities.module';
 import { ApplicationModule } from './modules/applications/application.module';
 import { LogModule } from '@modules/appLogs/logs.module';
+// Notifications
+import { MailNotificationModule } from '@modules/notifications/mail/mail.module';
 
 @Module({
   imports: [
@@ -32,7 +35,7 @@ import { LogModule } from '@modules/appLogs/logs.module';
     }),
     // Config Module
     ConfigModule.forRoot({
-      load: [appConfig, pathConfig, typeormConfig],
+      load: [appConfig, mailConfig, pathConfig, typeormConfig],
       isGlobal: true,
     }),
     // Load Typeorm
@@ -54,6 +57,8 @@ import { LogModule } from '@modules/appLogs/logs.module';
     // Map Modules
     PositionModule,
     LocalityModule,
+    // Notifications
+    MailNotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

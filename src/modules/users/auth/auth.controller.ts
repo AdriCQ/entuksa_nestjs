@@ -12,8 +12,9 @@ import { AuthService } from './auth.service';
 import { UserAuthSigninDto, UserAuthSignupDto, } from '../users.dto';
 import { UsersService } from '../users.service';
 import { JwtAuthGuard } from './auth.guard';
-import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersAuthResponseDto, User } from '../user.model';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { MailService } from '@modules/notifications/mail/mail.service';
 
 @ApiTags('User Auth')
 @Controller('api/users/auth')
@@ -22,10 +23,12 @@ export class AuthController {
    * Creates an instance of auth controller.
    * @param authService
    * @param usersService
+   * @param mailService
    */
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
+    private readonly mailService: MailService,
   ) { }
 
   /**
@@ -35,7 +38,7 @@ export class AuthController {
    */
   @Post('signin')
   @HttpCode(200)
-  @ApiResponse({ status: 200, description: 'Login User', type: UsersAuthResponseDto })
+  @ApiResponse({ status: 200, description: 'Login User', type: () => UsersAuthResponseDto })
   async signin(@Body() _body: UserAuthSigninDto): Promise<UsersAuthResponseDto> {
     // validate
     const user = await this.authService.validate(
@@ -58,12 +61,14 @@ export class AuthController {
    * @returns signup
    */
   @Post('signup')
-  @ApiResponse({ status: 200, description: 'Register User', type: UsersAuthResponseDto })
+  @ApiResponse({ status: 200, description: 'Register User', type: () => UsersAuthResponseDto })
   async signup(@Body() _body: UserAuthSignupDto): Promise<UsersAuthResponseDto> {
     const exists = await this.usersService.exists({ email: _body.email, mobilePhone: _body.mobilePhone });
     if (exists)
       throw new ConflictException(`El email ${_body.email} o el teléfono ${_body.mobilePhone} ya están registrado`);
+    // Send email confirmation
     const user = await this.usersService.create(_body);
+    await this.mailService.sendUserConfirmation(user, 'token');
     const token = await this.authService.generateAccessToken(user);
     return { user, token };
   }

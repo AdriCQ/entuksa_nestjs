@@ -8,8 +8,8 @@ Authorization: {{ token }}
 {
   "name": "Adrian",
   "lastName": "Capote",
-  "email": "email@email.com",
-  "mobilePhone": "53375180",
+  "email": "servimav@yahoo.com",
+  "mobilePhone": "55555555",
   "password": "password"
 }
 
