@@ -1,5 +1,5 @@
 import { Entity, Column } from 'typeorm';
-import { IsString, ValidateNested } from 'class-validator';
+import { IsNumber, IsString, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseModel } from '@modules/BaseModel';
 import * as argon from 'argon2';
@@ -32,6 +32,13 @@ export class Application extends BaseModel {
   @Type(() => ApplicationSettingsDto)
   @ApiProperty({ type: () => ApplicationSettingsDto })
   settings: ApplicationSettingsDto;
+  /**
+   * Version  of application
+   */
+  @Column({ default: 0 })
+  @IsNumber()
+  @ApiProperty()
+  version: number;
   /**
    * Gets token
    */

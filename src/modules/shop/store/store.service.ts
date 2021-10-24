@@ -6,7 +6,8 @@ import { ShopStore } from './store.model';
 import { ImageServices } from '@modules/images/images.service';
 import { Locality } from '@modules/map/localities/locality.model';
 import { User } from '@modules/users/user.model';
-import { FilterShopStoreDto, StoreCreateDto } from './store.dto';
+import { FilterShopStoreDto, StoreCreateDto, UpdateShopStoreDto } from './store.dto';
+import { OnlyIdDto } from '../../base.dto';
 /**
  * Shop store service
  */
@@ -41,14 +42,14 @@ export class ShopStoreService {
    * @param _p 
    * @returns empty 
    */
-  async createEmpty(_p: User): Promise<ShopStore> {
+  async createEmpty(_p: StoreCreateDto): Promise<ShopStore> {
     return await this.storeRepo.save({
       image: { id: 1 },
-      locality: { id: 1 },
-      description: '',
-      position: { id: 1 },
-      title: '',
-      vendor: { id: _p.id }
+      locality: { id: _p.locality.id },
+      description: _p.description,
+      position: _p.position,
+      title: _p.title,
+      vendor: { id: _p.vendor.id }
     });
   }
   /**
@@ -112,5 +113,36 @@ export class ShopStoreService {
       return store.offers;
     }
     throw new HttpException('No se encontró la tienda', 400);
+  }
+  /**
+   * Removes shop store service
+   * @param _storeId 
+   * @returns  
+   */
+  async remove(_storeId: number) {
+    return await this.storeRepo.delete({ id: _storeId });
+  }
+  /**
+   * Toggles open
+   * @param _storeId 
+   * @param _open 
+   * @returns  
+   */
+  async toggleOpen(_storeId: number, _open: boolean) {
+    return this.storeRepo.update({ id: _storeId }, { open: _open });
+  }
+  /**
+   * Updates shop store service
+   * @param _p 
+   * @returns update 
+   */
+  async update(_store: OnlyIdDto, _p: UpdateShopStoreDto) {
+    return await this.storeRepo.update(_store, {
+      title: _p.title ? _p.title : undefined,
+      description: _p.description ? _p.description : undefined,
+      locality: _p.locality ? { id: _p.locality.id } : undefined,
+      position: _p.position ? { id: _p.position.id } : undefined,
+      // open: _p.open ? _p.open : undefined
+    })
   }
 }

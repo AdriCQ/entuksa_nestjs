@@ -8,6 +8,7 @@ import {
 } from '@casl/ability';
 import { User } from '../user.model';
 import { ShopStore } from '@modules/shop/store/store.model';
+import { ShopOffer } from '@modules/shop/offers/offer.model';
 /**
  * Casl action
  */
@@ -20,14 +21,14 @@ export enum Permission {
 }
 
 // type Subjects = InferSubjects<typeof Article | typeof User> | 'all';
-type Subjects = InferSubjects<typeof User | typeof ShopStore> | 'all';
+type Subjects = InferSubjects<typeof User | typeof ShopStore | typeof ShopOffer> | 'all';
 
 export type AppPermission = Ability<[Permission, Subjects]>;
 
 @Injectable()
 export class PermissionFactory {
   createForUser(user: User) {
-    const { can, cannot, build } = new AbilityBuilder<
+    const { can/*, cannot*/, build } = new AbilityBuilder<
       Ability<[Permission, Subjects]>
     >(Ability as AbilityClass<AppPermission>);
 
@@ -47,6 +48,16 @@ export class PermissionFactory {
       can(Permission.CREATE, ShopStore);
       can(Permission.UPDATE, ShopStore, { vendor: user });
       can(Permission.DELETE, ShopStore, { vendor: user });
+      // ShopOffer
+      can(Permission.CREATE, ShopOffer, {
+        store: { vendor: user }
+      });
+      can(Permission.UPDATE, ShopOffer, {
+        store: { vendor: user }
+      });
+      can(Permission.DELETE, ShopOffer, {
+        store: { vendor: user }
+      });
     }
 
     return build({

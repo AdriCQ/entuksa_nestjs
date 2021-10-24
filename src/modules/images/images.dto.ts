@@ -1,23 +1,8 @@
-import { IsIn, IsNotEmpty, IsNumber, IsObject, IsString, ValidateNested } from "class-validator";
+import { IsIn, IsNotEmpty, IsObject, IsString, ValidateNested } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
 import { IImage } from "./images";
 import { Type } from "class-transformer";
 import { OnlyIdDto } from "@modules/base.dto";
-/**
- * Image type dto
- */
-export class ImageTypeDto {
-  /**
-   * Type  of image type dto
-   */
-  @IsIn(['STORE', 'OFFER', 'PROFILE', 'OTHER'])
-  type: 'STORE' | 'OFFER' | 'PROFILE' | 'OTHER';
-  /**
-   * Type id of image type dto
-   */
-  @IsNumber()
-  id: number;
-}
 /**
  * Create image dto
  */
@@ -31,11 +16,9 @@ export class CreateImageDto {
   /**
    * Type  of create image dto
    */
-  @ValidateNested()
-  @Type(() => ImageTypeDto)
-  @IsNotEmpty({ message: 'Tipo requerido' })
-  @ApiProperty({ type: () => ImageTypeDto })
-  type: ImageTypeDto;
+  @IsIn(['STORE', 'OFFER', 'PROFILE', 'OTHER'])
+  @ApiProperty()
+  type: 'STORE' | 'OFFER' | 'PROFILE' | 'OTHER';
   /**
    * Image  of create image dto
    */

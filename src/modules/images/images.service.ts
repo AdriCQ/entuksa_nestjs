@@ -25,7 +25,7 @@ export class ImageServices {
     const image = await this.repo.save({
       owner: { id: _params.owner.id },
       paths: { sm: _params.image.path, md: _params.image.path, lg: _params.image.path },
-      tags: [_params.type.type],
+      tags: [_params.type],
       title: ''
     });
     return image;

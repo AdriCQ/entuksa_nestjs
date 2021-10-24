@@ -1,6 +1,6 @@
 import { IsString, ValidateNested, IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { OnlyIdDto } from '@modules/base.dto';
 /**
  * Store create dto
@@ -41,9 +41,8 @@ export class StoreCreateDto {
    */
   @ValidateNested()
   @Type(() => OnlyIdDto)
-  @IsNotEmpty({ message: 'Imagen no puede estar vacío' })
   @ApiProperty({ type: () => OnlyIdDto })
-  image: OnlyIdDto;
+  image?: OnlyIdDto;
 }
 /**
  * Filter shop store dto
@@ -71,4 +70,43 @@ export class StoreTimingDto {
   @IsBoolean()
   @ApiProperty()
   auto: boolean;
+}
+/**
+ * Update shop store dto
+ */
+export class UpdateShopStoreDto {
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  title?: string;
+  /**
+   * Description  of shop store
+   */
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  description?: string;
+  /**
+   * Open  of update shop store dto
+   */
+  @IsOptional()
+  @IsBoolean()
+  @ApiPropertyOptional()
+  open?: boolean;
+  /**
+   * Position  of update shop store dto
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => OnlyIdDto)
+  @ApiPropertyOptional({ type: () => OnlyIdDto })
+  position?: OnlyIdDto;
+  /**
+   * Locality  of store create dto
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => OnlyIdDto)
+  @ApiPropertyOptional({ type: () => OnlyIdDto })
+  locality?: OnlyIdDto;
 }

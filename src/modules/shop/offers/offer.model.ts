@@ -125,7 +125,7 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
   /**
    * Store  of shop offer
    */
-  @ManyToOne(() => ShopStore, store => store.offers, { cascade: true })
+  @ManyToOne(() => ShopStore, store => store.offers, { onDelete: 'CASCADE' })
   @ApiProperty({ type: () => ShopStore, nullable: true })
   store: ShopStore;
   /**
