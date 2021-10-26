@@ -21,6 +21,7 @@ export async function transaction01(transaction: EntityManager, seederId: string
       name: 'Nairda',
       lastName: 'Developer',
       email: 'acq95@nauta.cu',
+      emailVerifiedAt: new Date(),
       mobilePhone: '53375180',
       roles: ['DEVELOPER'],
       password: await hash('password')

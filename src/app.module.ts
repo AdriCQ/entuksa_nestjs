@@ -10,22 +10,23 @@ import typeormConfig from '@configs/typeorm.config';
 import { DatabaseModuleConfig } from './database';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-// App Modules
+// Users Modules
 import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/users/auth/auth.module';
 import { CaslModule } from '@modules/users/casl/casl.module';
+// Shpo module
 import { ShopStoreModule } from '@modules/shop/store/store.module';
 import { PositionModule } from '@modules/map/positions/position.module';
 import { ImagesModule } from '@modules/images/images.module';
 import { ShopOffersModule } from '@modules/shop/offers/offers.module';
 import { ShopOrderModule } from '@modules/shop/order/order.module';
-import { DbSeederModule } from '@modules/seeders/seeders.module';
-import { CategoriesModule } from './modules/shop/categories/categories.module';
+import { CategoriesModule } from '@modules/shop/categories/categories.module';
+// Map Modules
 import { LocalityModule } from '@modules/map/localities/localities.module';
-import { ApplicationModule } from './modules/applications/application.module';
-import { LogModule } from '@modules/appLogs/logs.module';
-// Notifications
+// App modules
+import { ApplicationModule } from '@modules/applications/application.module';
 import { MailNotificationModule } from '@modules/notifications/mail/mail.module';
+import { DbSeederModule } from '@modules/seeders/seeders.module';
 
 @Module({
   imports: [
@@ -40,7 +41,6 @@ import { MailNotificationModule } from '@modules/notifications/mail/mail.module'
     }),
     // Load Typeorm
     DatabaseModuleConfig,
-    LogModule,
     DbSeederModule,
     ApplicationModule,
     // User Modules
