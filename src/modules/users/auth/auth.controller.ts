@@ -7,6 +7,7 @@ import {
   Post,
   Request,
   UseGuards,
+  Query
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserAuthSigninDto, UserAuthSignupDto, } from '../users.dto';
@@ -30,7 +31,14 @@ export class AuthController {
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
   ) { }
-
+  /**
+   * Confirms email
+   */
+  @Get('/confirm-email')
+  async confirmEmail(@Query() _qry: { token: string }) {
+    // TODO: Confirm email view
+    return await this.authService.getUserFromConfirmationToken(_qry.token);
+  }
   /**
    * Signins auth controller
    * @param _body
@@ -61,18 +69,23 @@ export class AuthController {
    * @returns signup
    */
   @Post('signup')
-  @ApiResponse({ status: 200, description: 'Register User', type: () => UsersAuthResponseDto })
+  @ApiResponse({ status: 201, description: 'Register User', type: () => UsersAuthResponseDto })
   async signup(@Body() _body: UserAuthSignupDto): Promise<UsersAuthResponseDto> {
     const exists = await this.usersService.exists({ email: _body.email, mobilePhone: _body.mobilePhone });
     if (exists)
       throw new ConflictException(`El email ${_body.email} o el teléfono ${_body.mobilePhone} ya están registrado`);
     // Send email confirmation
     const user = await this.usersService.create(_body);
-    await this.mailService.sendUserConfirmation(user, 'token');
+    const confirmToken = await this.authService.generateConfirmationToken(user);
+    this.mailService.sendUserConfirmation(user, confirmToken);
     const token = await this.authService.generateAccessToken(user);
     return { user, token };
   }
-
+  /**
+   * Profiles auth controller
+   * @param req 
+   * @returns  
+   */
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   @ApiBearerAuth()

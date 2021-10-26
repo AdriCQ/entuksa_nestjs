@@ -32,6 +32,15 @@ import { ConfigService } from "@nestjs/config";
             strict: true,
           },
         },
+        preview: true,
+        // options: {
+        //   partials: {
+        //     dir: join(__dirname, 'templates/partials'),
+        //     options: {
+        //       strict: true
+        //     }
+        //   }
+        // }
       }),
       inject: [ConfigService],
     }),
