@@ -57,7 +57,7 @@ export class AuthService {
    * @param _token 
    * @returns user
    */
-  async getUserFromConfirmationToken(_token: string): Promise<User> {
+  async verifyUserEmailConfirmationToken(_token: string): Promise<User> {
     const tokenSplit = _token.split('|');
     if (!tokenSplit.length)
       throw new HttpException('Token incorrecto', 401);
@@ -65,9 +65,8 @@ export class AuthService {
     const hash = tokenSplit[1]
     // Validate time
     const dateString = new Date().toLocaleDateString();
-    if (await argon.verify(hash, dateString))
-      return await this.usersService.find({ id: userId });
-    else
+    if (!await argon.verify(hash, dateString))
       throw new HttpException('El Token ha caducado', 401);
+    return await this.usersService.verifyEmail({ id: userId });
   }
 }

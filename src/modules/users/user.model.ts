@@ -2,6 +2,7 @@ import { ShopStore } from '@modules/shop/store/store.model';
 import * as argon from 'argon2';
 import {
   IsArray,
+  IsDate,
   IsEmail,
   IsNumberString,
   IsOptional,
@@ -12,7 +13,7 @@ import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
 import { BaseModel } from '../BaseModel';
 import { IUser } from './users';
 import { UserAuthSignupDto } from './users.dto';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ShopOrder } from '../shop/order/order.model';
 import { Image } from '@modules/images/images.model';
@@ -55,6 +56,14 @@ export class User extends BaseModel {
   @ApiProperty({ uniqueItems: true, example: 'myemail@email.com' })
   email: string;
   /**
+   * Email verified at of user
+   */
+  @Column({ nullable: true, default: null })
+  @IsOptional()
+  @IsDate()
+  @ApiProperty()
+  emailVerifiedAt: Date | null;
+  /**
    * Mobile phone of user
    */
   @Column({ type: 'varchar', length: 12, unique: true, nullable: true })
@@ -85,16 +94,19 @@ export class User extends BaseModel {
    * Images  of user
    */
   @OneToMany(() => Image, img => img.owner)
+  @ApiPropertyOptional({ type: () => Image, isArray: true })
   images: Image[];
   /**
    * Orders  of user
    */
   @OneToMany(() => ShopOrder, order => order.client)
+  @ApiPropertyOptional({ type: () => ShopOrder, isArray: true })
   orders: ShopOrder[];
   /**
    * Stores  of user
    */
   @OneToMany(() => ShopStore, (store) => store.vendor)
+  @ApiPropertyOptional({ type: () => ShopStore, isArray: true })
   stores: ShopStore[];
   /**
    * -----------------------------------------

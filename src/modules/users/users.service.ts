@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.model';
 import { IUser } from './users';
 import { UserAuthSignupDto } from './users.dto';
+import { OnlyIdDto } from '@modules/base.dto';
 /**
  * Users service
  */
@@ -61,5 +62,16 @@ export class UsersService {
     if (!user && _p.email)
       user = await this.userRepo.findOne({ where: { email: _p.email } });
     return user;
+  }
+  /**
+   * Verifys email
+   * @param _user 
+   * @returns  
+   */
+  async verifyEmail(_user: OnlyIdDto): Promise<User> {
+    await this.userRepo.update({ id: _user.id }, {
+      emailVerifiedAt: new Date()
+    });
+    return this.find({ id: _user.id })
   }
 }

@@ -37,7 +37,7 @@ export class AuthController {
   @Get('/confirm-email')
   async confirmEmail(@Query() _qry: { token: string }) {
     // TODO: Confirm email view
-    return await this.authService.getUserFromConfirmationToken(_qry.token);
+    return await this.authService.verifyUserEmailConfirmationToken(_qry.token);
   }
   /**
    * Signins auth controller
