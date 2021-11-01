@@ -17,6 +17,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ShopOrder } from '../shop/order/order.model';
 import { Image } from '@modules/images/images.model';
+import { ShopChat } from '@modules/shop/chat/chat.model';
 @Entity('users')
 export class User extends BaseModel {
   /**
@@ -108,6 +109,12 @@ export class User extends BaseModel {
   @OneToMany(() => ShopStore, (store) => store.vendor)
   @ApiPropertyOptional({ type: () => ShopStore, isArray: true })
   stores: ShopStore[];
+  /**
+   * Shop chats of user
+   */
+  @OneToMany(() => ShopChat, sc => sc.client)
+  @ApiPropertyOptional({ type: () => ShopChat, isArray: true })
+  shopChats: ShopChat[];
   /**
    * -----------------------------------------
    *	Before Enter Data

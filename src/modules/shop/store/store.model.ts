@@ -1,14 +1,17 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { BaseModel } from '@modules/BaseModel';
 import { IsBoolean, IsDate, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { StoreTimingDto } from './store.dto';
-import { User } from '@modules/users/user.model';
-import { MapPosition } from '@modules/map/positions/position.model';
-import { ShopOffer } from '../offers/offer.model';
-import { Image } from '@modules/images/images.model';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+// modules
+import { BaseModel } from '@modules/BaseModel';
+import { User } from '@modules/users/user.model';
+import { Image } from '@modules/images/images.model';
 import { Locality } from '@modules/map/localities/locality.model';
+import { MapPosition } from '@modules/map/positions/position.model';
+import { ShopOffer } from '@modules/shop/offers/offer.model';
+import { ShopChat } from '@modules/shop/chat/chat.model';
+// Local
+import { StoreTimingDto } from './store.dto';
 
 /**
  * Shop store
@@ -69,31 +72,37 @@ export class ShopStore extends BaseModel {
    * Image  of shop store
    */
   @ManyToOne(() => Image)
-  @ApiProperty({ type: () => Image })
+  @ApiPropertyOptional({ type: () => Image })
   image: Image;
   /**
    * Locality  of shop store
    */
   @ManyToOne(() => Locality, l => l.shopStores, { onDelete: 'CASCADE', eager: true })
-  @ApiProperty({ type: () => Locality })
+  @ApiPropertyOptional({ type: () => Locality })
   locality: Locality;
   /**
    * -
    * Offers  of shop store
    */
   @OneToMany(() => ShopOffer, offer => offer.store)
-  @ApiProperty({ nullable: true, isArray: true, type: () => ShopOffer })
+  @ApiPropertyOptional({ nullable: true, isArray: true, type: () => ShopOffer })
   offers: ShopOffer[];
   /**
    * One to one of shop store
    */
   @ManyToOne(() => MapPosition, { eager: true })
-  @ApiProperty({ type: () => MapPosition })
+  @ApiPropertyOptional({ type: () => MapPosition })
   position: MapPosition;
+  /**
+   * Shop chats of store
+   */
+  @OneToMany(() => ShopChat, sc => sc.client)
+  @ApiPropertyOptional({ type: () => ShopChat, isArray: true })
+  shopChats: ShopChat[];
   /**
    * Vendor of shop store
    */
   @ManyToOne(() => User, (user) => user.stores)
-  @ApiProperty({ nullable: true, type: () => User })
+  @ApiPropertyOptional({ nullable: true, type: () => User })
   vendor: User;
 }
