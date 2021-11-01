@@ -32,9 +32,10 @@ export async function transaction01(transaction: EntityManager, seederId: string
     title: 'Palrey-Client',
     description: 'Clientes de Palrey',
     settings: {
-      open: true
+      open: true,
     }
   }]);
+
   await transaction.save(Application, [{
     title: 'Palrey-Shop',
     description: 'Administracion de tiendas, ofertas y pedidos',

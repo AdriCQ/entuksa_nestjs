@@ -22,7 +22,6 @@ export class LocalityService {
    */
   async getByCoordinates(_p: MapCoordinate): Promise<Locality> {
     // TODO: Locality service
-    console.log({ coordinates: _p });
     return await this.repo.findOne()
   }
   /**

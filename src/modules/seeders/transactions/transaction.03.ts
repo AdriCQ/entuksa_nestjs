@@ -12,6 +12,7 @@ export async function transaction03(transaction: EntityManager, seederId: string
   // Create Vendor
   const vendor = transaction.save(User, {
     email: 'palrey@nairda.net',
+    emailVerifiedAt: new Date(),
     mobilePhone: '58075153',
     lastName: 'Palmero Rey',
     password: await hash('sueños'),

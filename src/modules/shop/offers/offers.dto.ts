@@ -9,10 +9,13 @@ import { IShopOffer } from "./offers";
  */
 export class OfferPricesDto implements IShopOffer.Prices {
   @IsNumber()
+  @ApiProperty()
   sell: number;
   @IsNumber()
+  @ApiProperty()
   production: number;
   @IsNumber()
+  @ApiProperty()
   vendor: number;
 }
 /**
@@ -20,8 +23,10 @@ export class OfferPricesDto implements IShopOffer.Prices {
  */
 export class OfferAttributeDto implements IShopOffer.Attribute {
   @IsString()
+  @ApiProperty()
   name: string;
   @IsString()
+  @ApiProperty()
   value: string | number;
 }
 /**

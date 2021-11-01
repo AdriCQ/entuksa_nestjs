@@ -29,6 +29,13 @@ export class Category {
   @ApiProperty()
   description: string;
   /**
+   * Icon  of category
+   */
+  @Column()
+  @IsString()
+  @ApiProperty()
+  icon: string;
+  /**
    * -----------------------------------------
    *	Relationships
    * -----------------------------------------
