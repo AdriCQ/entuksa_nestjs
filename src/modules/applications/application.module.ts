@@ -29,7 +29,8 @@ import { LocalityModule } from "@modules/map/localities/localities.module";
 export class ApplicationModule implements NestModule {
   configure(consummer: MiddlewareConsumer) {
     consummer.apply(ApplicationMiddleware).forRoutes(
-      { path: '/application/setup/**', method: RequestMethod.GET },
+      { path: '/application/setup', method: RequestMethod.ALL },
+      { path: '/application/setup/**', method: RequestMethod.ALL },
       { path: '/api/**', method: RequestMethod.ALL }
     );
   }

@@ -3,10 +3,15 @@ import { MapCoordinate } from '@modules/map/positions/position.dto';
 import { ShopOffer } from '@modules/shop/offers/offer.model';
 import { ShopStore } from '@modules/shop/store/store.model';
 import { User } from '@modules/users/user.model';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested, IsIn } from 'class-validator';
 import { Application } from './application.model';
+/**
+ * @type Blocktype
+ */
+type BlockType = 'offer-widget' | 'offer-group' | 'offer-slider' | 'store-widget' | 'store-group' | 'store-slider';
+
 /**
  * Application settings dto
  */
@@ -20,27 +25,34 @@ export class ApplicationSettingsDto {
  */
 export class ClientAppBlockConfigDto {
   /**
-   * Data  of client app block config dto
+   * Title  of client app block config dto
    */
-  data: ShopOffer | ShopOffer[] | ShopStore | ShopStore[];
+  @IsString()
+  @ApiPropertyOptional()
+  title?: string;
 }
 /**
  * Client app blocks dto
  */
-export class ClientAppBlocksDto {
+export class ClientBlocksDto {
   /**
-   * Title  of client app blocks dto
+   * Type  of client app blocks dto
    */
-  @IsString()
-  @ApiProperty()
-  title: string;
+  @IsIn(['offer-widget', 'offer-group', 'offer-slider', 'store-widget', 'store-group', 'store-slider'])
+  @ApiProperty({ example: "'offer-widget' | 'offer-group' | 'offer-slider' | 'store-widget' | 'store-group' | 'store-slider'" })
+  type: BlockType;
   /**
    * Config  of client app blocks dto
    */
   @ValidateNested()
   @Type(() => ClientAppBlockConfigDto)
-  @ApiProperty({ type: () => ClientAppBlockConfigDto })
-  config: ClientAppBlockConfigDto;
+  @ApiPropertyOptional({ type: () => ClientAppBlockConfigDto })
+  config?: ClientAppBlockConfigDto;
+  /**
+   * Data  of client app block config dto
+   */
+  @ApiProperty({ example: "ShopOffer | ShopOffer[] | ShopStore | ShopStore[]" })
+  data: ShopOffer | ShopOffer[] | ShopStore | ShopStore[];
 }
 /**
  * Create application dto
@@ -66,7 +78,7 @@ export class CreateApplicationDto {
 /**
  * Setup client resquest
  */
-export class SetupClientResquestDto {
+export class SetupAppResquestDto {
   /**
    * User  of setup client response
    */
@@ -93,7 +105,7 @@ export class SetupClientResquestDto {
 /**
  * Setup client response
  */
-export class SetupClientResponseDto {
+export class SetupAppResponseDto {
   /**
    * User  of setup client response
    */
@@ -115,9 +127,9 @@ export class SetupClientResponseDto {
    */
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ClientAppBlocksDto)
-  @ApiProperty({ type: () => ClientAppBlocksDto, isArray: true })
-  blocks: ClientAppBlocksDto[];
+  @Type(() => ClientBlocksDto)
+  @ApiProperty({ type: () => ClientBlocksDto, isArray: true })
+  blocks: ClientBlocksDto[];
   /**
    * Locality  of setup client response
    */

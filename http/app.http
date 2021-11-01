@@ -11,3 +11,9 @@ GET /application/setup
 Host: {{ host }}
 Authorization: {{ token }}
 
+###
+# Setup Settings
+###
+PATCH /application/setup/save-settings
+Host: {{ host }}
+Authorization: {{ token }}

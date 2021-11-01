@@ -2,9 +2,19 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from './application.model';
 import { Repository } from 'typeorm';
-import { SetupClientResponseDto, SetupClientResquestDto, ClientAppBlocksDto } from './application.dto';
+import { SetupAppResquestDto, SetupAppResponseDto, ClientBlocksDto, ApplicationSettingsDto } from './application.dto';
+// Map Modules
 import { LocalityService } from '@modules/map/localities/locality.service';
-import { ShopStoreService } from '../shop/store/store.service';
+// Shop MOdules
+import { ShopStoreService } from '@modules/shop/store/store.service';
+import { ShopStore } from '@modules/shop/store/store.model';
+/**
+ * App id
+ */
+export enum APP_ID {
+  PALREY_CLIENT = 1,
+  PALREY_ADMIN = 2
+}
 /**
  * Application service
  */
@@ -34,42 +44,47 @@ export class ApplicationService {
     return `${app.id}|${token}`
   }
   /**
+   * Saves extra settings
+   * @param _app 
+   * @param _extra
+   * @returns extra settings 
+   */
+  async saveSettings(_app: Application, _extra: ApplicationSettingsDto): Promise<Application> {
+    _app.settings = _extra;
+    await this.repo.update({ id: _app.id }, {
+      settings: _app.settings
+    });
+    return _app;
+  }
+  /**
    * Setups client
    * @returns client 
    */
-  async setup(_p: SetupClientResquestDto): Promise<SetupClientResponseDto> {
+  async setup(_p: SetupAppResquestDto): Promise<SetupAppResponseDto> {
     const locality = await this.localityService.getByCoordinates(_p.coordinates);
-    // Select application
+    const user = _p.user ? _p.user : undefined;
+    const stores: ShopStore[] = [];
+    const blocks: ClientBlocksDto[] = [];
     switch (_p.app.id) {
-      //? PalRey Client
-      case 1:
-        // TODO: get Current Locality
-        const stores = await this.shopStoreService.getByLocality({ locality, filter: { verified: true, open: true }, withOffers: true });
-        const blocks: ClientAppBlocksDto[] = [];
-        return {
-          blocks,
-          user: _p.user,
+      case APP_ID.PALREY_CLIENT:
+        const localityStores = await this.shopStoreService.getByLocality({
           locality,
-          stores
-        }
-      //? Palrey Vendor
-      case 2:
-        if (!_p.user || isNaN(_p.user.id))
-          throw new HttpException('Usuario no encontrado', 400);
-        const ownerStoresWithOffers = await this.shopStoreService.filter({
-          owner: { id: _p.user.id }
-        }, {
-          offers: true
+          filter: {
+            verified: true
+          }
         });
-        return {
-          blocks: [],
-          user: _p.user,
-          stores: ownerStoresWithOffers,
-          locality
-        }
-      default:
-        throw new HttpException('No existe la aplicación', 400);
+        stores.push(...localityStores);
+        blocks.push({
+          data: stores,
+          type: 'store-group'
+        })
+        break;
     }
-
+    return {
+      locality,
+      user,
+      blocks,
+      stores
+    }
   }
 }
