@@ -1,10 +1,10 @@
 {
-  "name": "project-name",
+  "name": "EnTuKsa",
   "version": "0.0.1",
-  "description": "",
+  "description": "EnTuKsa Servicios",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
