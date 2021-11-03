@@ -2,9 +2,9 @@ import { BaseModel } from "@modules/BaseModel";
 import { User } from "@modules/users/user.model";
 import { Column, Entity, ManyToOne } from "typeorm";
 import { ShopOffer } from '@modules/shop/offers/offer.model';
-import { ShopOrderPriceDetailsDto } from './order.dto';
+import { ShopOrderPriceDetailsDto, IShopOrderStatus } from './order.dto';
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDecimal, IsNumber, ValidateNested } from 'class-validator';
+import { IsDecimal, IsIn, IsNumber, ValidateNested } from 'class-validator';
 import { Type } from "class-transformer";
 
 @Entity('shop_orders')
@@ -32,6 +32,13 @@ export class ShopOrder extends BaseModel {
   @ApiProperty()
   qty: number;
   /**
+   * Status  of shop order
+   */
+  @Column({ default: 'PROCESSING' })
+  @IsIn(['PROCESSING', 'ACCEPTED', 'READY', 'C_CANCELED', 'V_CANCELED', 'ONWAY', 'COMPLETED', 'RECLAIM', 'RECLAIM_COMPLETE'])
+  @ApiProperty({ example: "'PROCESSING' | 'ACCEPTED' | 'READY' | 'C_CANCELED' | 'V_CANCELED' | 'ONWAY' | 'COMPLETED' | 'RECLAIM' | 'RECLAIM_COMPLETE'" })
+  status: IShopOrderStatus;
+  /**
    * -----------------------------------------
    *	Relationships
    * -----------------------------------------
@@ -45,4 +52,12 @@ export class ShopOrder extends BaseModel {
   @ManyToOne(() => ShopOffer, offer => offer.orders)
   @ApiProperty({ type: () => ShopOffer })
   offer: ShopOffer;
+  /**
+   * -----------------------------------------
+   *	Methods
+   * -----------------------------------------
+   */
+  get vendor() {
+    return this.offer.store;
+  }
 }
