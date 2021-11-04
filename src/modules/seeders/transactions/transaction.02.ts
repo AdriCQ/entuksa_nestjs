@@ -12,7 +12,8 @@ export async function transaction02(transaction: EntityManager, seederId: string
   await transaction.save(Category, [{
     id: 'culinary',
     title: 'Culinario',
-    description: 'Alimentos'
+    description: 'Alimentos',
+    icon: 'mdi-cart'
   }]);
   // Map Position
   const position = await transaction.save(MapPosition, [{

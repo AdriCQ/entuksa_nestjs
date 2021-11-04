@@ -5,5 +5,5 @@ export default registerAs('mail', () => ({
   port: process.env.MAIL_PORT || 465,
   user: process.env.MAIL_USER || 'acq95',
   password: process.env.MAIL_PASSWORD || 'KxH_621190719960',
-  from: process.env.MAIL_FROM || 'noreply@nairda.net',
+  from: process.env.MAIL_FROM || 'info@nairda.net',
 }));
