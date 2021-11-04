@@ -24,8 +24,8 @@ export class AuthService {
     let user: User;
     if (_user.email)
       user = await this.usersService.find({ email: _user.email });
-    else if (!user && _user.mobilePhone)
-      user = await this.usersService.find({ email: _user.email });
+    else if (_user.mobilePhone)
+      user = await this.usersService.find({ mobilePhone: _user.mobilePhone });
     if (!user) {
       throw new UnauthorizedException('No se encontró el usuario');
     }
@@ -41,32 +41,5 @@ export class AuthService {
     const user = await this.usersService.find({ email: _user.email });
     const payload: IUser.JwtPayload = { id: user.id };
     return this.jwtService.sign(payload);
-  }
-  /**
-   * Generates confirmation token
-   * @param _user 
-   * @returns confirmation token 
-   */
-  async generateConfirmationToken(_user: User): Promise<string> {
-    const dateString = new Date().toLocaleDateString();
-    const hashToken = await argon.hash(`${dateString}`);
-    return `${_user.id}|${hashToken}`
-  }
-  /**
-   * Gets user from confirmation token
-   * @param _token 
-   * @returns user
-   */
-  async verifyUserEmailConfirmationToken(_token: string): Promise<User> {
-    const tokenSplit = _token.split('|');
-    if (!tokenSplit.length)
-      throw new HttpException('Token incorrecto', 401);
-    const userId = Number(tokenSplit[0]);
-    const hash = tokenSplit[1]
-    // Validate time
-    const dateString = new Date().toLocaleDateString();
-    if (!await argon.verify(hash, dateString))
-      throw new HttpException('El Token ha caducado', 401);
-    return await this.usersService.verifyEmail({ id: userId });
   }
 }

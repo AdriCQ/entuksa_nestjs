@@ -2,21 +2,29 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { User } from '@modules/users/user.model';
 import { MailConfirmEmailDto } from './mail.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MailService {
-  constructor(private mailerService: MailerService) { }
+  /**
+   * constructor
+   * @param configService 
+   * @param mailerService 
+   */
+  constructor(
+    private configService: ConfigService,
+    private mailerService: MailerService) { }
   /**
    * Sends user confirmation
    * @param user 
    * @param token 
    */
   async sendUserConfirmation(user: User, token: string) {
-    const baseDomain = 'http://localhost:3000'
+    const baseDomain = this.configService.get<string>('app.host');
     const mailContext: MailConfirmEmailDto = {
       actionType: 'Confirmar Email',
-      appTitle: 'Palrey',
-      confirmUrl: `${baseDomain}/api/users/auth/confirm-email?token=${token}`,
+      appTitle: 'EnTuKsa',
+      token,
       domain: baseDomain,
       unsuscribeUrl: `${baseDomain}/`,
       user

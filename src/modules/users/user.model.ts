@@ -73,6 +73,14 @@ export class User extends BaseModel {
   @ApiProperty({ example: '55555555' })
   mobilePhone?: string;
   /**
+   * mobilePhone verified at of user
+   */
+  @Column({ nullable: true, default: null })
+  @IsOptional()
+  @IsDate()
+  @ApiProperty()
+  mobilePhoneVerifiedAt: Date | null;
+  /**
    * Password  of user
    */
   @Column()

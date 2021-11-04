@@ -20,7 +20,7 @@ POST /api/users/auth/signin
 Host: {{ host }}
 
 {
-  "email": "acq95@nauta.cu",
+  "mobilePhone": "53375180",
   "password": "password"
 }
 

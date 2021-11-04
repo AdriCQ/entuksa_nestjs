@@ -37,5 +37,5 @@ export class MailConfirmEmailDto extends MailBaseDto {
    * Confirm url of mail confirm email dto
    */
   @IsString()
-  confirmUrl: string;
+  token: string;
 }

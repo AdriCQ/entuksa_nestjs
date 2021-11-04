@@ -7,7 +7,9 @@ import {
   Post,
   Request,
   UseGuards,
-  Query
+  Query,
+  Param,
+  HttpException
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserAuthSigninDto, UserAuthSignupDto, } from '../users.dto';
@@ -32,14 +34,6 @@ export class AuthController {
     private readonly mailService: MailService,
   ) { }
   /**
-   * Confirms email
-   */
-  @Get('/confirm-email')
-  async confirmEmail(@Query() _qry: { token: string }) {
-    // TODO: Confirm email view
-    return await this.authService.verifyUserEmailConfirmationToken(_qry.token);
-  }
-  /**
    * Signins auth controller
    * @param _body
    * @returns signin
@@ -48,13 +42,10 @@ export class AuthController {
   @HttpCode(200)
   @ApiResponse({ status: 200, description: 'Login User', type: () => UsersAuthResponseDto })
   async signin(@Body() _body: UserAuthSigninDto): Promise<UsersAuthResponseDto> {
-    // validate
-    const user = await this.authService.validate(
-      {
-        email: _body.email,
-      },
-      _body.password,
-    );
+    // Check user
+    if (!_body.email && !_body.mobilePhone)
+      throw new HttpException('Parametros omitidos', 400);
+    const user = await this.authService.validate({ email: _body.email, mobilePhone: _body.mobilePhone }, _body.password);
     if (user) {
       const token = await this.authService.generateAccessToken(user);
       return {
@@ -76,7 +67,7 @@ export class AuthController {
       throw new ConflictException(`El email ${_body.email} o el teléfono ${_body.mobilePhone} ya están registrado`);
     // Send email confirmation
     const user = await this.usersService.create(_body);
-    const confirmToken = await this.authService.generateConfirmationToken(user);
+    const confirmToken = await this.usersService.generateConfirmationString(user, 'email');
     this.mailService.sendUserConfirmation(user, confirmToken);
     const token = await this.authService.generateAccessToken(user);
     return { user, token };

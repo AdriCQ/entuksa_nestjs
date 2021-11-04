@@ -32,7 +32,7 @@ import { ConfigService } from "@nestjs/config";
             strict: true,
           },
         },
-        preview: true,
+        preview: config.get<string>('app.env').toLocaleLowerCase() === 'dev',
         // options: {
         //   partials: {
         //     dir: join(__dirname, 'templates/partials'),

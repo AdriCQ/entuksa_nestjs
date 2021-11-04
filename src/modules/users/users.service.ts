@@ -56,22 +56,52 @@ export class UsersService {
     email?: string;
     mobilePhone?: string;
     id?: number;
-  }): Promise<User | undefined> {
-    let user: User;
-    if (_p.id) user = await this.userRepo.findOne(_p.id);
-    if (!user && _p.email)
-      user = await this.userRepo.findOne({ where: { email: _p.email } });
-    return user;
+  }): Promise<User> {
+    if (_p.id) return await this.userRepo.findOne(_p.id);
+    else if (_p.email)
+      return await this.userRepo.findOne({ where: { email: _p.email } });
+    else if (_p.mobilePhone)
+      return await this.userRepo.findOne({ where: { mobilePhone: _p.mobilePhone } });
+  }
+
+  /**
+   * checkConfirmation
+   * @param _user 
+   * @param _type 
+   * @param _confirmation 
+   * @returns 
+   */
+  checkConfirmation(_user: User, _type: 'mobile' | 'email' = 'email', _confirmation: string): boolean {
+    return this.generateConfirmationString(_user, _type) === _confirmation;
+  }
+  /**
+   * generateConfirmationString
+   * @param _user 
+   * @param type 
+   * @returns 
+   */
+  generateConfirmationString(_user: User, type: 'mobile' | 'email' = 'email'): string {
+    const date = new Date();
+    // const month = date.getMonth() >= 10 ? date.getMonth().toString() : `0${date.getMonth()}`;
+    const dayOfMonth = date.getDate() >= 10 ? date.getDate().toString() : `0${date.getDate()}`;
+    const userId = _user.id.toString();
+    const nameLength = _user.name.length.toString();
+    return userId + dayOfMonth + nameLength + (type === 'email' ? '1' : '2');
   }
   /**
    * Verifys email
    * @param _user 
    * @returns  
    */
-  async verifyEmail(_user: OnlyIdDto): Promise<User> {
-    await this.userRepo.update({ id: _user.id }, {
-      emailVerifiedAt: new Date()
-    });
-    return this.find({ id: _user.id })
+  async verify(_user: OnlyIdDto, _type: 'email' | 'mobile' = 'email'): Promise<User> {
+    if (_type === 'email')
+      await this.userRepo.update({ id: _user.id }, {
+        emailVerifiedAt: new Date()
+      });
+    else if (_type === 'mobile')
+      await this.userRepo.update({ id: _user.id }, {
+        mobilePhoneVerifiedAt: new Date()
+      });
+    return this.find({ id: _user.id });
   }
 }

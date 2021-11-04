@@ -185,7 +185,7 @@
           <tr>
             <td align="left" bgcolor="#ffffff"
               style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-              <p style="margin: 0;">Presione el botón de abajo para confirmar su dirección de correo. Si usted no creó
+              <p style="margin: 0;">Copie el siguiente código para confirmar su email. Si usted no creó
                 una cuenta en <a href="{{ domain }}" target="_blank">{{ appTitle }}</a> puede eliminar este correo.
               </p>
             </td>
@@ -200,9 +200,12 @@
                   <td align="center" bgcolor="#ffffff" style="padding: 12px;">
                     <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                          <a href="{{ confirmUrl }}" target="_blank"
+                        <td align="center" bgcolor="#1a82e2"
+                          style="border-radius: 6px; padding: 0 1rem 0 1rem; color: white">
+                          {{!-- <a href="{{ confirmUrl }}" target="_blank"
                             style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Confirmar</a>
+                          --}}
+                          <h2>{{ token }}</h3>
                         </td>
                       </tr>
                     </table>
@@ -214,20 +217,20 @@
           <!-- end button -->
 
           <!-- start copy -->
-          <tr>
+          {{!-- <tr>
             <td align="left" bgcolor="#ffffff"
               style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
               <p style="margin: 0;">Si no funcionó el botón copie y pegue el siguiente enlace en un navegador</p>
               <p style="margin: 0;"><a href="{{ domain }}" target="_blank">{{ confirmUrl }}</a></p>
             </td>
-          </tr>
+          </tr> --}}
           <!-- end copy -->
 
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff"
               style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-              <p style="margin: 0;">Soporte Nairda,<br> Nairda Dev</p>
+              <p style="margin: 0;">Info Nairda,<br> Nairda Soft</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -269,7 +272,7 @@
               <p style="margin: 0;">Si quiere dejar de recibir estos email usted puede <a href="{{ unsuscribeUrl }}"
                   target="_blank">Cancelar su suscripción</a> cuando lo desee.
               </p>
-              <p style="margin: 0;">Copyright &copy; Nairda Dev</p>
+              <p style="margin: 0;">Copyright &copy; Nairda Soft</p>
             </td>
           </tr>
           <!-- end unsubscribe -->

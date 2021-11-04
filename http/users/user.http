@@ -1,0 +1,18 @@
+
+###
+# Send Verification
+###
+POST /api/users/send-verification
+Host: {{ host }}
+Authorization: {{ token }}
+
+{
+  "type": "EMAIL"
+}
+
+###
+# Verify
+###
+GET /api/users/verify/mobile/10461
+Host: {{ host }}
+Authorization: {{ token }}
