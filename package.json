@@ -1,10 +1,9 @@
 {
-  "name": "EnTuKsa",
+  "name": "entuksa",
   "version": "0.0.1",
-  "description": "EnTuKsa Servicios",
-  "author": "",
+  "description": "EnTuKsa-NairdaSoft Servicios",
+  "author": "AdriCQ <adrian.capote95@zoho.com>",
   "private": true,
-  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
