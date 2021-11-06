@@ -20,7 +20,7 @@ export class MailService {
    * @param token 
    */
   async sendUserConfirmation(user: User, token: string) {
-    const baseDomain = this.configService.get<string>('app.host');
+    const baseDomain = `${this.configService.get<string>('app.host')}:${this.configService.get('app.port')}`;
     const mailContext: MailConfirmEmailDto = {
       actionType: 'Confirmar Email',
       appTitle: 'EnTuKsa',

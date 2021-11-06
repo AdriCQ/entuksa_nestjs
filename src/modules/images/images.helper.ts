@@ -13,6 +13,8 @@ export class ImagesHelper {
     // copy image
     if (!fs.existsSync(this._dir + '/default.jpg'))
       fs.copyFileSync('./static/img/default.jpg', this._dir + '/default.jpg');
+    if (!fs.existsSync(this._dir + '/nairda_logo.png'))
+      fs.copyFileSync('./static/img/nairda_logo.png', this._dir + '/nairda_logo.png');
   }
   /**
    * Edits file name

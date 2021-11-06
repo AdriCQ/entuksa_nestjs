@@ -10,11 +10,18 @@ import { Seeder } from '@modules/seeders/seeder.model';
  */
 export async function transaction01(transaction: EntityManager, seederId: string, seederDescription: string) {
   // Seed Images
-  await transaction.save(Image, [{
-    tags: ['default'],
-    title: 'Default-Image',
-    paths: { lg: 'storage/app/images/default.jpg', md: 'storage/app/images/default.jpg', sm: 'storage/app/images/default.jpg' },
-  }]);
+  await transaction.save(Image, [
+    {
+      tags: ['default'],
+      title: 'Default-Image',
+      paths: { lg: 'storage/app/images/default.jpg', md: 'storage/app/images/default.jpg', sm: 'storage/app/images/default.jpg' },
+    },
+    {
+      tags: ['logo', 'nairda'],
+      title: 'NairdaSoft-Logo',
+      paths: { lg: 'storage/app/images/nairda_logo.png', md: 'storage/app/images/nairda_logo.png', sm: 'storage/app/images/nairda_logo.png' },
+    }
+  ]);
   // Seed Users
   await transaction.save(User, [
     {

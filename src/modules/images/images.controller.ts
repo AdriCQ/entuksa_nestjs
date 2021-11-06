@@ -5,7 +5,7 @@ import { Response } from "express";
 /**
  * Images controller
  */
-@Controller('api/images')
+@Controller('images')
 @ApiTags('Images')
 export class ImagesController {
   /**
