@@ -6,6 +6,7 @@ import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { User } from '@modules/users/user.model';
 import { ShopStore } from '@modules/shop/store/store.model';
+import { ShopOffer } from '@modules/shop/offers/offer.model';
 /**
  * Image
  */
@@ -45,5 +46,10 @@ export class Image extends BaseModel {
    * -----------------------------------------
    */
   @OneToMany(() => ShopStore, sh => sh.image)
+  @ApiPropertyOptional({ type: () => ShopStore, isArray: true })
   shopStores: ShopStore[];
+
+  @OneToMany(() => ShopOffer, sh => sh.image)
+  @ApiPropertyOptional({ type: () => ShopOffer, isArray: true })
+  shopOffers: ShopOffer[];
 }

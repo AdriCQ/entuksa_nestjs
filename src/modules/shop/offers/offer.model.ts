@@ -117,8 +117,7 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
   @Column()
   imageId: number;
 
-  @OneToOne(() => Image)
-  @JoinColumn()
+  @ManyToOne(() => Image, img => img.shopOffers)
   @ApiProperty({ type: () => Image })
   image: Image;
 
