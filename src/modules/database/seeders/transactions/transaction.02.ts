@@ -1,5 +1,5 @@
 import { EntityManager } from "typeorm";
-import { Seeder } from '@modules/seeders/seeder.model';
+import { Seeder } from '@modules/database/seeders/seeder.model';
 import { Category } from '@modules/shop/categories/category.model';
 import { MapPosition } from "@modules/map/positions/position.model";
 import { Locality } from "@modules/map/localities/locality.model";

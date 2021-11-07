@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 // Configuration
 import { ConfigModule } from '@nestjs/config';
 import appConfig from '@configs/app.config';
@@ -7,9 +9,8 @@ import mailConfig from '@configs/mail.config';
 import pathConfig from '@configs/path.config';
 import typeormConfig from '@configs/typeorm.config';
 // Typeorm Database
-import { DatabaseModuleConfig } from './database';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { DatabaseModuleConfig } from './modules/database';
+import { DbSeederModule } from '@modules/database/seeders/seeders.module';
 // Users Modules
 import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/users/auth/auth.module';
@@ -27,7 +28,6 @@ import { LocalityModule } from '@modules/map/localities/localities.module';
 // App modules
 import { ApplicationModule } from '@modules/applications/application.module';
 import { MailNotificationModule } from '@modules/notifications/mail/mail.module';
-import { DbSeederModule } from '@modules/seeders/seeders.module';
 
 @Module({
   imports: [

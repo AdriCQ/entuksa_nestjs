@@ -3,7 +3,7 @@ import { User } from '@modules/users/user.model';
 import { hash } from 'argon2';
 import { Image } from "@modules/images/images.model";
 import { Application } from '@modules/applications/application.model';
-import { Seeder } from '@modules/seeders/seeder.model';
+import { Seeder } from '@modules/database/seeders/seeder.model';
 /**
  * @description Seed Default Image, Developer user, Client application
  * @param transaction 

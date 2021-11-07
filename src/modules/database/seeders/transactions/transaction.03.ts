@@ -1,5 +1,5 @@
 import { EntityManager } from "typeorm";
-import { Seeder } from '@modules/seeders/seeder.model';
+import { Seeder } from '@modules/database/seeders/seeder.model';
 import { ShopStore } from "@modules/shop/store/store.model";
 import { hash } from 'argon2';
 import { User } from "@modules/users/user.model";

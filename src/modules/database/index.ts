@@ -8,7 +8,7 @@ export const DatabaseModuleConfig = TypeOrmModule.forRootAsync({
   useFactory: (configService: ConfigService) => ({
     type: 'postgres',
     host: configService.get('typeorm.host'),
-    port: +configService.get<number>('typeorm.port'),
+    port: configService.get<number>('typeorm.port'),
     username: configService.get('typeorm.username'),
     password: configService.get('typeorm.password'),
     database: configService.get('typeorm.database'),

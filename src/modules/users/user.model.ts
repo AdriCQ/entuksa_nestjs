@@ -104,25 +104,25 @@ export class User extends BaseModel {
    */
   @OneToMany(() => Image, img => img.owner)
   @ApiPropertyOptional({ type: () => Image, isArray: true })
-  images: Image[];
+  images?: Image[];
   /**
    * Orders  of user
    */
   @OneToMany(() => ShopOrder, order => order.client)
   @ApiPropertyOptional({ type: () => ShopOrder, isArray: true })
-  orders: ShopOrder[];
+  orders?: ShopOrder[];
   /**
    * Stores  of user
    */
   @OneToMany(() => ShopStore, (store) => store.vendor)
   @ApiPropertyOptional({ type: () => ShopStore, isArray: true })
-  stores: ShopStore[];
+  stores?: ShopStore[];
   /**
    * Shop chats of user
    */
   @OneToMany(() => ShopChat, sc => sc.client)
   @ApiPropertyOptional({ type: () => ShopChat, isArray: true })
-  shopChats: ShopChat[];
+  shopChats?: ShopChat[];
   /**
    * -----------------------------------------
    *	Before Enter Data

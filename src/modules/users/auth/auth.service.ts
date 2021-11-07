@@ -30,7 +30,7 @@ export class AuthService {
       throw new UnauthorizedException('No se encontró el usuario');
     }
     if (await user.validatePassword(_password)) return user;
-    return null;
+    throw new UnauthorizedException('Credenciales incorrectas');
   }
   /**
    * Generates access token
