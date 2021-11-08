@@ -10,7 +10,7 @@ import { Application } from './application.model';
 /**
  * @type Blocktype
  */
-type BlockType = 'offer-widget' | 'offer-group' | 'offer-slider' | 'store-widget' | 'store-group' | 'store-slider';
+type BlockType = 'offer-widget' | 'offers-group' | 'offers-slider' | 'store-widget' | 'stores-group' | 'stores-slider' | 'title-widget';
 
 /**
  * Application settings dto
@@ -38,8 +38,8 @@ export class ClientBlocksDto {
   /**
    * Type  of client app blocks dto
    */
-  @IsIn(['offer-widget', 'offer-group', 'offer-slider', 'store-widget', 'store-group', 'store-slider'])
-  @ApiProperty({ example: "'offer-widget' | 'offer-group' | 'offer-slider' | 'store-widget' | 'store-group' | 'store-slider'" })
+  @IsIn(['offer-widget', 'offers-group', 'offers-slider', 'store-widget', 'stores-group', 'stores-slider', 'title-widget'])
+  @ApiProperty({ example: "'offer-widget' | 'offers-group' | 'offers-slider' | 'store-widget' | 'stores-group' | 'stores-slider' | 'title-widget'" })
   type: BlockType;
   /**
    * Config  of client app blocks dto

@@ -36,7 +36,7 @@ export async function transaction01(transaction: EntityManager, seederId: string
   ]);
   // Seed Application
   await transaction.save(Application, [{
-    title: 'Palrey-Client',
+    title: 'EnTuKsa-Client',
     description: 'Clientes de Palrey',
     settings: {
       open: true,
@@ -44,7 +44,7 @@ export async function transaction01(transaction: EntityManager, seederId: string
   }]);
 
   await transaction.save(Application, [{
-    title: 'Palrey-Shop',
+    title: 'EnTuKsa-Admin',
     description: 'Administracion de tiendas, ofertas y pedidos',
     settings: {
       open: true

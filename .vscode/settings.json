@@ -7,13 +7,13 @@
     "Accept-Language": "es",
     "Content-Type": "application/json",
     "User-Agent": "vscode-restclient",
-    "X-App-Token": "1|$argon2i$v=19$m=4096,t=3,p=1$4C/jHrTMLhBlH+8PjfkutA$ABrM77nIhbgHn6+QFJRjtBHKqa4mi+XEMKB3uKngQds"
+    "X-App-Token": "1|$argon2i$v=19$m=4096,t=3,p=1$EOHefdy1LeKmgLhRRj7Qow$rRPr4sO3+O9Aa/8YqZDnxTMPzQ/BUo4ZShXn5P5oeBE"
   },
   "rest-client.environmentVariables": {
     "$shared": {
       "version": "v1",
       "prodToken": "Bearer 10|ruAge3xIz13NdRN3hIN4shP36OoHV9hPYw5BLLHWPYLt0KE7UnV106oReFAujZBbB2MLzQ9ZgbPObhDK",
-      "nonProdToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM2MDU4NjQ4fQ.Oo0kLRFGm59W-SUNFK8-g9h3U3GFKAx9RbDJErvmWEI"
+      "nonProdToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM2MzE1Mjc3fQ.oxSc26vHG28RjS9YPnwurrQyTFfhIR_Zj9k167Xb048"
     },
     "local": {
       "version": "v2",

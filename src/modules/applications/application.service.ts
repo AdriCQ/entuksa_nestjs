@@ -1,7 +1,7 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from './application.model';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { SetupAppResquestDto, SetupAppResponseDto, ClientBlocksDto, ApplicationSettingsDto } from './application.dto';
 // Map Modules
 import { LocalityService } from '@modules/map/localities/locality.service';
@@ -12,8 +12,8 @@ import { ShopStore } from '@modules/shop/store/store.model';
  * App id
  */
 export enum APP_ID {
-  PALREY_CLIENT = 1,
-  PALREY_ADMIN = 2
+  ENTUKSA_CLIENT = 1,
+  ENTUKSA_ADMIN = 2
 }
 /**
  * Application service
@@ -66,18 +66,40 @@ export class ApplicationService {
     const stores: ShopStore[] = [];
     const blocks: ClientBlocksDto[] = [];
     switch (_p.app.id) {
-      case APP_ID.PALREY_CLIENT:
+      case APP_ID.ENTUKSA_CLIENT:
         const localityStores = await this.shopStoreService.getByLocality({
           locality,
           filter: {
             verified: true
-          }
+          },
+          withOffers: true
         });
         stores.push(...localityStores);
+        const storeBlock: DeepPartial<ShopStore>[] = [];
+        const localityOffers = [];
+        localityStores.forEach(_store => {
+          localityOffers.push(...(_store.offers));
+          storeBlock.push(this.extractStore(_store));
+        });
         blocks.push({
-          data: stores,
-          type: 'store-group'
-        })
+          data: storeBlock as ShopStore[],
+          type: 'stores-slider'
+        });
+        if (localityOffers.length > 6) {
+          blocks.push({
+            data: [],
+            type: 'title-widget',
+            config: { title: 'Ofertas Destacadas' }
+          })
+          blocks.push({
+            data: localityOffers.slice(0, 4),
+            type: 'offers-group',
+          });
+          blocks.push({
+            data: localityOffers.slice(4, localityOffers.length),
+            type: 'offers-slider'
+          });
+        }
         break;
     }
     return {
@@ -85,6 +107,19 @@ export class ApplicationService {
       user,
       blocks,
       stores
+    }
+  }
+
+  private extractStore(_store: ShopStore): DeepPartial<ShopStore> {
+    return {
+      id: _store.id,
+      createdAt: _store.createdAt,
+      description: _store.description,
+      image: _store.image,
+      open: _store.open,
+      position: _store.position,
+      rating: _store.rating,
+      title: _store.title,
     }
   }
 }
