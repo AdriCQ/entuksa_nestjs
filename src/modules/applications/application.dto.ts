@@ -5,7 +5,7 @@ import { ShopStore } from '@modules/shop/store/store.model';
 import { User } from '@modules/users/user.model';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested, IsIn } from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested, IsIn, IsNumber } from 'class-validator';
 import { Application } from './application.model';
 /**
  * @type Blocktype
@@ -24,6 +24,21 @@ export class ApplicationSettingsDto {
  * Client app block config dto
  */
 export class ClientAppBlockConfigDto {
+  @IsBoolean()
+  @ApiPropertyOptional()
+  displayDense?: boolean;
+  /**
+   * displayOnly
+   */
+  @IsIn(['DESKTOP', 'MOBILE'])
+  @ApiPropertyOptional()
+  displayOnly?: 'DESKTOP' | 'MOBILE';
+  /**
+   * ratio
+   */
+  @IsNumber()
+  @ApiPropertyOptional()
+  ratio?: number;
   /**
    * Title  of client app block config dto
    */
@@ -51,8 +66,8 @@ export class ClientBlocksDto {
   /**
    * Data  of client app block config dto
    */
-  @ApiProperty({ example: "ShopOffer | ShopOffer[] | ShopStore | ShopStore[]" })
-  data: ShopOffer | ShopOffer[] | ShopStore | ShopStore[];
+  @ApiProperty({ example: "ShopOffer | ShopOffer[] | ShopStore | ShopStore[] | string" })
+  data: ShopOffer | ShopOffer[] | ShopStore | ShopStore[] | string;
 }
 /**
  * Create application dto

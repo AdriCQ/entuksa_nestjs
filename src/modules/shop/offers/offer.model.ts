@@ -1,19 +1,19 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
-import { BaseModel } from '@modules/BaseModel';
+import { BaseModelWithImage } from '@modules/BaseModel';
 import { IShopOffer } from './offers';
 import { Image } from '@modules/images/images.model';
 import { ShopStore } from '@modules/shop/store/store.model';
 import { IsBoolean, IsDate, IsIn, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { OfferAttributeDto, OfferPricesDto, OfferStockDto, OfferConfigurable, OfferConfigurableWithPrice } from './offers.dto';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Category } from '@modules/shop/categories/category.model';
 import { ShopOrder } from '@modules/shop/order/order.model';
 /**
  * Shop offer
  */
 @Entity('shop_offers')
-export class ShopOffer extends BaseModel implements IShopOffer.Offer {
+export class ShopOffer extends BaseModelWithImage {
   /**
    * Title  of shop offer
    */
@@ -109,28 +109,25 @@ export class ShopOffer extends BaseModel implements IShopOffer.Offer {
    * Category  of shop offer
    */
   @ManyToOne(() => Category, cat => cat.offers, { onDelete: 'CASCADE' })
-  @ApiProperty({ type: () => Category })
-  category: Category;
+  @ApiPropertyOptional({ type: () => Category })
+  category?: Category;
   /**
-  * Image  of shop offer
-  */
-  @Column()
-  imageId: number;
-
+   * image
+   */
   @ManyToOne(() => Image, img => img.shopOffers)
-  @ApiProperty({ type: () => Image })
-  image: Image;
+  @ApiPropertyOptional({ type: () => Image })
+  image?: Image;
 
   /**
    * Store  of shop offer
    */
   @ManyToOne(() => ShopStore, store => store.offers, { onDelete: 'CASCADE' })
-  @ApiProperty({ type: () => ShopStore, nullable: true })
-  store: ShopStore;
+  @ApiPropertyOptional({ type: () => ShopStore, nullable: true })
+  store?: ShopStore;
   /**
    * One to many of shop offer
    */
   @OneToMany(() => ShopOrder, of => of.offer)
-  @ApiProperty({ type: () => ShopOrder, isArray: true, nullable: true })
-  orders: ShopOrder[]
+  @ApiPropertyOptional({ type: () => ShopOrder, isArray: true, nullable: true })
+  orders?: ShopOrder[]
 }

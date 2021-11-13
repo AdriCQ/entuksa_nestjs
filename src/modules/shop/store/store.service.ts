@@ -70,8 +70,15 @@ export class ShopStoreService {
    * @param _id
    * @returns by id
    */
-  async getById(_id: number): Promise<ShopStore> {
-    return await this.storeRepo.findOne(_id);
+  async getById(_id: number, _options?: { withOffers?: boolean, withImage?: boolean }): Promise<ShopStore> {
+    const relations: string[] = [];
+    if (_options) {
+      if (_options.withOffers) relations.push('offers');
+      if (_options.withImage) relations.push('image');
+    }
+    return await this.storeRepo.findOne(_id, {
+      relations
+    });
   }
   /**
    * Gets by locality

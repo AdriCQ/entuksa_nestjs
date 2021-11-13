@@ -8,6 +8,7 @@ import { LocalityService } from '@modules/map/localities/locality.service';
 // Shop MOdules
 import { ShopStoreService } from '@modules/shop/store/store.service';
 import { ShopStore } from '@modules/shop/store/store.model';
+import { ShopOffer } from '@modules/shop/offers/offer.model';
 /**
  * App id
  */
@@ -76,30 +77,61 @@ export class ApplicationService {
         });
         stores.push(...localityStores);
         const storeBlock: DeepPartial<ShopStore>[] = [];
-        const localityOffers = [];
+        const localityOffers: DeepPartial<ShopOffer[]> = [];
         localityStores.forEach(_store => {
           localityOffers.push(...(_store.offers));
           storeBlock.push(this.extractStore(_store));
         });
         blocks.push({
-          data: storeBlock as ShopStore[],
-          type: 'stores-slider'
+          data: 'Tiendas',
+          type: 'title-widget'
         });
-        if (localityOffers.length > 6) {
-          blocks.push({
-            data: [],
-            type: 'title-widget',
-            config: { title: 'Ofertas Destacadas' }
-          })
-          blocks.push({
-            data: localityOffers.slice(0, 4),
-            type: 'offers-group',
-          });
-          blocks.push({
-            data: localityOffers.slice(4, localityOffers.length),
-            type: 'offers-slider'
-          });
-        }
+        blocks.push({
+          data: storeBlock as ShopStore[],
+          type: 'stores-slider',
+        });
+        blocks.push({
+          data: 'Tiendas',
+          type: 'title-widget'
+        });
+        blocks.push({
+          data: storeBlock as ShopStore[],
+          type: 'stores-group',
+          config: { displayDense: true }
+        });
+        blocks.push({
+          data: 'Ofertas',
+          type: 'title-widget'
+        });
+        blocks.push({
+          data: localityOffers as ShopOffer[],
+          type: 'offers-slider'
+        });
+        blocks.push({
+          data: 'Ofertas',
+          type: 'title-widget'
+        });
+        blocks.push({
+          data: localityOffers as ShopOffer[],
+          type: 'offers-group',
+          config: { displayDense: true }
+
+        });
+
+        // if (localityOffers.length > 6) {
+        //   blocks.push({
+        //     data: 'Ofertas Destacadas',
+        //     type: 'title-widget',
+        //   })
+        //   blocks.push({
+        //     data: localityOffers.slice(0, 4),
+        //     type: 'offers-group',
+        //   });
+        //   blocks.push({
+        //     data: localityOffers.slice(4, localityOffers.length),
+        //     type: 'offers-slider'
+        //   });
+        // }
         break;
     }
     return {

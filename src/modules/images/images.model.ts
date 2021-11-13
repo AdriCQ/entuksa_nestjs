@@ -1,5 +1,5 @@
 import { BaseModel } from '@modules/BaseModel';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagePathsDto } from './images.dto';
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -11,7 +11,10 @@ import { ShopOffer } from '@modules/shop/offers/offer.model';
  * Image
  */
 @Entity('images')
-export class Image extends BaseModel {
+export class Image {
+  @PrimaryGeneratedColumn()
+  @ApiProperty()
+  id: number;
   /**
    * Title  of image
    */
@@ -47,9 +50,9 @@ export class Image extends BaseModel {
    */
   @OneToMany(() => ShopStore, sh => sh.image)
   @ApiPropertyOptional({ type: () => ShopStore, isArray: true })
-  shopStores: ShopStore[];
+  shopStores?: ShopStore[];
 
   @OneToMany(() => ShopOffer, sh => sh.image)
   @ApiPropertyOptional({ type: () => ShopOffer, isArray: true })
-  shopOffers: ShopOffer[];
+  shopOffers?: ShopOffer[];
 }

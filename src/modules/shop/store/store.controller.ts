@@ -37,7 +37,7 @@ export class ShopStoreController {
   @Get('/:storeId')
   @ApiResponse({ status: 200, type: () => ShopStore })
   async byId(@Param('storeId') id: number): Promise<ShopStore> {
-    return await this.service.getById(id);
+    return await this.service.getById(id, { withImage: true, withOffers: true });
   }
   /**
   * Creates shop store controller

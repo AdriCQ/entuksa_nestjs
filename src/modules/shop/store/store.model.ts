@@ -3,7 +3,7 @@ import { IsBoolean, IsDate, IsNumber, IsOptional, IsString, ValidateNested } fro
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 // modules
-import { BaseModel } from '@modules/BaseModel';
+import { BaseModelWithImage } from '@modules/BaseModel';
 import { User } from '@modules/users/user.model';
 import { Image } from '@modules/images/images.model';
 import { Locality } from '@modules/map/localities/locality.model';
@@ -17,7 +17,7 @@ import { StoreTimingDto } from './store.dto';
  * Shop store
  */
 @Entity('shop_stores')
-export class ShopStore extends BaseModel {
+export class ShopStore extends BaseModelWithImage {
   /**
    * Title  of shop store
    */
@@ -73,36 +73,36 @@ export class ShopStore extends BaseModel {
    */
   @ManyToOne(() => Image)
   @ApiPropertyOptional({ type: () => Image })
-  image: Image;
+  image?: Image;
   /**
    * Locality  of shop store
    */
   @ManyToOne(() => Locality, l => l.shopStores, { onDelete: 'CASCADE', eager: true })
   @ApiPropertyOptional({ type: () => Locality })
-  locality: Locality;
+  locality?: Locality;
   /**
    * -
    * Offers  of shop store
    */
   @OneToMany(() => ShopOffer, offer => offer.store)
   @ApiPropertyOptional({ nullable: true, isArray: true, type: () => ShopOffer })
-  offers: ShopOffer[];
+  offers?: ShopOffer[];
   /**
    * One to one of shop store
    */
   @ManyToOne(() => MapPosition, { eager: true })
   @ApiPropertyOptional({ type: () => MapPosition })
-  position: MapPosition;
+  position?: MapPosition;
   /**
    * Shop chats of store
    */
   @OneToMany(() => ShopChat, sc => sc.client)
   @ApiPropertyOptional({ type: () => ShopChat, isArray: true })
-  shopChats: ShopChat[];
+  shopChats?: ShopChat[];
   /**
    * Vendor of shop store
    */
   @ManyToOne(() => User, (user) => user.stores)
   @ApiPropertyOptional({ nullable: true, type: () => User })
-  vendor: User;
+  vendor?: User;
 }

@@ -1,4 +1,4 @@
-import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ApiProperty } from '@nestjs/swagger';
 
 export class BaseModel {
@@ -11,4 +11,12 @@ export class BaseModel {
   @UpdateDateColumn()
   @ApiProperty()
   updatedAt: Date;
+}
+/**
+ * BaseModelWithImage
+ */
+export class BaseModelWithImage extends BaseModel {
+  @Column()
+  @ApiProperty()
+  imageId: number;
 }
