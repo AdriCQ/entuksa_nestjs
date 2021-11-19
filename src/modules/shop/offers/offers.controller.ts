@@ -80,6 +80,8 @@ export class ShopOffersController {
   @Get('/:offerId')
   @ApiResponse({ status: 200, type: () => ShopOffer })
   async find(@Param('offerId') _offerId: number): Promise<ShopOffer> {
+    if (isNaN(_offerId))
+      throw new HttpException('Identificador no válido', 400)
     return await this.service.find(_offerId)
   }
   /**

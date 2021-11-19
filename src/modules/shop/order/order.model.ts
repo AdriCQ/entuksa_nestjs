@@ -3,9 +3,11 @@ import { User } from "@modules/users/user.model";
 import { Column, Entity, ManyToOne } from "typeorm";
 import { ShopOffer } from '@modules/shop/offers/offer.model';
 import { ShopOrderPriceDetailsDto, IShopOrderStatus } from './order.dto';
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsDecimal, IsIn, IsNumber, ValidateNested } from 'class-validator';
 import { Type } from "class-transformer";
+import { ShopOrderOffer } from './orderOffer.model';
+import { ShopStore } from '../store/store.model';
 
 @Entity('shop_orders')
 export class ShopOrder extends BaseModel {
@@ -25,18 +27,11 @@ export class ShopOrder extends BaseModel {
   @ApiProperty({ type: () => ShopOrderPriceDetailsDto })
   priceDetails: ShopOrderPriceDetailsDto;
   /**
-   * Qty  of shop order
-   */
-  @Column({ default: 0 })
-  @IsNumber()
-  @ApiProperty()
-  qty: number;
-  /**
    * Status  of shop order
    */
-  @Column({ default: 'PROCESSING' })
-  @IsIn(['PROCESSING', 'ACCEPTED', 'READY', 'C_CANCELED', 'V_CANCELED', 'ONWAY', 'COMPLETED', 'RECLAIM', 'RECLAIM_COMPLETE'])
-  @ApiProperty({ example: "'PROCESSING' | 'ACCEPTED' | 'READY' | 'C_CANCELED' | 'V_CANCELED' | 'ONWAY' | 'COMPLETED' | 'RECLAIM' | 'RECLAIM_COMPLETE'" })
+  @Column({ default: 'CREATED', type: 'varchar', length: '64' })
+  @IsIn(['CREATED', 'PROCESSING', 'ACCEPTED', 'READY', 'C_CANCELED', 'V_CANCELED', 'ONWAY', 'COMPLETED', 'RECLAIM', 'RECLAIM_COMPLETE'])
+  @ApiProperty({ example: "'CREATED' | 'PROCESSING' | 'ACCEPTED' | 'READY' | 'C_CANCELED' | 'V_CANCELED' | 'ONWAY' | 'COMPLETED' | 'RECLAIM' | 'RECLAIM_COMPLETE'" })
   status: IShopOrderStatus;
   /**
    * -----------------------------------------
@@ -44,20 +39,18 @@ export class ShopOrder extends BaseModel {
    * -----------------------------------------
    */
   @ManyToOne(() => User, user => user.orders)
-  @ApiProperty({ type: () => User })
-  client: User;
+  @ApiPropertyOptional({ type: () => User })
+  client?: User;
   /**
    * Offer  of shop order
    */
-  @ManyToOne(() => ShopOffer, offer => offer.orders)
-  @ApiProperty({ type: () => ShopOffer })
-  offer: ShopOffer;
+  @ManyToOne(() => ShopOrderOffer, of => of.order)
+  @ApiPropertyOptional({ type: () => ShopOrderOffer, isArray: true })
+  orderOffers?: ShopOrderOffer[];
   /**
-   * -----------------------------------------
-   *	Methods
-   * -----------------------------------------
+   * Vendor
    */
-  get vendor() {
-    return this.offer.store;
-  }
+  @ManyToOne(() => ShopStore, store => store.orders)
+  @ApiPropertyOptional({ type: () => ShopStore })
+  vendor?: ShopStore;
 }

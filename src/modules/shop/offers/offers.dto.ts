@@ -169,14 +169,14 @@ export class UpdateShopOfferDto {
   @IsOptional()
   @IsString()
   @ApiPropertyOptional()
-  title: string;
+  title?: string;
   /**
    * Description  of shop offer
    */
   @IsOptional()
   @IsString()
   @ApiPropertyOptional()
-  description: string;
+  description?: string;
   /**
    * Prices  of shop offer
    */
@@ -184,7 +184,7 @@ export class UpdateShopOfferDto {
   @ValidateNested()
   @Type(() => OfferPricesDto)
   @ApiPropertyOptional({ type: () => OfferPricesDto })
-  prices: OfferPricesDto;
+  prices?: OfferPricesDto;
   /**
    * Stock  of shop offer
    */
@@ -192,14 +192,14 @@ export class UpdateShopOfferDto {
   @ValidateNested()
   @Type(() => OfferStockDto)
   @ApiPropertyOptional({ type: () => OfferStockDto })
-  stock: OfferStockDto;
+  stock?: OfferStockDto;
   /**
    * Type  of shop offer
    */
   @IsOptional()
   @IsIn(['PRODUCT', 'SERVICE'])
   @ApiPropertyOptional({ example: "PRODUCT | SERVICE" })
-  type: IShopOffer.Type;
+  type?: IShopOffer.Type;
   /**
    * Attributes  of shop offer
    */
@@ -207,7 +207,7 @@ export class UpdateShopOfferDto {
   @ValidateNested({ each: true })
   @Type(() => OfferAttributeDto)
   @ApiPropertyOptional({ isArray: true, type: () => OfferAttributeDto })
-  attributes: OfferAttributeDto[] | null;
+  attributes?: OfferAttributeDto[] | null;
   /**
    * Category  of create shop offer dto
    */
@@ -215,7 +215,7 @@ export class UpdateShopOfferDto {
   @ValidateNested()
   @Type(() => OnlyIdDto)
   @ApiPropertyOptional({ type: () => OnlyIdDto })
-  category: OnlyIdStringDto;
+  category?: OnlyIdStringDto;
   /**
    * Image  of create shop offer dto
    */
@@ -223,5 +223,5 @@ export class UpdateShopOfferDto {
   @ValidateNested()
   @Type(() => OnlyIdDto)
   @ApiPropertyOptional({ type: () => OnlyIdDto })
-  image: OnlyIdDto;
+  image?: OnlyIdDto;
 }

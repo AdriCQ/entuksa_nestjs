@@ -10,6 +10,7 @@ import { Locality } from '@modules/map/localities/locality.model';
 import { MapPosition } from '@modules/map/positions/position.model';
 import { ShopOffer } from '@modules/shop/offers/offer.model';
 import { ShopChat } from '@modules/shop/chat/chat.model';
+import { ShopOrder } from '@modules/shop/order/order.model';
 // Local
 import { StoreTimingDto } from './store.dto';
 
@@ -87,6 +88,12 @@ export class ShopStore extends BaseModelWithImage {
   @OneToMany(() => ShopOffer, offer => offer.store)
   @ApiPropertyOptional({ nullable: true, isArray: true, type: () => ShopOffer })
   offers?: ShopOffer[];
+  /**
+   * Shop Orders
+   */
+  @OneToMany(() => ShopOrder, order => order.vendor)
+  @ApiPropertyOptional({ nullable: true, isArray: true, type: () => ShopOrder })
+  orders: ShopOrder[];
   /**
    * One to one of shop store
    */

@@ -1,13 +1,17 @@
-import { OnlyIdDto } from "@modules/base.dto";
-import { User } from "@modules/users/user.model";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsIn, IsNumber, IsString, ValidateNested } from "class-validator";
+import { IsIn, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+// Local
+import { ShopOrderOffer } from './orderOffer.model';
+// Extra
+import { User } from "@modules/users/user.model";
+import { OnlyIdDto } from "@modules/base.dto";
+import { ShopStore } from '../store/store.model';
 
 /**
  * @type IShopOrderStatus
  */
-export type IShopOrderStatus = 'PROCESSING' | 'ACCEPTED' | 'READY' | 'C_CANCELED' | 'V_CANCELED' | 'ONWAY' | 'COMPLETED' | 'RECLAIM' | 'RECLAIM_COMPLETE';
+export type IShopOrderStatus = 'CREATED' | 'PROCESSING' | 'ACCEPTED' | 'READY' | 'C_CANCELED' | 'V_CANCELED' | 'ONWAY' | 'COMPLETED' | 'RECLAIM' | 'RECLAIM_COMPLETE';
 export class ShopOrderChangeStatusReqDto {
   /**
    * Order  of shop order change status req dto
@@ -35,6 +39,33 @@ export class ShopOrderChangeStatusReqDto {
   @IsString()
   @ApiPropertyOptional()
   message?: string;
+}
+/**
+ * ShopOrderCreateDto
+ */
+export class ShopOrderCreateDto {
+  /**
+   * Client
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => User)
+  @ApiPropertyOptional({ type: () => User, nullable: true })
+  client?: User;
+  /**
+   * orderOffers
+   */
+  @ValidateNested({ each: true })
+  @Type(() => ShopOrderOffer)
+  @ApiProperty({ type: () => ShopOrderOffer, isArray: true })
+  orderOffers: ShopOrderOffer[];
+  /**
+   * Vendor
+   */
+  @ValidateNested()
+  @Type(() => ShopStore)
+  @ApiProperty({ type: () => ShopStore })
+  vendor: ShopStore;
 }
 /**
  * Shop order price details dto

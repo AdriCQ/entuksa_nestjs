@@ -80,4 +80,20 @@ export class OfferServices {
   async update(_offerId: number, _update: UpdateShopOfferDto) {
     return await this.repo.update({ id: _offerId }, _update);
   }
+  /**
+   * updateQty
+   * @param _params 
+   * @returns 
+   */
+  async updateQty(_params: { offerId: number, qty: number }): Promise<ShopOffer> {
+    const offer = await this.find(_params.offerId);
+    offer.stock.qty = _params.qty;
+    await this.update(_params.offerId, {
+      stock: {
+        status: offer.stock.status,
+        qty: _params.qty
+      },
+    });
+    return offer;
+  }
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BaseModelWithImage } from '@modules/BaseModel';
 import { IShopOffer } from './offers';
 import { Image } from '@modules/images/images.model';
@@ -8,7 +8,7 @@ import { Type } from 'class-transformer';
 import { OfferAttributeDto, OfferPricesDto, OfferStockDto, OfferConfigurable, OfferConfigurableWithPrice } from './offers.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Category } from '@modules/shop/categories/category.model';
-import { ShopOrder } from '@modules/shop/order/order.model';
+import { ShopOrderOffer } from '../order/orderOffer.model';
 /**
  * Shop offer
  */
@@ -127,7 +127,7 @@ export class ShopOffer extends BaseModelWithImage {
   /**
    * One to many of shop offer
    */
-  @OneToMany(() => ShopOrder, of => of.offer)
-  @ApiPropertyOptional({ type: () => ShopOrder, isArray: true, nullable: true })
-  orders?: ShopOrder[]
+  @OneToMany(() => ShopOrderOffer, of => of.offer)
+  @ApiPropertyOptional({ type: () => ShopOrderOffer, isArray: true, nullable: true })
+  orderOffers?: ShopOrderOffer[]
 }
