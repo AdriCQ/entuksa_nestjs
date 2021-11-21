@@ -1,0 +1,6 @@
+###
+# Setup Settings
+###
+GET /api/map/positions/users
+Host: {{ host }}
+Authorization: {{ token }}

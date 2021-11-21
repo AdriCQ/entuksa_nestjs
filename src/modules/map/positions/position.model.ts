@@ -1,9 +1,10 @@
 import { BaseModel } from '@modules/BaseModel';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDate, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { MapCoordinate } from './position.dto';
+import { UserMapPosition } from './userPosition.model';
 
 /**
  * Map position
@@ -33,4 +34,12 @@ export class MapPosition extends BaseModel {
   @IsDate()
   @ApiProperty()
   validatedAt: Date | null;
+  /**
+   * -----------------------------------------
+   *	Relations
+   * -----------------------------------------
+   */
+  @OneToMany(() => UserMapPosition, ump => ump.position)
+  // @ApiPropertyOptional({ type: () => UserMapPosition, isArray: true })
+  userPositions: UserMapPosition[];
 }

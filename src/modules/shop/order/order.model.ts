@@ -1,6 +1,6 @@
 import { BaseModel } from "@modules/BaseModel";
 import { User } from "@modules/users/user.model";
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 import { ShopOffer } from '@modules/shop/offers/offer.model';
 import { ShopOrderPriceDetailsDto, IShopOrderStatus } from './order.dto';
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
@@ -44,7 +44,7 @@ export class ShopOrder extends BaseModel {
   /**
    * Offer  of shop order
    */
-  @ManyToOne(() => ShopOrderOffer, of => of.order)
+  @OneToMany(() => ShopOrderOffer, of => of.order)
   @ApiPropertyOptional({ type: () => ShopOrderOffer, isArray: true })
   orderOffers?: ShopOrderOffer[];
   /**

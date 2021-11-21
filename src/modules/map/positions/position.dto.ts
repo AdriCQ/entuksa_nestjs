@@ -1,6 +1,8 @@
 import { Type } from 'class-transformer';
 import { IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from '@modules/users/user.model';
+import { MapPosition } from './position.model';
 
 /**
  * Map coordinate dto
@@ -30,6 +32,25 @@ export class CreateMapPositionDto {
   @Type(() => MapCoordinate)
   @ApiProperty({ type: () => MapCoordinate })
   coordinate: MapCoordinate;
+}
+/**
+ * Create User Map Position
+ */
+export class CreateUserMapPositionDto {
+  /**
+   * User
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => User)
+  user?: User;
+  /**
+   * MapPosition
+   */
+  @ValidateNested()
+  @Type(() => MapPosition)
+  @ApiProperty({ type: () => MapPosition })
+  position: MapPosition;
 }
 /**
  * Update map position dto

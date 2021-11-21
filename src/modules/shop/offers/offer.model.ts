@@ -122,12 +122,12 @@ export class ShopOffer extends BaseModelWithImage {
    * Store  of shop offer
    */
   @ManyToOne(() => ShopStore, store => store.offers, { onDelete: 'CASCADE' })
-  @ApiPropertyOptional({ type: () => ShopStore, nullable: true })
+  // @ApiPropertyOptional({ type: () => ShopStore, nullable: true })
   store?: ShopStore;
   /**
    * One to many of shop offer
    */
   @OneToMany(() => ShopOrderOffer, of => of.offer)
-  @ApiPropertyOptional({ type: () => ShopOrderOffer, isArray: true, nullable: true })
+  // @ApiPropertyOptional({ type: () => ShopOrderOffer, isArray: true, nullable: true })
   orderOffers?: ShopOrderOffer[]
 }

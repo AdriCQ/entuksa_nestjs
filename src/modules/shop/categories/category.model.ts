@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 import { ShopOffer } from '@modules/shop/offers/offer.model';
 /**
@@ -56,6 +56,6 @@ export class Category {
    * Offers  of category
    */
   @OneToMany(() => ShopOffer, offer => offer.category)
-  @ApiPropertyOptional({ type: ShopOffer, isArray: true })
+  // @ApiPropertyOptional({ type: ShopOffer, isArray: true })
   offers: ShopOffer[]
 }

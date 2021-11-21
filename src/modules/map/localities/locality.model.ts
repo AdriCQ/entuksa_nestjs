@@ -38,7 +38,7 @@ export class Locality extends BaseModel {
    * Children  of locality
    */
   @OneToMany(() => Locality, locality => locality.parent)
-  @ApiProperty({ type: () => Locality, isArray: true })
+  // @ApiProperty({ type: () => Locality, isArray: true })
   children: Locality[];
   /**
    * Position  of locality
@@ -51,6 +51,6 @@ export class Locality extends BaseModel {
    * Shop stores of locality
    */
   @OneToMany(() => ShopStore, s => s.locality)
-  @ApiProperty({ type: () => ShopStore, isArray: true })
+  // @ApiProperty({ type: () => ShopStore, isArray: true })
   shopStores: ShopStore[];
 }

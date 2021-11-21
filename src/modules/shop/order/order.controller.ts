@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 // Local
 import { ShopOrderCreateDto } from './order.dto';
 import { ShopOrder } from './order.model';
@@ -12,6 +12,9 @@ import { User } from '@modules/users/user.model';
  * ShopOrderController
  */
 @Controller('/api/shop/orders')
+@UseGuards(JwtAuthGuard)
+@ApiTags('Shop Orders')
+@ApiBearerAuth()
 export class ShopOrderController {
   constructor(
     private service: ShopOrderService
@@ -22,7 +25,6 @@ export class ShopOrderController {
    * @param _req 
    */
   @Post('/')
-  @UseGuards(JwtAuthGuard)
   @ApiResponse({ type: () => ShopOrder, status: 201 })
   async create(@Body() _body: ShopOrderCreateDto, @Req() _req: any): Promise<ShopOrder> {
     const client: User = _req.user;

@@ -1,7 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IsNumber, ValidateNested } from 'class-validator';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import { ShopOrder } from './order.model';
 // Modules
 import { ShopOffer } from '@modules/shop/offers/offer.model';
@@ -32,17 +31,13 @@ export class ShopOrderOffer {
   /**
    * Order Relationship
    */
-  @OneToMany(() => ShopOrder, order => order.orderOffers)
-  @ValidateNested()
-  @Type(() => ShopOrder)
+  @ManyToOne(() => ShopOrder, order => order.orderOffers)
   @ApiProperty({ type: () => ShopOrder })
   order: ShopOrder;
   /**
    * Offer relationship
    */
-  @OneToMany(() => ShopOffer, of => of.orderOffers)
-  @ValidateNested()
-  @Type(() => ShopOffer)
+  @ManyToOne(() => ShopOffer, of => of.orderOffers)
   @ApiProperty({ type: () => ShopOffer })
   offer: ShopOffer
 }

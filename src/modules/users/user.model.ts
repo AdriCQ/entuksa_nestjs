@@ -1,4 +1,4 @@
-import { ShopStore } from '@modules/shop/store/store.model';
+import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
 import * as argon from 'argon2';
 import {
   IsArray,
@@ -9,15 +9,21 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+// Current
 import { BaseModel } from '../BaseModel';
 import { IUser } from './users';
 import { UserAuthSignupDto } from './users.dto';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { ShopOrder } from '../shop/order/order.model';
+// Modules
+import { ShopStore } from '@modules/shop/store/store.model';
+import { ShopOrder } from '@modules/shop/order/order.model';
 import { Image } from '@modules/images/images.model';
 import { ShopChat } from '@modules/shop/chat/chat.model';
+import { UserMapPosition } from '@modules/map/positions/userPosition.model';
+/**
+ * User
+ */
 @Entity('users')
 export class User extends BaseModel {
   /**
@@ -103,25 +109,31 @@ export class User extends BaseModel {
    * Images  of user
    */
   @OneToMany(() => Image, img => img.owner)
-  @ApiPropertyOptional({ type: () => Image, isArray: true })
+  // @ApiPropertyOptional({ type: () => Image, isArray: true })
   images?: Image[];
+  /**
+   * mapPositions
+   */
+  @OneToMany(() => UserMapPosition, pos => pos.user)
+  // @ApiPropertyOptional({ type: () => UserMapPosition, isArray: true })
+  mapPositions: UserMapPosition[];
   /**
    * Orders  of user
    */
   @OneToMany(() => ShopOrder, order => order.client)
-  @ApiPropertyOptional({ type: () => ShopOrder, isArray: true })
+  // @ApiPropertyOptional({ type: () => ShopOrder, isArray: true })
   orders?: ShopOrder[];
   /**
    * Stores  of user
    */
   @OneToMany(() => ShopStore, (store) => store.vendor)
-  @ApiPropertyOptional({ type: () => ShopStore, isArray: true })
+  // @ApiPropertyOptional({ type: () => ShopStore, isArray: true })
   stores?: ShopStore[];
   /**
    * Shop chats of user
    */
   @OneToMany(() => ShopChat, sc => sc.client)
-  @ApiPropertyOptional({ type: () => ShopChat, isArray: true })
+  // @ApiPropertyOptional({ type: () => ShopChat, isArray: true })
   shopChats?: ShopChat[];
   /**
    * -----------------------------------------

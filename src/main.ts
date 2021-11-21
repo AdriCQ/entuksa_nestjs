@@ -20,9 +20,9 @@ async function bootstrap() {
   // app.use(csurf());
   // Swagger
   const config = new DocumentBuilder()
-    .setTitle('Palrey API')
-    .setDescription('Palrey API Rest')
-    .setVersion('2.0')
+    .setTitle('EnTuKsa API')
+    .setDescription('EnTuKsa API Rest')
+    .setVersion('1.0')
     .addBearerAuth()
     .addTag('API')
     .build();

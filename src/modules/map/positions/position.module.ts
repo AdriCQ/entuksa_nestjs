@@ -1,15 +1,18 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+// Local
+import { MapPositionController } from './position.controller';
 import { MapPosition } from './position.model';
-import { PositionsService } from './positions.service';
+import { MapPositionsService } from './positions.service';
+import { UserMapPosition } from './userPosition.model';
 
 /**
  * Position module
  */
 @Module({
-  controllers: [],
-  imports: [TypeOrmModule.forFeature([MapPosition])],
-  exports: [TypeOrmModule, PositionsService],
-  providers: [PositionsService],
+  controllers: [MapPositionController],
+  imports: [TypeOrmModule.forFeature([MapPosition, UserMapPosition])],
+  exports: [TypeOrmModule, MapPositionsService],
+  providers: [MapPositionsService],
 })
 export class PositionModule { }

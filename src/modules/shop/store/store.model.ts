@@ -86,13 +86,13 @@ export class ShopStore extends BaseModelWithImage {
    * Offers  of shop store
    */
   @OneToMany(() => ShopOffer, offer => offer.store)
-  @ApiPropertyOptional({ nullable: true, isArray: true, type: () => ShopOffer })
+  // @ApiPropertyOptional({ nullable: true, isArray: true, type: () => ShopOffer })
   offers?: ShopOffer[];
   /**
    * Shop Orders
    */
   @OneToMany(() => ShopOrder, order => order.vendor)
-  @ApiPropertyOptional({ nullable: true, isArray: true, type: () => ShopOrder })
+  // @ApiPropertyOptional({ nullable: true, isArray: true, type: () => ShopOrder })
   orders: ShopOrder[];
   /**
    * One to one of shop store
@@ -104,7 +104,7 @@ export class ShopStore extends BaseModelWithImage {
    * Shop chats of store
    */
   @OneToMany(() => ShopChat, sc => sc.client)
-  @ApiPropertyOptional({ type: () => ShopChat, isArray: true })
+  // @ApiPropertyOptional({ type: () => ShopChat, isArray: true })
   shopChats?: ShopChat[];
   /**
    * Vendor of shop store
