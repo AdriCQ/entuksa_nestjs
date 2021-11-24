@@ -37,7 +37,7 @@ export class UserMapPosition {
   /**
    * User
    */
-  @ManyToOne(() => User, user => user.mapPositions, { onDelete: 'CASCADE', eager: true })
+  @ManyToOne(() => User, user => user.mapPositions, { onDelete: 'CASCADE', })
   @ApiProperty({ type: () => User })
   user: User;
 }

@@ -52,6 +52,7 @@ export class MapPositionsService {
       })
     }
     const pos = this.userPositionsRepo.create({
+      title: _p.title,
       position: { id: _p.position.id },
       user: { id: _p.user.id }
     });
