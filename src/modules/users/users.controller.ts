@@ -26,7 +26,7 @@ export class UsersController {
   @HttpCode(200)
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: Boolean })
-  async sendVerification(@Body() _body: UserSendVerificationDto, @Req() _req): Promise<Boolean> {
+  async sendVerification(@Body() _body: UserSendVerificationDto, @Req() _req): Promise<boolean> {
     const user: User = _req.user;
     const token = this.usersService.generateConfirmationString(user, _body.type === 'MOBILE_PHONE' ? 'mobile' : 'email');
     if (_body.type === 'EMAIL') {
