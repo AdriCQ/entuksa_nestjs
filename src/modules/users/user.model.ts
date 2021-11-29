@@ -44,21 +44,21 @@ export class User extends BaseModel {
   /**
    * Name  of user
    */
-  @Column()
+  @Column({ length: 64 })
   @IsString()
   @ApiProperty()
   name: string;
   /**
    * Last name of user
    */
-  @Column()
+  @Column({ length: 128 })
   @IsString()
   @ApiProperty()
   lastName: string;
   /**
    * Email  of user
    */
-  @Column({ unique: true })
+  @Column({ unique: true, length: 128 })
   @IsEmail()
   @ApiProperty({ uniqueItems: true, example: 'myemail@email.com' })
   email: string;

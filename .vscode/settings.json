@@ -13,7 +13,7 @@
     "$shared": {
       "version": "v1",
       "prodToken": "Bearer 10|ruAge3xIz13NdRN3hIN4shP36OoHV9hPYw5BLLHWPYLt0KE7UnV106oReFAujZBbB2MLzQ9ZgbPObhDK",
-      "nonProdToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM2MzE1Mjc3fQ.oxSc26vHG28RjS9YPnwurrQyTFfhIR_Zj9k167Xb048"
+      "nonProdToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjM4MjEyMTQ2fQ.-0edyrlhRcxRUTbz8xE-trpocJhcQBh6pUy4JSFmlqk"
     },
     "local": {
       "version": "v2",

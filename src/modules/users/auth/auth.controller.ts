@@ -7,8 +7,6 @@ import {
   Post,
   Request,
   UseGuards,
-  Query,
-  Param,
   HttpException
 } from '@nestjs/common';
 import { AuthService } from './auth.service';

@@ -6,3 +6,15 @@ import { User } from './users/user.model';
 export interface IReqAuth extends Request {
   user: User;
 }
+/**
+ * 
+ */
+export enum DB_COLUMN {
+  bigint = 'bigint',
+  boolean = 'boolean',
+  int = 'int',
+  json = 'json',
+  smallint = 'smallint',
+  timestamp = 'timestamp',
+  varchar = 'varchar',
+}

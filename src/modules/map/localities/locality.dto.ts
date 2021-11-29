@@ -35,3 +35,12 @@ export class CreateMapLocalityDto {
   @ApiProperty({ type: () => MapPosition })
   position: MapPosition;
 }
+/**
+ * IOsmResponse
+ */
+export interface IOsmResponse {
+  address?: string;
+  city?: string;
+  state?: string;
+  town?: string;
+}

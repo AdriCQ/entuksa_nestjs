@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, TableColumnOptions } from "typeorm";
 import { ApiProperty } from '@nestjs/swagger';
 
 export class BaseModel {
@@ -20,3 +20,23 @@ export class BaseModelWithImage extends BaseModel {
   @ApiProperty()
   imageId: number;
 }
+/**
+ * BASE_COLUMNS
+ */
+export const BASE_COLUMNS: TableColumnOptions[] = [
+  {
+    name: 'id',
+    type: 'bigint',
+    isGenerated: true,
+    isPrimary: true
+  }, {
+    name: 'created_at',
+    type: 'timestamp',
+    default: 'now()'
+  }, {
+    name: 'updated_at',
+    type: 'timestamp',
+    isNullable: true,
+    default: 'now()',
+  }
+]
