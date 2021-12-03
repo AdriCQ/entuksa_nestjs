@@ -49,6 +49,27 @@ export class OfferServices {
     return this.repo.findOne(id);
   }
   /**
+   * findAndCheckAvailability
+   * @param _p 
+   * @returns 
+   */
+  async findAndCheckAvailability(_p: { id: number; qty: number; reduce?: boolean }): Promise<ShopOffer | null> {
+    const offer = await this.find(_p.id);
+    let avaiable = false;
+    if (offer.onsale && offer.validatedAt &&
+      offer.stock.status !== 'INFINITY' || (offer.stock.status === 'LIMITED' && offer.stock.qty >= _p.qty)
+    )
+      avaiable = true;
+    else return null;
+    if (_p.reduce && offer.stock.status === 'LIMITED') {
+      const reducedQty = offer.stock.qty - _p.qty;
+      offer.stock.qty = reducedQty;
+      // Reduce Qty
+      await this.update(offer.id, { stock: offer.stock });
+    }
+    return offer;
+  }
+  /**
    * Filters offer services
    * @param _p 
    * @returns filter 

@@ -1,13 +1,14 @@
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Type } from "class-transformer";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsDecimal, IsIn, ValidateNested } from 'class-validator';
+// Local
+import { ShopOrderPriceDetailsDto, IShopOrderStatus } from './order.dto';
+import { ShopOrderOffer } from './orderOffer.model';
+// Modules
 import { BaseModel } from "@modules/BaseModel";
 import { User } from "@modules/users/user.model";
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
-import { ShopOffer } from '@modules/shop/offers/offer.model';
-import { ShopOrderPriceDetailsDto, IShopOrderStatus } from './order.dto';
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsDecimal, IsIn, IsNumber, ValidateNested } from 'class-validator';
-import { Type } from "class-transformer";
-import { ShopOrderOffer } from './orderOffer.model';
-import { ShopStore } from '../store/store.model';
+import { ShopStore } from '@modules/shop/store/store.model';
 
 @Entity('shop_orders')
 export class ShopOrder extends BaseModel {
