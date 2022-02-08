@@ -1,10 +1,14 @@
 import { Body, Controller, Get, HttpCode, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserSendVerificationDto } from './users.dto';
-import { User } from './user.model';
-import { UsersService } from './users.service';
-import { JwtAuthGuard } from './auth/auth.guard';
+// Local
+import { UserSendVerification } from '../dtos';
+import { User } from '../entities/user.entity';
+import { UsersService } from '../services/users.service';
+import { JwtAuthGuard } from '@modules/users/auth';
 import { MailService } from '@modules/notifications/mail/mail.service';
+/**
+ * UsersController
+ */
 @ApiTags('User')
 @Controller('api/users')
 export class UsersController {
@@ -15,7 +19,7 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly mailService: MailService
-  ) { }
+  ) {}
   /**
    * Send Verification
    * @param _body 
@@ -26,7 +30,7 @@ export class UsersController {
   @HttpCode(200)
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: Boolean })
-  async sendVerification(@Body() _body: UserSendVerificationDto, @Req() _req): Promise<boolean> {
+  async sendVerification(@Body() _body: UserSendVerification, @Req() _req): Promise<boolean> {
     const user: User = _req.user;
     const token = this.usersService.generateConfirmationString(user, _body.type === 'MOBILE_PHONE' ? 'mobile' : 'email');
     if (_body.type === 'EMAIL') {

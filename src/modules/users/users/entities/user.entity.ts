@@ -11,16 +11,15 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-// Current
-import { BaseModel } from '../BaseModel';
-import { IUser } from './users';
-import { UserAuthSignupDto } from './users.dto';
+// Local
+import { IUserRole, UserAuthSignup } from '../dtos';
 // Modules
+import { BaseModel } from '@modules/BaseModel';
 import { ShopStore } from '@modules/shop/store/store.model';
 import { ShopOrder } from '@modules/shop/order/order.model';
-import { Image } from '@modules/images/images.model';
 import { ShopChat } from '@modules/shop/chat/chat.model';
 import { UserMapPosition } from '@modules/map/positions/userPosition.model';
+import { Image } from '@modules/images';
 /**
  * User
  */
@@ -30,7 +29,7 @@ export class User extends BaseModel {
    * Creates an instance of user.
    * @param [_user]
    */
-  constructor(_user?: UserAuthSignupDto) {
+  constructor(_user?: UserAuthSignup) {
     super();
     if (_user) {
       this.email = _user.email;
@@ -99,7 +98,7 @@ export class User extends BaseModel {
   @Column({ type: 'json', default: `["CLIENT"]` })
   @IsArray()
   @ApiProperty({ isArray: true, example: '["DEVELOPER", "ADMIN", "VENDOR", "MODERATOR", "DELIVER", "CLIENT"]' })
-  roles: IUser.Role[];
+  roles: IUserRole[];
   /**
    * -----------------------------------------
    *	Relations
@@ -154,7 +153,7 @@ export class User extends BaseModel {
    * @param _role
    * @returns role
    */
-  assignRole(_role: IUser.Role): IUser.Role[] {
+  assignRole(_role: IUserRole): IUserRole[] {
     if (!this.roles.includes(_role)) this.roles.push(_role);
     return this.roles;
   }
@@ -163,7 +162,7 @@ export class User extends BaseModel {
    * @param _roles
    * @returns true if any role
    */
-  hasAnyRole(_roles: IUser.Role[]): boolean {
+  hasAnyRole(_roles: IUserRole[]): boolean {
     let has = false;
     _roles.forEach((_r) => {
       if (this.hasRole(_r)) has = true;
@@ -175,7 +174,7 @@ export class User extends BaseModel {
    * @param _role
    * @returns true if role
    */
-  hasRole(_role: IUser.Role): boolean {
+  hasRole(_role: IUserRole): boolean {
     return this.roles.includes(_role);
   }
   /**

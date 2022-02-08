@@ -1,16 +1,13 @@
-import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@modules/users/user.model';
-import { IUser } from '@modules/users/users';
-import { UsersService } from '@modules/users/users.service';
-import * as argon from 'argon2';
+import { User, UsersService, IUserJwtPayload } from '@modules/users/users';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
   /**
    * Validates auth service
    * @param _user
@@ -39,7 +36,7 @@ export class AuthService {
    */
   async generateAccessToken(_user: User) {
     const user = await this.usersService.find({ email: _user.email });
-    const payload: IUser.JwtPayload = { id: user.id };
+    const payload: IUserJwtPayload = { id: user.id };
     return this.jwtService.sign(payload);
   }
 }

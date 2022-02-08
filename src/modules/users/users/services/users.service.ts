@@ -1,9 +1,8 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.model';
-import { IUser } from './users';
-import { UserAuthSignupDto } from './users.dto';
+import { User } from '../entities/user.entity';
+import { IUserRole, UserAuthSignup } from '../dtos';
 import { OnlyIdDto } from '@modules/base.dto';
 /**
  * Users service
@@ -16,8 +15,8 @@ export class UsersService {
    */
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
-  ) { }
-  async assignRole(_user: User, _role: IUser.Role) {
+  ) {}
+  async assignRole(_user: User, _role: IUserRole) {
     const user = await this.userRepo.findOne(_user.id);
     if (!user)
       throw new HttpException('No se encontró el usuario', 400);
@@ -29,7 +28,7 @@ export class UsersService {
    * @param _user
    * @returns create
    */
-  async create(_user: UserAuthSignupDto): Promise<User> {
+  async create(_user: UserAuthSignup): Promise<User> {
     if (!await this.exists({
       email: _user.email,
       mobilePhone: _user.mobilePhone

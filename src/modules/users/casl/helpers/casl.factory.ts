@@ -6,7 +6,8 @@ import {
   AbilityClass,
   ExtractSubjectType,
 } from '@casl/ability';
-import { User } from '../user.model';
+// Modules
+import { User } from '@modules/users/users';
 import { ShopStore } from '@modules/shop/store/store.model';
 import { ShopOffer } from '@modules/shop/offers/offer.model';
 /**

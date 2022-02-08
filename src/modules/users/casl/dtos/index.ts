@@ -1,4 +1,4 @@
-import { AppPermission } from './casl.factory';
+import { AppPermission } from '../helpers/casl.factory';
 
 interface IPolicyHandler {
   handle(ability: AppPermission): boolean;

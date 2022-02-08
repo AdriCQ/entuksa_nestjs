@@ -1,9 +1,17 @@
 import { IsEmail, IsIn, IsNumberString, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { OnlyIdDto } from '@modules/base.dto';
 /**
- * User auth signup dto
+ * IUserRole
  */
-export class UserAuthSignupDto {
+export type IUserRole = "DEVELOPER" | "ADMIN" | "VENDOR" | "MODERATOR" | "DELIVER" | "CLIENT";
+export type IUserJwtPayload = OnlyIdDto;
+/**
+ * -----------------------------------------
+ *	UserAuthSignup
+ * -----------------------------------------
+ */
+export class UserAuthSignup {
   @IsString()
   @ApiProperty()
   name: string;
@@ -25,10 +33,13 @@ export class UserAuthSignupDto {
   @ApiProperty()
   password: string;
 }
+
 /**
- * User auth signin dto
+ * -----------------------------------------
+ *	User auth signin
+ * -----------------------------------------
  */
-export class UserAuthSigninDto {
+export class UserAuthSignin {
   @IsOptional()
   @IsEmail()
   @ApiPropertyOptional({ example: 'myemail@email.com' })
@@ -43,10 +54,13 @@ export class UserAuthSigninDto {
   @ApiProperty()
   password: string;
 }
+
 /**
- * UserSendVerificationDto
+ * -----------------------------------------
+ *	UserSendVerification
+ * -----------------------------------------
  */
-export class UserSendVerificationDto {
+export class UserSendVerification {
   @IsIn(['EMAIL', 'MOBILE_PHONE'])
   @ApiProperty({ type: String, example: "'EMAIL' | 'MOBILE_PHONE'" })
   type: 'EMAIL' | 'MOBILE_PHONE';

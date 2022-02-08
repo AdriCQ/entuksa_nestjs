@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { PolicyHandler } from './casl';
+import { PolicyHandler } from '../dtos';
 
 export const CHECK_PERMISSION_KEY = 'check_policy';
 export const CheckPermission = (...handlers: PolicyHandler[]) =>

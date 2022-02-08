@@ -9,12 +9,12 @@ import {
   UseGuards,
   HttpException
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UserAuthSigninDto, UserAuthSignupDto, } from '../users.dto';
-import { UsersService } from '../users.service';
-import { JwtAuthGuard } from './auth.guard';
-import { UsersAuthResponseDto, User } from '../user.model';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+// Local
+import { AuthService } from '../services/auth.service';
+import { JwtAuthGuard } from './auth.guard';
+// Modules
+import { UsersAuthResponseDto, User, UserAuthSignin, UserAuthSignup, UsersService } from '@modules/users/users';
 import { MailService } from '@modules/notifications/mail/mail.service';
 
 @ApiTags('User Auth')
@@ -30,7 +30,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
-  ) { }
+  ) {}
   /**
    * Signins auth controller
    * @param _body
@@ -39,7 +39,7 @@ export class AuthController {
   @Post('signin')
   @HttpCode(200)
   @ApiResponse({ status: 200, description: 'Login User', type: () => UsersAuthResponseDto })
-  async signin(@Body() _body: UserAuthSigninDto): Promise<UsersAuthResponseDto> {
+  async signin(@Body() _body: UserAuthSignin): Promise<UsersAuthResponseDto> {
     // Check user
     if (!_body.email && !_body.mobilePhone)
       throw new HttpException('Parametros omitidos', 400);
@@ -59,7 +59,7 @@ export class AuthController {
    */
   @Post('signup')
   @ApiResponse({ status: 201, description: 'Register User', type: () => UsersAuthResponseDto })
-  async signup(@Body() _body: UserAuthSignupDto): Promise<UsersAuthResponseDto> {
+  async signup(@Body() _body: UserAuthSignup): Promise<UsersAuthResponseDto> {
     const exists = await this.usersService.exists({ email: _body.email, mobilePhone: _body.mobilePhone });
     if (exists)
       throw new ConflictException(`El email ${_body.email} o el teléfono ${_body.mobilePhone} ya están registrado`);
