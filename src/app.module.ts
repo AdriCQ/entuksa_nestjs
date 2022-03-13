@@ -12,19 +12,19 @@ import typeormConfig from '@configs/typeorm.config';
 import { DatabaseModuleConfig } from './modules/database';
 import { DbSeederModule } from '@modules/database/seeders/seeders.module';
 // Users Modules
-import { UsersModule } from '@modules/users/users.module';
-import { AuthModule } from '@modules/users/auth/auth.module';
-import { CaslModule } from '@modules/users/casl/casl.module';
+import { UsersModule } from '@modules/users/users';
+import { AuthModule } from '@modules/users/auth';
+import { CaslModule } from '@modules/users/casl';
 // Shop module
 import { ShopStoreModule } from '@modules/shop/store/store.module';
-import { PositionModule } from '@modules/map/positions/position.module';
-import { ImagesModule } from '@modules/images/images.module';
+import { ImagesModule } from '@modules/images';
 import { ShopOffersModule } from '@modules/shop/offers/offers.module';
 import { ShopOrderModule } from '@modules/shop/order/order.module';
 import { CategoriesModule } from '@modules/shop/categories/categories.module';
 import { ShopChatModule } from '@modules/shop/chat/chat.module';
 // Map Modules
-import { LocalityModule } from '@modules/map/localities/localities.module';
+import { LocalityModule } from '@modules/map/localities';
+import { PositionModule } from '@modules/map/positions';
 // App modules
 import { ApplicationModule } from '@modules/applications/application.module';
 import { MailNotificationModule } from '@modules/notifications/mail/mail.module';

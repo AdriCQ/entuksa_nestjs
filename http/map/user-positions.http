@@ -1,0 +1,27 @@
+###
+# List User positions
+###
+GET /api/map/user-positions
+Host: {{ host }}
+Authorization: {{ token }}
+
+###
+# Create User position
+###
+POST /api/map/user-positions
+Host: {{ host }}
+Authorization: {{ token }}
+
+{
+  "position": {
+    "id":0,
+    "address": "My Test Address",
+    "coordinate":{
+      "lat": 0,
+      "lng": 0
+    },
+    "validatedAt":null
+  },
+  "title": "MapPositionTitle"
+}
+

@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 // Local
-import { ShopOrderCreateDto } from './order.dto';
+import { ShopOrderCreate } from './dtos';
 import { ShopOrder } from './order.model';
 import { ShopOrderService } from './order.service';
 // Extra
@@ -9,6 +9,7 @@ import { JwtAuthGuard } from '@modules/users/auth/auth.guard';
 import { User } from '@modules/users/user.model';
 import { IReqAuth } from '@modules/types';
 import { ShopOrderOffer } from './orderOffer.model';
+
 
 /**
  * ShopOrderController
@@ -20,7 +21,7 @@ import { ShopOrderOffer } from './orderOffer.model';
 export class ShopOrderController {
   constructor(
     private $service: ShopOrderService
-  ) { }
+  ) {}
   /**
    * Create Order
    * @param _body 
@@ -28,10 +29,10 @@ export class ShopOrderController {
    */
   @Post('/')
   @ApiResponse({ type: () => ShopOrder, status: 201 })
-  async create(@Body() _body: ShopOrderCreateDto, @Req() _req: IReqAuth): Promise<ShopOrder> {
+  async create(@Body() _body: ShopOrderCreate, @Req() _req: IReqAuth): Promise<ShopOrder> {
     const client: User = _req.user;
-    _body.client = client;
-    return await this.$service.create(_body);
+    const createParams: ShopOrderCreate = { ..._body, client };
+    return await this.$service.create(createParams);
   }
   /**
    * getPrice

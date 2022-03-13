@@ -18,7 +18,7 @@ import { BaseModel } from '@modules/BaseModel';
 import { ShopStore } from '@modules/shop/store/store.model';
 import { ShopOrder } from '@modules/shop/order/order.model';
 import { ShopChat } from '@modules/shop/chat/chat.model';
-import { UserMapPosition } from '@modules/map/positions/userPosition.model';
+import { UserMapPosition } from '@modules/map/positions';
 import { Image } from '@modules/images';
 /**
  * User

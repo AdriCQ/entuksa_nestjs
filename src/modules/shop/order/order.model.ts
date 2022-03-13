@@ -3,7 +3,7 @@ import { Type } from "class-transformer";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsDecimal, IsIn, ValidateNested } from 'class-validator';
 // Local
-import { ShopOrderPriceDetailsDto, IShopOrderStatus } from './order.dto';
+import { ShopOrderPriceDetails, IShopOrderStatus, ShopOrderDeliver } from './dtos';
 import { ShopOrderOffer } from './orderOffer.model';
 // Modules
 import { BaseModel } from "@modules/BaseModel";
@@ -24,16 +24,24 @@ export class ShopOrder extends BaseModel {
    */
   @Column({ type: 'json' })
   @ValidateNested()
-  @Type(() => ShopOrderPriceDetailsDto)
-  @ApiProperty({ type: () => ShopOrderPriceDetailsDto })
-  priceDetails: ShopOrderPriceDetailsDto;
+  @Type(() => ShopOrderPriceDetails)
+  @ApiProperty({ type: () => ShopOrderPriceDetails })
+  priceDetails: ShopOrderPriceDetails;
   /**
    * Status  of shop order
    */
   @Column({ default: 'CREATED', type: 'varchar', length: '64' })
-  @IsIn(['CREATED', 'PROCESSING', 'ACCEPTED', 'READY', 'C_CANCELED', 'V_CANCELED', 'ONWAY', 'COMPLETED', 'RECLAIM', 'RECLAIM_COMPLETE'])
-  @ApiProperty({ example: "'CREATED' | 'PROCESSING' | 'ACCEPTED' | 'READY' | 'C_CANCELED' | 'V_CANCELED' | 'ONWAY' | 'COMPLETED' | 'RECLAIM' | 'RECLAIM_COMPLETE'" })
+  @IsIn(['CREATED', 'PROCESSING', 'ACCEPTED', 'READY', 'C_CANCELED', 'V_CANCELED', 'ONWAY', 'COMPLETED', 'CLAIM', 'CLAIM_COMPLETE'])
+  @ApiProperty({ example: "'CREATED' | 'PROCESSING' | 'ACCEPTED' | 'READY' | 'C_CANCELED' | 'V_CANCELED' | 'ONWAY' | 'COMPLETED' | 'CLAIM' | 'CLAIM_COMPLETE'" })
   status: IShopOrderStatus;
+  /**
+   * deliver
+   */
+  @Column({ type: 'json' })
+  @ValidateNested()
+  @Type(() => ShopOrderDeliver)
+  @ApiProperty({ type: () => ShopOrderDeliver })
+  deliver: ShopOrderDeliver;
   /**
    * -----------------------------------------
    *	Relationships

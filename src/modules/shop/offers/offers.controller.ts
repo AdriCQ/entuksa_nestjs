@@ -9,8 +9,8 @@ import { AppPermission, Permission } from '@modules/users/casl/casl.factory';
 import { CheckPermission } from '@modules/users/casl/casl.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ImagesHelper } from '@modules/images/images.helper';
-import { IImage } from '@modules/images/images';
+import { ImagesHelper } from '@modules/images/services/images.helper';
+import { IImage } from '@modules/images/dtos/images';
 import { ImageServices } from '@modules/images/images.service';
 import { User } from '@modules/users/user.model';
 /**
@@ -28,7 +28,7 @@ export class ShopOffersController {
   constructor(
     private readonly service: OfferServices,
     private readonly imagesService: ImageServices
-  ) { }
+  ) {}
   /**
  * Creates shop store controller
  * @returns create 

@@ -9,7 +9,7 @@ export class OfferServices {
   /**
    * Creates an instance of offer services.
    */
-  constructor(@InjectRepository(ShopOffer) private readonly repo: Repository<ShopOffer>) { }
+  constructor(@InjectRepository(ShopOffer) private readonly repo: Repository<ShopOffer>) {}
   /**
    * Finds available
    * @returns available 
@@ -55,12 +55,10 @@ export class OfferServices {
    */
   async findAndCheckAvailability(_p: { id: number; qty: number; reduce?: boolean }): Promise<ShopOffer | null> {
     const offer = await this.find(_p.id);
-    let avaiable = false;
-    if (offer.onsale && offer.validatedAt &&
-      offer.stock.status !== 'INFINITY' || (offer.stock.status === 'LIMITED' && offer.stock.qty >= _p.qty)
+    if (!(offer.onsale && offer.validatedAt &&
+      offer.stock.status !== 'INFINITY' || (offer.stock.status === 'LIMITED' && offer.stock.qty >= _p.qty))
     )
-      avaiable = true;
-    else return null;
+      return null;
     if (_p.reduce && offer.stock.status === 'LIMITED') {
       const reducedQty = offer.stock.qty - _p.qty;
       offer.stock.qty = reducedQty;
@@ -88,7 +86,7 @@ export class OfferServices {
   /**
    * Removes offer services
    * @param _offerId 
-   * @returns  
+   * @returns Promise
    */
   async remove(_offerId: number) {
     return await this.repo.delete({ id: _offerId });

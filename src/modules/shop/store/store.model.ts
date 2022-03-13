@@ -72,7 +72,7 @@ export class ShopStore extends BaseModelWithImage {
   /**
    * Image  of shop store
    */
-  @ManyToOne(() => Image)
+  @ManyToOne(() => Image, img => img.shopStores)
   @ApiPropertyOptional({ type: () => Image })
   image?: Image;
   /**

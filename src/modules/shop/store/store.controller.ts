@@ -6,8 +6,8 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PermissionsGuard } from '@modules/users/casl/casl.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ImagesHelper } from '@modules/images/images.helper';
-import { IImage } from '@modules/images/images';
+import { ImagesHelper } from '@modules/images/services/images.helper';
+import { IImage } from '@modules/images/dtos/images';
 import { StoreCreateDto, UpdateShopStoreDto } from './store.dto';
 import { ImageServices } from '@modules/images/images.service';
 import { User } from '@modules/users/user.model';
@@ -28,7 +28,7 @@ export class ShopStoreController {
   constructor(
     private readonly service: ShopStoreService,
     private readonly imageService: ImageServices
-  ) { }
+  ) {}
   /**
    * id
    * @param id

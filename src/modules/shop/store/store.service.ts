@@ -21,7 +21,7 @@ export class ShopStoreService {
     @InjectRepository(ShopStore)
     private readonly storeRepo: Repository<ShopStore>,
     private readonly imageServices: ImageServices
-  ) { }
+  ) {}
   /**
    * Creates empty
    * @param _p 
@@ -88,6 +88,7 @@ export class ShopStoreService {
   async getByLocality(_p: { locality: Locality, filter?: { open?: boolean, verified?: boolean }, withOffers?: boolean }): Promise<ShopStore[]> {
     let qry = this.storeRepo.createQueryBuilder('store')
       .where('store.locality_id = :localityId', { localityId: _p.locality.id });
+    qry = qry.leftJoinAndSelect('store.image', 'image');
     if (_p.withOffers)
       qry = qry.leftJoinAndSelect('store.offers', 'offers');
     if (_p.filter.verified)

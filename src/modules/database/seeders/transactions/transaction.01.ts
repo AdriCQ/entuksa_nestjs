@@ -1,8 +1,8 @@
 import { EntityManager } from "typeorm";
-import { User } from '@modules/users/user.model';
+import { User } from '@modules/users/users';
 import { hash } from 'argon2';
-import { Image } from "@modules/images/images.model";
-import { Application } from '@modules/applications/application.model';
+import { Image } from "@modules/images";
+import { Application } from '@modules/applications';
 import { Seeder } from '@modules/database/seeders/seeder.model';
 /**
  * @description Seed Default Image, Developer user, Client application

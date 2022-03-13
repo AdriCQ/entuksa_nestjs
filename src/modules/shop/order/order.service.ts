@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 // Local
 import { ShopOrder } from './order.model';
 import { ShopOrderOffer } from './orderOffer.model';
-import { ShopOrderChangeStatusReqDto, ShopOrderCreateDto, ShopOrderPriceDetailsDto } from './order.dto';
+import { ShopOrderChangeStatus, ShopOrderCreate, ShopOrderOfferInsert, ShopOrderPriceDetails } from './dtos';
 // modules
 import { OnlyIdDto } from '@modules/base.dto';
 import { OfferServices } from '@modules/shop/offers/offers.service';
@@ -21,13 +21,13 @@ export class ShopOrderService {
     @InjectRepository(ShopOrder) private readonly repo: Repository<ShopOrder>,
     // @InjectRepository(ShopOrderOffer) private readonly $orderOfferRepo: Repository<ShopOrderOffer>,
     private readonly $offerService: OfferServices
-  ) { }
+  ) {}
   /**
    * Changes status
    * @param { order: OnlyIdDto, client: User, status: IShopOrderStatus  } 
    * @returns Promise<ShopOrder>
    */
-  async changeStatus(_p: ShopOrderChangeStatusReqDto): Promise<ShopOrder> {
+  async changeStatus(_p: ShopOrderChangeStatus): Promise<ShopOrder> {
     // findOrder
     const order = await this.repo.findOne(_p.order.id);
     if (!order)
@@ -42,7 +42,7 @@ export class ShopOrderService {
    * create order
    * @param _params 
    */
-  async create(_params: ShopOrderCreateDto): Promise<ShopOrder> {
+  async create(_params: ShopOrderCreate): Promise<ShopOrder> {
     const { price, priceDetails } = await this.getPrice(_params.orderOffers, true);
     const order = this.repo.create({
       client: _params.client,
@@ -51,7 +51,7 @@ export class ShopOrderService {
       priceDetails,
       status: 'CREATED'
     });
-    order.orderOffers = _params.orderOffers;
+    order.orderOffers = _params.orderOffers as ShopOrderOffer[];
     return await this.repo.save(order);
   }
   /**
@@ -67,14 +67,14 @@ export class ShopOrderService {
    * @param _offers 
    * @return price
    */
-  async getPrice(_orderOffers: ShopOrderOffer[], _reduce = false) {
-    const priceDetails: ShopOrderPriceDetailsDto = {
+  async getPrice(_orderOffers: ShopOrderOfferInsert[], _reduce = false) {
+    const priceDetails: ShopOrderPriceDetails = {
       tax: 5
     };
     let price = priceDetails.tax;
     _orderOffers.forEach(async (_of) => {
       const offer = await this.$offerService.findAndCheckAvailability({
-        id: _of.id, qty: _of.qty, reduce: _reduce
+        id: _of.offer.id, qty: _of.qty, reduce: _reduce
       });
       if (!offer)
         throw new HttpException('Oferta no disponible', 400);
